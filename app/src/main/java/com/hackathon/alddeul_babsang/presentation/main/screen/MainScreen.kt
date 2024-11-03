@@ -22,12 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.component.BottomNavigationItem
+import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
 import com.hackathon.alddeul_babsang.core_ui.theme.Font_B02
 import com.hackathon.alddeul_babsang.core_ui.theme.Font_B04
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray300
@@ -61,22 +63,22 @@ fun MainScreen(
         BottomNavigationItem(
             selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_map_selected),
             unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_map_unselected),
-            label = "밥상 지도"
+            label = stringResource(R.string.bnv_map_label)
         ),
         BottomNavigationItem(
             selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_babsang_selected),
             unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_babsang_unselected),
-            label = "착한 밥상"
+            label = stringResource(R.string.bnv_babsang_label)
         ),
         BottomNavigationItem(
             selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_report_selected),
             unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_report_unselected),
-            label = "제보"
+            label = stringResource(R.string.bnv_report_label)
         ),
         BottomNavigationItem(
             selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_profile_selected),
             unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_profile_unselected),
-            label = "프로필"
+            label = stringResource(R.string.bnv_profile_label)
         )
     )
 
@@ -149,7 +151,9 @@ private object NoRippleTheme : RippleTheme {
 @Preview
 @Composable
 fun MainScreenPreview() {
-    MainScreen(
-        navController = rememberNavController()
-    )
+    AlddeulBabsangTheme {
+        MainScreen(
+            navController = rememberNavController()
+        )
+    }
 }

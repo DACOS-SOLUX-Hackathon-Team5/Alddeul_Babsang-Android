@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Alddeul-Babsang</string>
+
+    <!-- 뒤로가기 -->
+    <string name="toast_back_handler">한번 더 누르면 종료돼요</string>
+
+    <!-- 바텀 네비게이션 -->
+    <string name="bnv_map_label">밥상 지도</string>
+    <string name="bnv_babsang_label">착한 밥상</string>
+    <string name="bnv_report_label">제보</string>
+    <string name="bnv_profile_label">프로필</string>
+
 </resources>

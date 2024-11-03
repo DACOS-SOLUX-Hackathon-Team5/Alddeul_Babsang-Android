@@ -15,6 +15,6 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideExampleService(
-        @BabsangRetrofit retrofit: Retrofit
+        @AlddeulRetrofit retrofit: Retrofit
     ): ExampleApiService = retrofit.create(ExampleApiService::class.java)
 }

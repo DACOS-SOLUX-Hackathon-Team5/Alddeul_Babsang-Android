@@ -29,6 +29,8 @@ android {
         }
 
         buildConfigField("String", "BASE_URL", properties["base.url"].toString())
+        buildConfigField("String", "NAVER_CLIENT_ID", properties["naver.client.id"].toString())
+        buildConfigField("String", "NAVER_CLIENT_SECRET", properties["naver.client.secret"].toString())
     }
 
     buildTypes {
@@ -135,4 +137,9 @@ dependencies {
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
+
+    // Naver Map
+    implementation(libs.naver.map.compose)
+    implementation(libs.naver.map.location)
+    implementation(libs.play.services.location)
 }

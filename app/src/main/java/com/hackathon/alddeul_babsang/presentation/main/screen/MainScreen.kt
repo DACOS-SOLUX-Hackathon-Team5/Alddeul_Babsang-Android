@@ -28,6 +28,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.component.BottomNavigationItem
+import com.hackathon.alddeul_babsang.core_ui.theme.Font_B02
+import com.hackathon.alddeul_babsang.core_ui.theme.Font_B04
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray300
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray500
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
@@ -57,23 +59,23 @@ fun MainScreen(
     var selectedItem by rememberSaveable { mutableIntStateOf(0) }
     val items = listOf(
         BottomNavigationItem(
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_background),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_background),
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_map_selected),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_map_unselected),
             label = "밥상 지도"
         ),
         BottomNavigationItem(
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_background),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_background),
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_babsang_selected),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_babsang_unselected),
             label = "착한 밥상"
         ),
         BottomNavigationItem(
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_background),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_background),
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_report_selected),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_report_unselected),
             label = "제보"
         ),
         BottomNavigationItem(
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_background),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_background),
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_profile_selected),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_profile_unselected),
             label = "프로필"
         )
     )
@@ -103,8 +105,8 @@ fun MainScreen(
                             selected = selectedItem == index,
                             onClick = { selectedItem = index },
                             colors = NavigationBarItemDefaults.colors(
-                                selectedTextColor = Gray500,
-                                unselectedTextColor = Gray300,
+                                selectedTextColor = Font_B02,
+                                unselectedTextColor = Font_B04,
                                 indicatorColor = White
                             ),
                         )

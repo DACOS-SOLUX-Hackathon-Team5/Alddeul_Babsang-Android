@@ -1,6 +1,5 @@
-package com.hackathon.alddeul_babsang.ui.theme
+package com.hackathon.alddeul_babsang.core_ui
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

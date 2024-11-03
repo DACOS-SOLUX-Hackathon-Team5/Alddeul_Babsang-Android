@@ -1,4 +1,4 @@
-package com.hackathon.alddeul_babsang.ui.theme
+package com.hackathon.alddeul_babsang.core_ui
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

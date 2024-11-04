@@ -1,21 +1,42 @@
 package com.hackathon.alddeul_babsang.presentation.map.screen
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.Blue
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.presentation.map.navigation.MapNavigator
+import com.hackathon.alddeul_babsang.util.toast
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraPosition
@@ -70,12 +91,14 @@ fun MapScreen(
             MapUiSettings(isLocationButtonEnabled = true)
         )
     }
-    val mapEntityList = mapViewModel.mockMap
-    val cameraPositionState = rememberCameraPositionState{
+    val mapEntityList = mapViewModel.mockMapList
+    val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition(NaverMapConstants.DefaultCameraPosition.target, 10.0)
     }
+    var showBabsangDetail by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize(),
     ) {
@@ -83,6 +106,7 @@ fun MapScreen(
             cameraPositionState = cameraPositionState,
             properties = mapProperties,
             uiSettings = mapUiSettings,
+            onMapClick = { _, _ -> showBabsangDetail = false }
         ) {
             var clusterManager by remember { mutableStateOf<Clusterer<ItemKey>?>(null) }
             DisposableMapEffect(mapEntityList) { map ->
@@ -165,6 +189,7 @@ fun MapScreen(
                                     .animate(CameraAnimation.Easing)
                                 map.moveCamera(cameraUpdate)
 
+                                showBabsangDetail = true
                                 true
                             }
                         }
@@ -184,6 +209,40 @@ fun MapScreen(
 
                 onDispose {
                     clusterManager?.clear()
+                }
+            }
+        }
+        if (showBabsangDetail) {
+            Surface(
+                modifier = Modifier
+                    .padding(horizontal = 18.dp, vertical = 12.dp)
+                    .align(Alignment.BottomCenter)
+                    .shadow(
+                        elevation = 4.dp,
+                        shape = RoundedCornerShape(14.dp)
+                    )
+                    .clickable { context.toast("상세 페이지로 이동") }
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = White,
+                            shape = RoundedCornerShape(14.dp)
+                        )
+                        .padding(20.dp)
+
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .size(70.dp)
+                            .clip(CircleShape),
+                        painter = painterResource(id = R.drawable.ic_launcher_background),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds
+                    )
+                    Spacer(modifier = Modifier.width(14.dp))
+                    Text(text = "식당 이름")
                 }
             }
         }

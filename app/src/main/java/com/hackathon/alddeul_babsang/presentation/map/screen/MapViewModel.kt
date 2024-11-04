@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor() : ViewModel() {
-    val mockMap = listOf(
+    val mockMapList = listOf(
         MapEntity(
             id = 1,
             name = "무진장",

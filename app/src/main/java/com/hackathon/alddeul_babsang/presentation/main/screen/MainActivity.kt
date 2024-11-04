@@ -29,6 +29,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavigator
+import com.hackathon.alddeul_babsang.presentation.detail.navigation.DetailNavigator
 import com.hackathon.alddeul_babsang.presentation.example.navigation.ExampleNavigator
 import com.hackathon.alddeul_babsang.presentation.main.navigation.MainNavigator
 import com.hackathon.alddeul_babsang.presentation.map.navigation.MapNavigator
@@ -82,6 +83,7 @@ class MainActivity : ComponentActivity() {
                 val babsangNavigator = remember(navController) { BabsangNavigator(navController) }
                 val reportNavigator = remember(navController) { ReportNavigator(navController) }
                 val profileNavigator = remember(navController) { ProfileNavigator(navController) }
+                val detailNavigator = remember(navController) { DetailNavigator(navController) }
 
                 Scaffold(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -95,7 +97,8 @@ class MainActivity : ComponentActivity() {
                             mapNavigator = mapNavigator,
                             babsangNavigator = babsangNavigator,
                             reportNavigator = reportNavigator,
-                            profileNavigator = profileNavigator
+                            profileNavigator = profileNavigator,
+                            detailNavigator = detailNavigator
                         )
                     }
                 )

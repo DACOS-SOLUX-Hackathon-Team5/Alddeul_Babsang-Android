@@ -10,6 +10,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavigator
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.babsangNavGraph
+import com.hackathon.alddeul_babsang.presentation.detail.navigation.DetailNavigator
+import com.hackathon.alddeul_babsang.presentation.detail.navigation.detailNavGraph
 import com.hackathon.alddeul_babsang.presentation.example.navigation.ExampleNavigator
 import com.hackathon.alddeul_babsang.presentation.example.navigation.exampleNavGraph
 import com.hackathon.alddeul_babsang.presentation.main.navigation.MainNavigator
@@ -30,7 +32,8 @@ fun AlddeulNavHost(
     babsangNavigator: BabsangNavigator,
     mapNavigator: MapNavigator,
     profileNavigator: ProfileNavigator,
-    reportNavigator: ReportNavigator
+    reportNavigator: ReportNavigator,
+    detailNavigator: DetailNavigator
 ) {
     Box(
         modifier = modifier
@@ -53,6 +56,7 @@ fun AlddeulNavHost(
             mapNavGraph(mapNavigator)
             profileNavGraph(profileNavigator)
             reportNavGraph(reportNavigator)
+            detailNavGraph(detailNavigator)
         }
     }
 }

@@ -18,7 +18,7 @@
     <!-- 리뷰 작성하기 페이지 -->
     <string name="appbar_review_title">리뷰 작성하기</string>
     <string name="tv_review_detail">세부 평가</string>
-    <string name="tv_review_placeholder">식당에 대한 리뷰를 상세히 적어주세요.\n리뷰 속 감정을 분석하여 평점을 자동으로 매겨줍니다.</string>
+    <string name="tv_review_placeholder">식당에 대한 리뷰를 상세히 적어주세요.</string>
     <string name="btn_review_complete">완료</string>
     <string name="tv_review_length">%1$s/100자</string>
     <string name="toast_review_length">리뷰는 100자 이내로 작성해주세요.</string>

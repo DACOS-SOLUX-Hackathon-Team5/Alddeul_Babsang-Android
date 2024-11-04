@@ -8,11 +8,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,6 +49,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Gray200
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray900
 import com.hackathon.alddeul_babsang.core_ui.theme.Red
 import com.hackathon.alddeul_babsang.core_ui.theme.White
+import com.hackathon.alddeul_babsang.core_ui.theme.Yellow
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head7Semi
@@ -148,6 +151,13 @@ fun ReviewScreen(
             Spacer(modifier = Modifier.height(30.dp))
             Text(
                 modifier = Modifier.padding(bottom = 12.dp),
+                text = "별점",
+                style = head7Semi,
+                color = Gray900
+            )
+            StarRating()
+            Text(
+                modifier = Modifier.padding(top = 28.dp, bottom = 12.dp),
                 text = stringResource(R.string.tv_review_detail),
                 style = head7Semi,
                 color = Gray900
@@ -173,6 +183,28 @@ fun ReviewScreen(
                     else context.toast(context.getString(R.string.toast_review_length))
                 }
             )
+        }
+    }
+}
+
+@Composable
+fun StarRating() {
+    val starCount = 5
+    var selectedStars by remember { mutableStateOf(List(starCount) { false }) }
+
+    LazyRow {
+        items(starCount) { index ->
+            IconButton(
+                onClick = {
+                    selectedStars = List(selectedStars.size) { i -> i <= index }
+                }
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_review_star),
+                    contentDescription = null,
+                    tint = if (selectedStars[index]) Yellow else Gray100
+                )
+            }
         }
     }
 }

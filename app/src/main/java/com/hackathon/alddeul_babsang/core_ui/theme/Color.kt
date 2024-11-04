@@ -38,6 +38,7 @@ val Orange50 = Color(0xFFFFF0EB)
 val Blue = Color(0xFFFF5A82EA)
 val Yellow = Color(0xFFFAB935)
 val Red = Color(0xFFFF0400)
+val Pink = Color(0xFFFF8886)
 val White = Color(0xFFFFFFFF)
 
 // Font

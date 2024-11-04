@@ -113,6 +113,7 @@ fun DetailScreen(
     detailViewModel: DetailViewModel
 ) {
     var isFavorite by remember { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -151,7 +152,6 @@ fun DetailScreen(
             )
         },
     ) { innerPadding ->
-        val scrollState = rememberScrollState()
 
         Column(
             modifier = Modifier

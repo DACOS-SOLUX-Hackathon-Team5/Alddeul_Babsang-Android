@@ -1,7 +1,7 @@
 package com.hackathon.alddeul_babsang.domain.entity
 
 data class MapEntity (
-    val id: Int,
+    val id: Long,
     val name: String,
     val code: Int,
     val codeName: String,

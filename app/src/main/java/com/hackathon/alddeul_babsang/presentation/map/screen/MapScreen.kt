@@ -4,10 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -29,14 +31,19 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.Blue
+import com.hackathon.alddeul_babsang.core_ui.theme.Gray300
+import com.hackathon.alddeul_babsang.core_ui.theme.Orange800
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.White
+import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
+import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
+import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.presentation.map.navigation.MapNavigator
-import com.hackathon.alddeul_babsang.util.toast
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraPosition
@@ -69,13 +76,15 @@ fun MapRoute(
     val mapViewModel: MapViewModel = hiltViewModel()
     MapScreen(
         mapViewModel = mapViewModel,
+        onDetailClick = { id -> navigator.navigateDetail(id) }
     )
 }
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
 fun MapScreen(
-    mapViewModel: MapViewModel
+    mapViewModel: MapViewModel,
+    onDetailClick: (Long) -> Unit,
 ) {
     var mapProperties by remember {
         mutableStateOf(
@@ -96,6 +105,7 @@ fun MapScreen(
         position = CameraPosition(NaverMapConstants.DefaultCameraPosition.target, 10.0)
     }
     var showBabsangDetail by remember { mutableStateOf(false) }
+    var selectedBabsangDetail by remember { mutableStateOf<MapData?>(null) }
     val context = LocalContext.current
 
     Box(
@@ -142,7 +152,7 @@ fun MapScreen(
                             if (cluster.maxZoom <= 9) {
                                 null
                             } else {
-                                MapData("", "", (cluster.children.first().tag as MapData).gu)
+                                MapData(-1, "", "", (cluster.children.first().tag as MapData).gu, "", "")
                             }
                         }
                         .markerManager(object : DefaultMarkerManager() {
@@ -189,7 +199,9 @@ fun MapScreen(
                                     .animate(CameraAnimation.Easing)
                                 map.moveCamera(cameraUpdate)
 
+                                // 클릭된 마커의 정보
                                 showBabsangDetail = true
+                                selectedBabsangDetail = info.tag as MapData
                                 true
                             }
                         }
@@ -199,10 +211,13 @@ fun MapScreen(
 
                 // MapEntity 데이터를 Clusterer에 추가
                 val keyTagMap = mapEntityList.associate {
-                    ItemKey(it.id, LatLng(it.latitude, it.longitude)) to MapData(
+                    ItemKey(it.id.toInt(), LatLng(it.latitude, it.longitude)) to MapData(
+                        id = it.id,
                         name = it.name,
                         codeName = it.codeName,
-                        gu = it.gu
+                        gu = it.gu,
+                        address = it.address,
+                        phone = it.phone
                     )
                 }
                 clusterManager?.addAll(keyTagMap)
@@ -212,7 +227,8 @@ fun MapScreen(
                 }
             }
         }
-        if (showBabsangDetail) {
+        if (showBabsangDetail && selectedBabsangDetail != null) {
+            val data = selectedBabsangDetail ?: throw IllegalStateException("Data is null")
             Surface(
                 modifier = Modifier
                     .padding(horizontal = 18.dp, vertical = 12.dp)
@@ -221,7 +237,7 @@ fun MapScreen(
                         elevation = 4.dp,
                         shape = RoundedCornerShape(14.dp)
                     )
-                    .clickable { context.toast("상세 페이지로 이동") }
+                    .clickable { onDetailClick(data.id) }
             ) {
                 Row(
                     modifier = Modifier
@@ -230,8 +246,8 @@ fun MapScreen(
                             color = White,
                             shape = RoundedCornerShape(14.dp)
                         )
-                        .padding(20.dp)
-
+                        .padding(20.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
                         modifier = Modifier
@@ -242,11 +258,50 @@ fun MapScreen(
                         contentScale = ContentScale.FillBounds
                     )
                     Spacer(modifier = Modifier.width(14.dp))
-                    Text(text = "식당 이름")
+                    Column {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.Bottom
+                        ) {
+                            Text(
+                                text = data.name,
+                                style = head4Bold,
+                                color = Orange900
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            Text(
+                                text = data.codeName,
+                                style = body2Regular,
+                                color = Orange800
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = data.address,
+                            style = body4Regular,
+                            color = Gray300
+                        )
+                        Text(
+                            modifier = Modifier.padding(top = 4.dp),
+                            text = data.phone,
+                            style = body4Regular,
+                            color = Gray300
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-private class MapData(val name: String, val codeName: String, val gu: String)
+
+private class MapData(val id: Long, val name: String, val codeName: String, val gu: String, val address: String, val phone: String)
+
+@Preview(showBackground = true)
+@Composable
+fun MapScreenPreview() {
+    MapScreen(
+        mapViewModel = hiltViewModel(),
+        onDetailClick = { }
+    )
+}

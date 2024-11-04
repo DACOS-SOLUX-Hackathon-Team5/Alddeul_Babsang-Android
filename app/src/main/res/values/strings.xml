@@ -10,4 +10,9 @@
     <string name="bnv_report_label">제보</string>
     <string name="bnv_profile_label">프로필</string>
 
+    <!-- 상세 페이지 -->
+    <string name="btn_detail_review">리뷰하러 가기</string>
+    <string name="tv_detail_menu">대표 메뉴</string>
+    <string name="tv_detail_review">리뷰 모아보기 (%1$s)</string>
+
 </resources>

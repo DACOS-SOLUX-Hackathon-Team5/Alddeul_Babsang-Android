@@ -12,6 +12,7 @@ import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavi
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.babsangNavGraph
 import com.hackathon.alddeul_babsang.presentation.detail.navigation.DetailNavigator
 import com.hackathon.alddeul_babsang.presentation.detail.navigation.detailNavGraph
+import com.hackathon.alddeul_babsang.presentation.detail.navigation.reviewNavGraph
 import com.hackathon.alddeul_babsang.presentation.example.navigation.ExampleNavigator
 import com.hackathon.alddeul_babsang.presentation.example.navigation.exampleNavGraph
 import com.hackathon.alddeul_babsang.presentation.main.navigation.MainNavigator
@@ -57,6 +58,7 @@ fun AlddeulNavHost(
             profileNavGraph(profileNavigator)
             reportNavGraph(reportNavigator)
             detailNavGraph(detailNavigator)
+            reviewNavGraph(detailNavigator)
         }
     }
 }

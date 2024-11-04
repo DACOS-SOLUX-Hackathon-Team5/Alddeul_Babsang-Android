@@ -99,6 +99,7 @@ fun DetailRoute(
             review = detailViewModel.mockReviews
         ),
         onBackClick = { navigator.navigateBack() },
+        onReviewClick = { id -> navigator.navigateReview(id) },
         detailViewModel = detailViewModel
     )
 }
@@ -108,9 +109,11 @@ fun DetailRoute(
 fun DetailScreen(
     data: BabsangDetailEntity,
     onBackClick: () -> Unit = {},
+    onReviewClick: (Long) -> Unit = {},
     detailViewModel: DetailViewModel
 ) {
     var isFavorite by remember { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -149,7 +152,6 @@ fun DetailScreen(
             )
         },
     ) { innerPadding ->
-        val scrollState = rememberScrollState()
 
         Column(
             modifier = Modifier
@@ -230,7 +232,7 @@ fun DetailScreen(
                     Spacer(modifier = Modifier.height(15.dp))
                     Image(
                         modifier = Modifier.size(width = 185.dp, height = 35.dp),
-                        painter = when(round(data.rating)) {
+                        painter = when (round(data.rating)) {
                             in 0.0..1.4 -> painterResource(id = R.drawable.ic_star_one)
                             in 1.5..2.4 -> painterResource(id = R.drawable.ic_star_two)
                             in 2.5..3.4 -> painterResource(id = R.drawable.ic_star_three)
@@ -242,7 +244,7 @@ fun DetailScreen(
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = { onReviewClick(data.id) },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Blue
                         )

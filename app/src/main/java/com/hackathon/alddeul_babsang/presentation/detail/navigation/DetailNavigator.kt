@@ -8,4 +8,9 @@ class DetailNavigator(
     fun navigateBack() {
         navController.popBackStack()
     }
+
+    fun navigateReview(id: Long) {
+        val route = "review?id=${id}"
+        navController.navigate(route)
+    }
 }

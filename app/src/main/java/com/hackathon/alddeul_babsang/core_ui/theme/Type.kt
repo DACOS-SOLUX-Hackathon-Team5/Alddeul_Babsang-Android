@@ -295,3 +295,53 @@ val body4Regular =
         lineHeight = 14.sp,
     )
 
+// Body5
+val body5Bold =
+    TextStyle(
+        fontFamily = pretendardBold,
+        fontSize = 11.sp,
+    )
+val body5Semi = TextStyle(
+    fontFamily = pretendardSemiBold,
+    fontSize = 11.sp,
+)
+val body5Regular =
+    TextStyle(
+        fontFamily = pretendardRegular,
+        fontSize = 11.sp,
+        lineHeight = 16.sp,
+    )
+
+// Body6
+val body6Bold =
+    TextStyle(
+        fontFamily = pretendardBold,
+        fontSize = 10.sp,
+    )
+val body6Semi = TextStyle(
+    fontFamily = pretendardSemiBold,
+    fontSize = 10.sp,
+)
+val body6Regular =
+    TextStyle(
+        fontFamily = pretendardRegular,
+        fontSize = 10.sp,
+        lineHeight = 16.sp,
+    )
+
+// Body7
+val body7Bold =
+    TextStyle(
+        fontFamily = pretendardBold,
+        fontSize = 9.sp,
+    )
+val body7Semi = TextStyle(
+    fontFamily = pretendardSemiBold,
+    fontSize = 9.sp,
+)
+val body7Regular =
+    TextStyle(
+        fontFamily = pretendardRegular,
+        fontSize = 9.sp,
+        lineHeight = 16.sp,
+    )

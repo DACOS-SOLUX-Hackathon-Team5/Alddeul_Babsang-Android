@@ -9,8 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.hackathon.alddeul_babsang.presentation.auth.SplashScreen
+import com.hackathon.alddeul_babsang.presentation.auth.screen.SplashScreen
 import com.hackathon.alddeul_babsang.presentation.auth.navigation.AuthNavigator
+import com.hackathon.alddeul_babsang.presentation.auth.navigation.loginNavGraph
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavigator
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.babsangNavGraph
 import com.hackathon.alddeul_babsang.presentation.detail.navigation.DetailNavigator
@@ -66,6 +67,7 @@ fun AlddeulNavHost(
             detailNavGraph(detailNavigator)
             reviewNavGraph(detailNavigator)
             reportWriteNavGraph(reportNavigator)
+            loginNavGraph(authNavigator)
         }
     }
 }

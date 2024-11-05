@@ -50,6 +50,11 @@
     <string name="toast_report_failure">모든 항목을 입력해주세요.</string>
 
     <!-- 스플래시 -->
-    <string name="tv_splash_title">알뜰 밥상\nin 서울</string>
+    <string name="tv_splash_title">알뜰 밥상\n in 서울</string>
+
+    <!-- 로그인 페이지 -->
+    <string name="btn_login">로그인</string>
+    <string name="tv_login_title">알뜰 밥상\n in 서울</string>
+    <string name="btn_login_signup">회원가입</string>
 
 </resources>

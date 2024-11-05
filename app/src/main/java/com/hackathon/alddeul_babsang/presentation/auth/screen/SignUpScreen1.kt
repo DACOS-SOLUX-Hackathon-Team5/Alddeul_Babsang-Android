@@ -1,4 +1,4 @@
-package com.hackathon.alddeul_babsang.presentation.auth
+package com.hackathon.alddeul_babsang.presentation.auth.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

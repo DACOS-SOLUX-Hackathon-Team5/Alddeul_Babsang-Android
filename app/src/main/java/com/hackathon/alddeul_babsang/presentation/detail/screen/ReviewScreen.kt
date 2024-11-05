@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +40,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.component.AlddeulButton
 import com.hackathon.alddeul_babsang.core_ui.component.AlddeulHeader
@@ -61,6 +63,13 @@ fun ReviewRoute(
     id: Long,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = White
+        )
+    }
 
     ReviewScreen(
         onBackClick = { navigator.navigateBack() },

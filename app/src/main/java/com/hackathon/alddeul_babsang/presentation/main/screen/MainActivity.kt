@@ -5,9 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.DisposableEffect
@@ -20,14 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
+import com.hackathon.alddeul_babsang.presentation.auth.navigation.AuthNavigator
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavigator
 import com.hackathon.alddeul_babsang.presentation.detail.navigation.DetailNavigator
 import com.hackathon.alddeul_babsang.presentation.example.navigation.ExampleNavigator
@@ -84,6 +81,7 @@ class MainActivity : ComponentActivity() {
                 val reportNavigator = remember(navController) { ReportNavigator(navController) }
                 val profileNavigator = remember(navController) { ProfileNavigator(navController) }
                 val detailNavigator = remember(navController) { DetailNavigator(navController) }
+                val authNavigator = remember(navController) { AuthNavigator(navController) }
 
                 Scaffold(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -98,7 +96,8 @@ class MainActivity : ComponentActivity() {
                             babsangNavigator = babsangNavigator,
                             reportNavigator = reportNavigator,
                             profileNavigator = profileNavigator,
-                            detailNavigator = detailNavigator
+                            detailNavigator = detailNavigator,
+                            authNavigator = authNavigator
                         )
                     }
                 )

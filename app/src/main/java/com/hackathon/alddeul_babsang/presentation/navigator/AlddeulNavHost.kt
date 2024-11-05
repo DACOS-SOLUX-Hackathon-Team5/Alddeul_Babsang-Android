@@ -23,6 +23,7 @@ import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavi
 import com.hackathon.alddeul_babsang.presentation.profile.navigation.profileNavGraph
 import com.hackathon.alddeul_babsang.presentation.report.navigation.ReportNavigator
 import com.hackathon.alddeul_babsang.presentation.report.navigation.reportNavGraph
+import com.hackathon.alddeul_babsang.presentation.report.navigation.reportWriteNavGraph
 
 @Composable
 fun AlddeulNavHost(
@@ -59,6 +60,7 @@ fun AlddeulNavHost(
             reportNavGraph(reportNavigator)
             detailNavGraph(detailNavigator)
             reviewNavGraph(detailNavigator)
+            reportWriteNavGraph(reportNavigator)
         }
     }
 }

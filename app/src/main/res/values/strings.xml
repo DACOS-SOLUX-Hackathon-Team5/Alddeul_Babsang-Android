@@ -17,10 +17,29 @@
 
     <!-- 리뷰 작성하기 페이지 -->
     <string name="appbar_review_title">리뷰 작성하기</string>
+    <string name="tv_review_rating">별점</string>
     <string name="tv_review_detail">세부 평가</string>
     <string name="tv_review_placeholder">식당에 대한 리뷰를 상세히 적어주세요.</string>
     <string name="btn_review_complete">완료</string>
     <string name="tv_review_length">%1$s/100자</string>
     <string name="toast_review_length">리뷰는 100자 이내로 작성해주세요.</string>
+
+    <!-- 착한 밥상 제보하기 페이지 -->
+    <string name="appbar_report_title">착한 밥상 제보하기</string>
+    <string name="tv_report_name_placeholder">예시) 송이네 밥상</string>
+    <string name="tv_report_address_placeholder">예시) 서울특별시 용산구 청파동 11</string>
+    <string name="tv_report_phone_placeholder">예시) 02-XXXX-XXXX</string>
+    <string name="tv_report_menu1_placeholder">예시) 족발 소</string>
+    <string name="tv_report_price_placeholder">예시) 8000</string>
+    <string name="tv_report_menu2_placeholder">예시) 족발 소</string>
+    <string name="tv_report_name">업소명</string>
+    <string name="tv_report_address">가게 주소</string>
+    <string name="tv_report_category">업종 선택</string>
+    <string name="tv_report_phone">가게 전화번호</string>
+    <string name="tv_report_menu1">대표 메뉴 1</string>
+    <string name="tv_report_menu1_price">대표 메뉴 가격 1</string>
+    <string name="tv_report_menu2">대표 메뉴 2 (선택)</string>
+    <string name="tv_report_menu2_price">대표 메뉴 가격 2 (선택)</string>
+    <string name="btn_report_complete">완료</string>
 
 </resources>

@@ -15,7 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
@@ -95,13 +94,13 @@ fun LoginScreen(
             AuthTextField(
                 value = id,
                 onValueChange = { id = it },
-                placeholderText = "아이디"
+                placeholderText = stringResource(R.string.tv_login_id_placeholder)
             )
             Spacer(modifier = Modifier.height(16.dp))
             AuthTextField(
                 value = password,
                 onValueChange = { password = it },
-                placeholderText = "비밀번호"
+                placeholderText = stringResource(R.string.tv_login_password_placeholder)
             )
             Spacer(modifier = Modifier.weight(1f))
             AlddeulButton(text = R.string.btn_login) {

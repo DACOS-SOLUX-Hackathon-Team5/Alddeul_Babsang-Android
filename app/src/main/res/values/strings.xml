@@ -56,5 +56,7 @@
     <string name="btn_login">로그인</string>
     <string name="tv_login_title">알뜰 밥상\n in 서울</string>
     <string name="btn_login_signup">회원가입</string>
+    <string name="tv_login_id_placeholder">아이디</string>
+    <string name="tv_login_password_placeholder">비밀번호</string>
 
 </resources>

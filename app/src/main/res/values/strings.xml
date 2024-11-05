@@ -28,5 +28,6 @@
     <string name="tv_signup_setIdPassword">아이디와 비밀번호를\n설정해주세요</string>
     <string name="tf_signup_setId">아이디 입력</string>
     <string name="tf_signup_setPassword">비밀번호 입력</string>
+    <string name="tv_profile_likelist">좋아요 목록</string>
 
 </resources>

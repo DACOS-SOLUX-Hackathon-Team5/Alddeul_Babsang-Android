@@ -48,7 +48,7 @@ fun SignUpScreen1(navController: NavController) {
         verticalArrangement = Arrangement.Top
     ) {
         Text(
-            stringResource(R.string.setIdPassword),
+            stringResource(R.string.tv_signup_setIdPassword),
             textAlign = TextAlign.Center,
             style = head4Bold,
             lineHeight = 25.sp
@@ -59,7 +59,7 @@ fun SignUpScreen1(navController: NavController) {
         SignUpLoginTextField(
             value = id,
             onValueChange = setId,
-            placeholderText = stringResource(R.string.setId)
+            placeholderText = stringResource(R.string.tf_signup_setId)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -67,13 +67,13 @@ fun SignUpScreen1(navController: NavController) {
         SignUpLoginTextField(
             value = password,
             onValueChange = setPassword,
-            placeholderText = stringResource(R.string.setPassword)
+            placeholderText = stringResource(R.string.tf_signup_setPassword)
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
         AlddeulButton(
-            text = R.string.next,
+            text = R.string.btn_signup_next,
             onClick = {
                 if (id.isNotEmpty() && password.isNotEmpty()) {
                     //navController.navigate("signUp2")

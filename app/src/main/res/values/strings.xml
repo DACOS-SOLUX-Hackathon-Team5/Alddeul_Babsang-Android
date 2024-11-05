@@ -24,6 +24,12 @@
     <string name="tv_review_length">%1$s/100자</string>
     <string name="toast_review_length">리뷰는 100자 이내로 작성해주세요.</string>
 
+    <!-- 회원가입 페이지 -->
+    <string name="btn_signup_next">다음</string>
+    <string name="tv_signup_setIdPassword">아이디와 비밀번호를\n설정해주세요</string>
+    <string name="tf_signup_setId">아이디 입력</string>
+    <string name="tf_signup_setPassword">비밀번호 입력</string>
+
     <!-- 착한 밥상 제보하기 페이지 -->
     <string name="appbar_report_title">착한 밥상 제보하기</string>
     <string name="tv_report_name_placeholder">예시) 송이네 밥상</string>

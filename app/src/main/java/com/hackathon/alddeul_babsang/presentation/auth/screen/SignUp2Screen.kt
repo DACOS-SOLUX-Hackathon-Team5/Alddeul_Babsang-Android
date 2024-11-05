@@ -22,8 +22,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -35,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -55,12 +52,13 @@ import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray200
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray50
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray900
-import com.hackathon.alddeul_babsang.core_ui.theme.Regular
+import com.hackathon.alddeul_babsang.core_ui.theme.Red
 import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.Yellow
-import com.hackathon.alddeul_babsang.core_ui.theme.body1Regular
+import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.presentation.auth.navigation.AuthNavigator
+import com.hackathon.alddeul_babsang.util.toast
 
 @Composable
 fun SignUp2Route(
@@ -132,23 +130,23 @@ fun SignUp2Screen(
                     .align(Alignment.CenterHorizontally)
                     .clickable { galleryLauncher.launch("image/*") }
             ) {
-                if (imageUri != null) {
-                    Image(
-                        modifier = Modifier
-                            .size(110.dp)
-                            .clip(CircleShape)
-                            .zIndex(0f),
-                        painter = rememberAsyncImagePainter(model = imageUri),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds
-                    )
-                } else {
-                    Box(
-                        modifier = Modifier
-                            .size(110.dp)
-                            .background(color = Gray50, shape = CircleShape)
-                            .border(3.dp, Yellow, CircleShape)
-                    ) {
+                Box(
+                    modifier = Modifier
+                        .size(110.dp)
+                        .background(color = Gray50, shape = CircleShape)
+                        .border(3.dp, Yellow, CircleShape)
+                ) {
+                    if (imageUri != null) {
+                        Image(
+                            modifier = Modifier
+                                .size(110.dp)
+                                .clip(CircleShape)
+                                .zIndex(0f),
+                            painter = rememberAsyncImagePainter(model = imageUri),
+                            contentDescription = null,
+                            contentScale = ContentScale.FillBounds
+                        )
+                    } else {
                         Image(
                             modifier = Modifier.align(Alignment.Center),
                             painter = painterResource(id = R.drawable.ic_signup_profile),
@@ -173,9 +171,23 @@ fun SignUp2Screen(
                 placeholderText = stringResource(R.string.tv_signup_nickname_placeholder),
                 textAlign = TextAlign.Center
             )
+            Text(
+                modifier = Modifier
+                    .padding(top = 5.dp, end = 18.dp)
+                    .align(Alignment.End),
+                text = stringResource(R.string.tv_signup_nickname_length, nickname.length),
+                style = body4Regular,
+                color = if (nickname.length <= 10) Gray200 else Red
+            )
             Spacer(modifier = Modifier.weight(1f))
             AlddeulButton(text = R.string.btn_signup_complete) {
-                onNextClick()
+                if (nickname.length > 10) {
+                    context.toast(context.getString(R.string.toast_signup_nickname_failure))
+                } else if (nickname.isNotBlank() && imageUri != null) {
+                    onNextClick()
+                } else {
+                    context.toast(context.getString(R.string.toast_signup_failure))
+                }
             }
         }
     }

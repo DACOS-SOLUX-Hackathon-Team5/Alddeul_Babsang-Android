@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +30,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Gray900
 import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.presentation.auth.navigation.AuthNavigator
+import com.hackathon.alddeul_babsang.util.toast
 
 @Composable
 fun SignUp1Route(
@@ -55,6 +57,7 @@ fun SignUp1Route(
 fun SignUp1Screen(
     onNextClick: () -> Unit = {}
 ) {
+    val context = LocalContext.current
     var id by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
 
@@ -89,6 +92,8 @@ fun SignUp1Screen(
             onClick = {
                 if (id.isNotEmpty() && password.isNotEmpty()) {
                     onNextClick()
+                } else {
+                    context.toast(context.getString(R.string.toast_signup1_failure))
                 }
             }
         )

@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,6 +37,8 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Peach50
 import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.bmDohyeonRegular
 import com.hackathon.alddeul_babsang.presentation.auth.navigation.AuthNavigator
+import com.hackathon.alddeul_babsang.util.toast
+import kotlin.contracts.contract
 
 @Composable
 fun LoginRoute(
@@ -53,7 +56,7 @@ fun LoginRoute(
     LoginScreen(
         onLoginClick = {
             keyboardController?.hide()
-            navigator.navigateLogin()
+            navigator.navigateMain()
         },
         onSignUpClick = { navigator.navigateSignUp1() }
     )
@@ -71,6 +74,7 @@ fun LoginScreen(
     )
     var id by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -109,7 +113,11 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
             AlddeulButton(text = R.string.btn_login) {
-                onLoginClick()
+                if (id.isNotBlank() && password.isNotBlank()) {
+                    onLoginClick()
+                } else {
+                    context.toast(context.getString(R.string.toast_login_failure))
+                }
             }
             Spacer(modifier = Modifier.height(10.dp))
             AlddeulButton(

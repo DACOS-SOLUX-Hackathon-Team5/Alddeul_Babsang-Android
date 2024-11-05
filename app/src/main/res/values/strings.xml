@@ -29,6 +29,7 @@
     <string name="tv_signup_setIdPassword">아이디와 비밀번호를\n설정해주세요</string>
     <string name="tf_signup_setId">아이디 입력</string>
     <string name="tf_signup_setPassword">비밀번호 입력</string>
+    <string name="toast_signup1_failure">아이디와 비밀번호를 입력해주세요.</string>
 
     <!-- 착한 밥상 제보하기 페이지 -->
     <string name="appbar_report_title">착한 밥상 제보하기</string>
@@ -58,10 +59,14 @@
     <string name="btn_login_signup">회원가입</string>
     <string name="tv_login_id_placeholder">아이디</string>
     <string name="tv_login_password_placeholder">비밀번호</string>
+    <string name="toast_login_failure">아이디와 비밀번호를 입력해주세요.</string>
 
     <!-- 회원가입 페이지 2 -->
     <string name="btn_signup_complete">완료</string>
     <string name="tv_signup_title">사용할 이름과\n프로필을 설정해주세요</string>
     <string name="tv_signup_nickname_placeholder">닉네임을 입력해주세요</string>
+    <string name="toast_signup_failure">닉네임과 프로필 사진을 입력해주세요.</string>
+    <string name="tv_signup_nickname_length">%1$s/10자</string>
+    <string name="toast_signup_nickname_failure">닉네임은 10자 이하로 입력해주세요.</string>
 
 </resources>

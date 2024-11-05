@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Alddeul-Babsang</string>
+    <string name="app_name">알뜰 밥상 in 서울</string>
 
     <!-- 뒤로가기 -->
     <string name="toast_back_handler">한번 더 누르면 종료돼요</string>

@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -41,6 +42,7 @@ fun LoginRoute(
     navigator: AuthNavigator
 ) {
     val systemUiController = rememberSystemUiController()
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -49,8 +51,11 @@ fun LoginRoute(
     }
 
     LoginScreen(
-        onLoginClick = { navigator.navigateLogin() },
-        onSignUpClick = { navigator.navigateSignUp() }
+        onLoginClick = {
+            keyboardController?.hide()
+            navigator.navigateLogin()
+        },
+        onSignUpClick = { navigator.navigateSignUp1() }
     )
 }
 

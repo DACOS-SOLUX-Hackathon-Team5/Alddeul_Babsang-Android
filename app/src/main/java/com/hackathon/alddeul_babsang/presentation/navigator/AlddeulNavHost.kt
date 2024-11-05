@@ -12,6 +12,8 @@ import androidx.navigation.compose.composable
 import com.hackathon.alddeul_babsang.presentation.auth.screen.SplashScreen
 import com.hackathon.alddeul_babsang.presentation.auth.navigation.AuthNavigator
 import com.hackathon.alddeul_babsang.presentation.auth.navigation.loginNavGraph
+import com.hackathon.alddeul_babsang.presentation.auth.navigation.signUp1NavGraph
+import com.hackathon.alddeul_babsang.presentation.auth.navigation.signUp2NavGraph
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavigator
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.babsangNavGraph
 import com.hackathon.alddeul_babsang.presentation.detail.navigation.DetailNavigator
@@ -68,6 +70,8 @@ fun AlddeulNavHost(
             reviewNavGraph(detailNavigator)
             reportWriteNavGraph(reportNavigator)
             loginNavGraph(authNavigator)
+            signUp1NavGraph(authNavigator)
+            signUp2NavGraph(authNavigator)
         }
     }
 }

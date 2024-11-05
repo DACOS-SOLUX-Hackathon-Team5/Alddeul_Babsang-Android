@@ -9,6 +9,10 @@ class AuthNavigator(
         navController.navigate(route = "login")
     }
 
+    fun navigateBack() {
+        navController.popBackStack()
+    }
+
     fun navigateMain() {
         navController.navigate(route = "main") {
             popUpTo(navController.graph.startDestinationId) {
@@ -17,7 +21,11 @@ class AuthNavigator(
         }
     }
 
-    fun navigateSignUp() {
-        navController.navigate(route = "signup")
+    fun navigateSignUp1() {
+        navController.navigate(route = "signup1")
+    }
+
+    fun navigateSignUp2() {
+        navController.navigate(route = "signup2")
     }
 }

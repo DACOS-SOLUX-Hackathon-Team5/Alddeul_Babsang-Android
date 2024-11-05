@@ -23,6 +23,7 @@ val Typography = Typography(
 val pretendardBold = FontFamily(Font(R.font.pretendard_bold, FontWeight.Bold))
 val pretendardSemiBold = FontFamily(Font(R.font.pretendard_semibold, FontWeight.SemiBold))
 val pretendardRegular = FontFamily(Font(R.font.pretendard_regular, FontWeight.Normal))
+val bmDohyeon = FontFamily(Font(R.font.bm_dohyeon, FontWeight.Normal))
 
 // Head1
 val head1Bold =
@@ -345,3 +346,9 @@ val body7Regular =
         fontSize = 9.sp,
         lineHeight = 16.sp,
     )
+
+// BmDohyeon
+val bmDohyeonRegular = TextStyle(
+    fontFamily = bmDohyeon,
+    fontSize = 36.sp,
+)

@@ -25,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,7 +41,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
@@ -70,21 +68,12 @@ fun DetailRoute(
     id: Long
 ) {
     val systemUiController = rememberSystemUiController()
-    val lifecycleOwner = LocalLifecycleOwner.current
     val detailViewModel: DetailViewModel = hiltViewModel()
 
     SideEffect {
         systemUiController.setStatusBarColor(
             color = Orange700
         )
-    }
-
-    DisposableEffect(key1 = lifecycleOwner) {
-        onDispose {
-            systemUiController.setStatusBarColor(
-                color = White
-            )
-        }
     }
 
     DetailScreen(

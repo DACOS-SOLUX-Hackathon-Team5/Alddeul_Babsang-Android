@@ -8,6 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.hackathon.alddeul_babsang.presentation.auth.screen.SplashScreen
+import com.hackathon.alddeul_babsang.presentation.auth.navigation.AuthNavigator
+import com.hackathon.alddeul_babsang.presentation.auth.navigation.loginNavGraph
+import com.hackathon.alddeul_babsang.presentation.auth.navigation.signUp1NavGraph
+import com.hackathon.alddeul_babsang.presentation.auth.navigation.signUp2NavGraph
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavigator
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.babsangNavGraph
 import com.hackathon.alddeul_babsang.presentation.detail.navigation.DetailNavigator
@@ -23,6 +29,7 @@ import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavi
 import com.hackathon.alddeul_babsang.presentation.profile.navigation.profileNavGraph
 import com.hackathon.alddeul_babsang.presentation.report.navigation.ReportNavigator
 import com.hackathon.alddeul_babsang.presentation.report.navigation.reportNavGraph
+import com.hackathon.alddeul_babsang.presentation.report.navigation.reportWriteNavGraph
 
 @Composable
 fun AlddeulNavHost(
@@ -34,7 +41,8 @@ fun AlddeulNavHost(
     mapNavigator: MapNavigator,
     profileNavigator: ProfileNavigator,
     reportNavigator: ReportNavigator,
-    detailNavigator: DetailNavigator
+    detailNavigator: DetailNavigator,
+    authNavigator: AuthNavigator
 ) {
     Box(
         modifier = modifier
@@ -43,8 +51,9 @@ fun AlddeulNavHost(
     ) {
         NavHost(
             navController = navController,
-            startDestination = "main",
+            startDestination = "splash",
         ) {
+            composable("splash") { SplashScreen(navController = authNavigator.navController) }
             exampleNavGraph(exampleNavigator)
             mainNavGraph(
                 mainNavigator,
@@ -59,6 +68,10 @@ fun AlddeulNavHost(
             reportNavGraph(reportNavigator)
             detailNavGraph(detailNavigator)
             reviewNavGraph(detailNavigator)
+            reportWriteNavGraph(reportNavigator)
+            loginNavGraph(authNavigator)
+            signUp1NavGraph(authNavigator)
+            signUp2NavGraph(authNavigator)
         }
     }
 }

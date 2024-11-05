@@ -39,6 +39,9 @@ val Blue = Color(0xFFFF5A82EA)
 val Yellow = Color(0xFFFAB935)
 val Red = Color(0xFFFF0400)
 val Pink = Color(0xFFFF8886)
+val Peach200 = Color(0xFFFECC90)
+val Peach100 = Color(0xFFFFEFD3)
+val Peach50 = Color(0xFFFFFBF6)
 val White = Color(0xFFFFFFFF)
 
 // Font

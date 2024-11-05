@@ -5,11 +5,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.sp
-import com.hackathon.alddeul_babsang.core_ui.theme.*
+import com.hackathon.alddeul_babsang.core_ui.theme.Gray300
+import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
+import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 
 @Composable
-fun SignUpLoginTextField(
+fun AuthTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholderText: String

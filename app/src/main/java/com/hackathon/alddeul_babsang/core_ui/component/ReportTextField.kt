@@ -2,8 +2,6 @@ package com.hackathon.alddeul_babsang.core_ui.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -15,10 +13,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray200
 import com.hackathon.alddeul_babsang.core_ui.theme.White
-import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
+import com.hackathon.alddeul_babsang.core_ui.theme.body1Regular
 
 @Composable
-fun AlddeulTextField(
+fun ReportTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: Int,
@@ -30,19 +28,17 @@ fun AlddeulTextField(
                 width = 1.dp,
                 color = Gray200,
                 shape = RoundedCornerShape(10.dp)
-            )
-            .height(150.dp)
-            .padding(18.dp),
+            ),
         value = value,
         onValueChange = onValueChange,
         placeholder = {
             Text(
                 text = stringResource(id = placeholder),
-                style = body4Regular,
+                style = body1Regular,
                 color = Gray200
             )
         },
-        textStyle = body4Regular,
+        textStyle = body1Regular,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = White,
             unfocusedContainerColor = White,

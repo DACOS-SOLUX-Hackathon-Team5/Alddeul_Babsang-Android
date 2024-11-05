@@ -59,6 +59,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.presentation.report.navigation.ReportNavigator
+import com.hackathon.alddeul_babsang.util.toast
 
 @Composable
 fun ReportWriteRoute(
@@ -226,8 +227,9 @@ fun ReportWriteScreen(
             AlddeulButton(text = R.string.btn_report_complete) {
                 if (name.isNotEmpty() && address.isNotEmpty() && phone.isNotEmpty() && menu1.isNotEmpty() && menu1price.isNotEmpty()) {
                     onButtonClick()
+                } else {
+                    context.toast(context.getString(R.string.toast_report_failure))
                 }
-                onButtonClick()
             }
         }
     }

@@ -41,5 +41,6 @@
     <string name="tv_report_menu2">대표 메뉴 2 (선택)</string>
     <string name="tv_report_menu2_price">대표 메뉴 가격 2 (선택)</string>
     <string name="btn_report_complete">완료</string>
+    <string name="toast_report_failure">모든 항목을 입력해주세요.</string>
 
 </resources>

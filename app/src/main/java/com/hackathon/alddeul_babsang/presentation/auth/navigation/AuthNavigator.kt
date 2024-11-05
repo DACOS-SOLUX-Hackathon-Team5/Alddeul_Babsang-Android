@@ -15,7 +15,7 @@ class AuthNavigator(
 
     fun navigateMain() {
         navController.navigate(route = "main") {
-            popUpTo(navController.graph.startDestinationId) {
+            popUpTo(0) {
                 inclusive = true
             }
         }

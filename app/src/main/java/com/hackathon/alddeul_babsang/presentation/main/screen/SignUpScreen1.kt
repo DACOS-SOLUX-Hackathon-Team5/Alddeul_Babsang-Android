@@ -1,6 +1,5 @@
 package com.hackathon.alddeul_babsang.presentation.main.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,11 +32,11 @@ import com.hackathon.alddeul_babsang.core_ui.theme.*
 
 @Composable
 fun SignUpScreen1(navController: NavController) {
-    val (department, setDepartment) = remember {
+    val (id, setId) = remember {
         mutableStateOf("")
     }
 
-    val (name, setName) = remember {
+    val (password, setPassword) = remember {
         mutableStateOf("")
     }
 
@@ -63,8 +62,8 @@ fun SignUpScreen1(navController: NavController) {
         Spacer(modifier = Modifier.height(50.dp))
 
         TextField(
-            value = department,
-            onValueChange = setDepartment,
+            value = id,
+            onValueChange = setId,
             placeholder = {
                 Text(
                     "아이디 입력",
@@ -84,8 +83,8 @@ fun SignUpScreen1(navController: NavController) {
 
 
         TextField(
-            value = department,
-            onValueChange = setDepartment,
+            value = password,
+            onValueChange = setPassword,
             placeholder = {
                 Text(
                     "비밀번호 입력",
@@ -110,9 +109,8 @@ fun SignUpScreen1(navController: NavController) {
                 .padding(bottom = 50.dp),
 
             onClick = {
-            if (name.isNotEmpty() and department.isNotEmpty()) {
-                Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-                navController.navigate("greeting")
+            if (id.isNotEmpty() and password.isNotEmpty()) {
+                //navController.navigate("signUp2")
             }
         }) { Text("다음", fontSize = 16.sp, fontFamily = pretendardBold) }
 

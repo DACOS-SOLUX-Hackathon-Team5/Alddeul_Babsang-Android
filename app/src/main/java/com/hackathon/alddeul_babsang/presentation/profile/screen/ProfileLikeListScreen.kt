@@ -57,15 +57,6 @@ fun ProfileLikeListRoute(
     val babsangListViewModel: BabsangListViewModel = hiltViewModel()
     ProfileLikeListScreen(
         navigator = navigator,  // navController 대신 navigator 전달
-        data = BabsangListEntity(
-            id = 1,
-            avatar = "",
-            name = "송이네 밥상",
-            codeName = "경양식/일식",
-            address = "서울특별시 용산구 청파동 11",
-            phone = "02-210-0220",
-            favorite = true
-        ),
         onBackClick = { navigator.navigateBack() },
         babsangListViewModel = babsangListViewModel
     )
@@ -75,7 +66,6 @@ fun ProfileLikeListRoute(
 @Composable
 fun ProfileLikeListScreen(
     navigator: ProfileNavigator,
-    data: BabsangListEntity,
     onBackClick: () -> Unit = {},
     babsangListViewModel: BabsangListViewModel
 ) {
@@ -162,15 +152,6 @@ fun ProfileLikeListScreenPreview() {
     AlddeulBabsangTheme {
         ProfileLikeListScreen(
             navigator = navigator,
-            data = BabsangListEntity(
-                id = 1,
-                avatar = "",
-                name = "송이네 밥상",
-                codeName = "경양식/일식",
-                address = "서울특별시 용산구 청파동 11",
-                phone = "02-210-0220",
-                favorite = true
-            ),
             onBackClick = { },
             babsangListViewModel = babsangListViewModel
         )

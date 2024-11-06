@@ -145,7 +145,7 @@ fun ProfileScreen(
 
         Column(
             modifier = Modifier
-                .height(200.dp)
+                .height(240.dp)
                 .padding(horizontal = 30.dp)
         ) {
             Text(
@@ -182,7 +182,7 @@ fun ProfileScreen(
                 onClick = {}
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
             HorizontalDivider(
                 modifier = Modifier
@@ -196,7 +196,7 @@ fun ProfileScreen(
 
         Column(
             modifier = Modifier
-                .height(200.dp)
+                .height(220.dp)
                 .padding(horizontal = 30.dp)
         ) {
             Text(

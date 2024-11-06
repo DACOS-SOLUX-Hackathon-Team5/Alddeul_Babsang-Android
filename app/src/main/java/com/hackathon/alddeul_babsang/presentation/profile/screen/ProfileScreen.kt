@@ -217,7 +217,6 @@ fun ProfileScreen(
                 text = "로그아웃",
                 onClick = {
                     bottomSheetKeyword = "로그아웃"
-                    bottomSheetQuery = "logout_query"  // 여기에 실제 쿼리문을 넣을 수 있음
                     showBottomSheet = true
                 }
             )
@@ -227,7 +226,6 @@ fun ProfileScreen(
                 text = "회원 탈퇴",
                 onClick = {
                     bottomSheetKeyword = "회원 탈퇴"
-                    bottomSheetQuery = "logout_query"  // 여기에 실제 쿼리문을 넣을 수 있음
                     showBottomSheet = true
                 }
             )

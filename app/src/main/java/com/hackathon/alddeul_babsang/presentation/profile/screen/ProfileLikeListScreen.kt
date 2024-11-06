@@ -35,7 +35,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Orange800
 import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head6Semi
-import com.hackathon.alddeul_babsang.domain.entity.BabsangDetailEntity
+import com.hackathon.alddeul_babsang.domain.entity.ProfileLikeListEntity
 import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavigator
 
 @Composable
@@ -44,15 +44,14 @@ fun ProfileLikeListRoute(
 ) {
     val LikeListViewModel: LikeListViewModel = hiltViewModel()
     ProfileLikeListScreen(
-        data = BabsangDetailEntity(
-            id = 1,
+        data = ProfileLikeListEntity(
+            id=1,
+            avatar = "",
             name = "송이네 밥상",
             codeName = "경양식/일식",
             address = "서울특별시 용산구 청파동 11",
             phone = "02-210-0220",
-            rating = 4.3,
-            menu = "김치찌개: 8000, 된장찌개 9000",
-            review = LikeListViewModel.mockReviews
+            favorite = true
         ),
         onBackClick = { navigator.navigateBack() },
         LikeListViewModel = LikeListViewModel
@@ -62,7 +61,7 @@ fun ProfileLikeListRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileLikeListScreen(
-    data: BabsangDetailEntity,
+    data: ProfileLikeListEntity,
     onBackClick: () -> Unit = {},
     LikeListViewModel: LikeListViewModel
 ) {
@@ -144,16 +143,14 @@ fun ProfileLikeListScreenPreview() {
     val LikeListViewModel: LikeListViewModel = hiltViewModel()
     AlddeulBabsangTheme {
         ProfileLikeListScreen(
-            data = BabsangDetailEntity(
-                id = 1,
+            data = ProfileLikeListEntity(
+                id=1,
                 avatar = "",
                 name = "송이네 밥상",
                 codeName = "경양식/일식",
                 address = "서울특별시 용산구 청파동 11",
                 phone = "02-210-0220",
-                rating = 4.3,
-                menu = "김치찌개: 8000, 된장찌개 9000",
-                review = LikeListViewModel.mockReviews
+                favorite = true
             ),
             onBackClick = { },
             LikeListViewModel = LikeListViewModel

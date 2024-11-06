@@ -6,10 +6,6 @@ class ProfileNavigator(
     val navController: NavController
 ) {
 
-    fun profileLikeList() {
-        navController.navigate("profileLikeList")
-    }
-
     fun navigateBack() {
         navController.popBackStack()
     }

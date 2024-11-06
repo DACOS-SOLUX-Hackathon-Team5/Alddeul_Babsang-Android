@@ -140,7 +140,7 @@ fun ProfileScreen(
                 onClick = {
                     navigateToWebsite(
                         context = context,
-                        "https://massive-maple-b53.notion.site/426578b24235447abccaae359549cdb7?pvs=4"
+                        "https://flowery-alloy-47e.notion.site/1336b8d0ab7b8019a7a9da0d80ff285b"
                     )
                 }
             )
@@ -151,7 +151,7 @@ fun ProfileScreen(
                 onClick = {
                     navigateToWebsite(
                         context = context,
-                        "https://massive-maple-b53.notion.site/430e2c92b8694ad6a8b4497f3a3b4452"
+                        "https://flowery-alloy-47e.notion.site/1336b8d0ab7b80949a59fe847a7e94d8"
                     )
                 }
             )
@@ -273,7 +273,6 @@ fun BottomSheetContent(
         ) {
             Text(
                 text = tv1,
-                color = Gray500,
                 style = head5Semi,
                 modifier = Modifier.padding(bottom = 2.dp)
             )
@@ -281,7 +280,6 @@ fun BottomSheetContent(
 
             Text(
                 text = tv2,
-                color = Gray500,
                 style = body2Semi,
                 modifier = Modifier.padding(bottom = 2.dp)
             )

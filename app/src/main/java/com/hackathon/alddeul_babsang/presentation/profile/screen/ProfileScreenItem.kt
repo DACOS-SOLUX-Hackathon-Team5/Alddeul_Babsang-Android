@@ -39,7 +39,8 @@ fun ProfileScreenItem(
             .clickable { onClick() }
     ) {
         Text(
-            modifier = Modifier.align(Alignment.CenterStart)
+            modifier = Modifier
+                .align(Alignment.CenterStart)
                 .padding(start = 30.dp),
             text = text,
             color = Gray400,

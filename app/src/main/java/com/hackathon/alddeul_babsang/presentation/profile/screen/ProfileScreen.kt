@@ -28,6 +28,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,9 +48,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
-import com.hackathon.alddeul_babsang.core_ui.theme.*
+import com.hackathon.alddeul_babsang.core_ui.theme.Gray300
+import com.hackathon.alddeul_babsang.core_ui.theme.Gray500
+import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
+import com.hackathon.alddeul_babsang.core_ui.theme.White
+import com.hackathon.alddeul_babsang.core_ui.theme.body2Semi
+import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
+import com.hackathon.alddeul_babsang.core_ui.theme.head5Semi
+import com.hackathon.alddeul_babsang.core_ui.theme.head6Semi
+import com.hackathon.alddeul_babsang.core_ui.theme.head7Bold
+import com.hackathon.alddeul_babsang.core_ui.theme.head7Semi
 import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavigator
 
 
@@ -57,14 +68,24 @@ import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavi
 fun ProfileRoute(
     navigator: ProfileNavigator
 ) {
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = White
+        )
+    }
+
     ProfileScreen(
         navController = navigator.navController,
+        onBackClick = { navigator.navigateLogin() }
     )
 }
 
 @Composable
 fun ProfileScreen(
-    navController: NavController
+    navController: NavController,
+    onBackClick: () -> Unit = {},
 ) {
     val context = LocalContext.current
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -113,9 +134,9 @@ fun ProfileScreen(
                         colorFilter = ColorFilter.tint(Gray300),
                         modifier = Modifier
                             .graphicsLayer(scaleX = -1f) // 좌우 반전
-                            .clickable(onClick={
-                        navController.navigate("profileLikeList")
-                        })
+                            .clickable(onClick = {
+                                navController.navigate("profileLikeList")
+                            })
                     )
                 }
             }
@@ -222,10 +243,7 @@ fun ProfileScreen(
                 },
                 onConfirm = {
                     //백엔드로 쿼리 전달
-                    navController.navigate("login"){
-                        popUpTo("profile") { inclusive = true }
-                        launchSingleTop = true
-                    }
+                    onBackClick()
 
                     showBottomSheet = false
                 }
@@ -250,14 +268,14 @@ fun BottomSheetContent(
     val sheetState = rememberModalBottomSheetState()
     var tv1 = ""
     var tv2 = ""
-    if (keyword == "로그아웃"){
-        tv1= stringResource(R.string.tv_profile_asklogout)
-        tv2= stringResource(R.string.tv_profile_asklogout2)
+    if (keyword == "로그아웃") {
+        tv1 = stringResource(R.string.tv_profile_asklogout)
+        tv2 = stringResource(R.string.tv_profile_asklogout2)
     }
 
-    if (keyword == "회원 탈퇴"){
-        tv1= stringResource(R.string.tv_profile_askdelete)
-        tv2= stringResource(R.string.tv_profile_askdelete2)
+    if (keyword == "회원 탈퇴") {
+        tv1 = stringResource(R.string.tv_profile_askdelete)
+        tv2 = stringResource(R.string.tv_profile_askdelete2)
     }
 
     ModalBottomSheet(
@@ -297,7 +315,8 @@ fun BottomSheetContent(
                     ),
                     shape = RoundedCornerShape(40.dp),
                     contentPadding = PaddingValues(vertical = 19.dp),
-                    onClick = { onDismiss()
+                    onClick = {
+                        onDismiss()
                     }
                 ) {
                     Text(

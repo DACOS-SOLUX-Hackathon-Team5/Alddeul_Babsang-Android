@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,6 +29,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray900
@@ -35,17 +38,27 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Orange800
 import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head6Semi
-import com.hackathon.alddeul_babsang.domain.entity.ProfileLikeListEntity
+import com.hackathon.alddeul_babsang.domain.entity.BabsangListEntity
 import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavigator
 
 @Composable
 fun ProfileLikeListRoute(
     navigator: ProfileNavigator
 ) {
-    val LikeListViewModel: LikeListViewModel = hiltViewModel()
+
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = White
+        )
+    }
+
+    val babsangListViewModel: BabsangListViewModel = hiltViewModel()
     ProfileLikeListScreen(
-        data = ProfileLikeListEntity(
-            id=1,
+        navigator = navigator,  // navController 대신 navigator 전달
+        data = BabsangListEntity(
+            id = 1,
             avatar = "",
             name = "송이네 밥상",
             codeName = "경양식/일식",
@@ -54,16 +67,17 @@ fun ProfileLikeListRoute(
             favorite = true
         ),
         onBackClick = { navigator.navigateBack() },
-        LikeListViewModel = LikeListViewModel
+        babsangListViewModel = babsangListViewModel
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileLikeListScreen(
-    data: ProfileLikeListEntity,
+    navigator: ProfileNavigator,
+    data: BabsangListEntity,
     onBackClick: () -> Unit = {},
-    LikeListViewModel: LikeListViewModel
+    babsangListViewModel: BabsangListViewModel
 ) {
 
     val scrollState = rememberScrollState()
@@ -124,8 +138,9 @@ fun ProfileLikeListScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                for (item in LikeListViewModel.mockLikeList) {
+                for (item in babsangListViewModel.mockLikeList) {
                     LikeItem(
+                        navigator = navigator,
                         data = item
                     )
                 }
@@ -140,11 +155,15 @@ fun ProfileLikeListScreen(
 @Preview
 @Composable
 fun ProfileLikeListScreenPreview() {
-    val LikeListViewModel: LikeListViewModel = hiltViewModel()
+    val babsangListViewModel: BabsangListViewModel = hiltViewModel()
+    val navController = rememberNavController()
+    val navigator = ProfileNavigator(navController)
+
     AlddeulBabsangTheme {
         ProfileLikeListScreen(
-            data = ProfileLikeListEntity(
-                id=1,
+            navigator = navigator,
+            data = BabsangListEntity(
+                id = 1,
                 avatar = "",
                 name = "송이네 밥상",
                 codeName = "경양식/일식",
@@ -153,8 +172,9 @@ fun ProfileLikeListScreenPreview() {
                 favorite = true
             ),
             onBackClick = { },
-            LikeListViewModel = LikeListViewModel
-
+            babsangListViewModel = babsangListViewModel
         )
+
+
     }
 }

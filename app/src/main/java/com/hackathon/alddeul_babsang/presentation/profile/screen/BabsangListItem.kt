@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
@@ -37,12 +38,15 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
-import com.hackathon.alddeul_babsang.domain.entity.ProfileLikeListEntity
+import com.hackathon.alddeul_babsang.domain.entity.BabsangListEntity
+import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavigator
 
 @Composable
 fun LikeItem(
-    data: ProfileLikeListEntity
+    navigator: ProfileNavigator,
+    data: BabsangListEntity
 ) {
+
     var isFavorite by remember { mutableStateOf(data.favorite ?: false) }
 
     // 클릭할 때마다 favorite 값 토글
@@ -55,13 +59,16 @@ fun LikeItem(
 
     Column(
         modifier = Modifier
-            .width(350.dp)
+            .fillMaxWidth()
             .border(
                 width = 1.dp,
                 color = Orange700,
                 shape = RoundedCornerShape(14.dp)
             )
             .height(240.dp)
+            .clickable(onClick = {
+                navigator.navigateDetail(data.id)
+            })
     ) {
         Box(
             modifier = Modifier
@@ -129,15 +136,11 @@ fun LikeItem(
 
 @Composable
 fun LoadImageWithPlaceholder(codeName: String, imageUrl: String?) {
-    var imageId = R.drawable.ic_korean_food
-    if (codeName == "경양식/일식") {
-        imageId = R.drawable.ic_japanese_food
-    } else if (codeName == "한식") {
-        imageId = R.drawable.ic_korean_food
-    } else if (codeName == "중식") {
-        imageId = R.drawable.ic_chinese_food
-    } else {
-        imageId = R.drawable.ic_etc_food
+    val imageId = when (codeName) {
+        "경양식/일식" -> R.drawable.ic_japanese_food
+        "한식" -> R.drawable.ic_korean_food
+        "중식" -> R.drawable.ic_chinese_food
+        else -> R.drawable.ic_etc_food
     }
 
 
@@ -162,23 +165,29 @@ fun LoadImageWithPlaceholder(codeName: String, imageUrl: String?) {
             AsyncImage(
                 model = imageUrl,
                 contentDescription = null,
-                placeholder = painterResource(id = imageId),  // codeName에 따라 다른 placeholder 제공
-                contentScale = ContentScale.Crop,
+                placeholder = painterResource(id = imageId),
+                contentScale = ContentScale.Crop,  // 이미지 비율 유지, 크기 확대 또는 자르기
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(vertical = 15.dp)
+                    .fillMaxWidth()    // 가로는 꽉 차게
+                    .fillMaxHeight()   // 세로도 꽉 차게
+                    .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
+
             )
+
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun ReviewItemPreview() {
+fun LikeItemPreview() {
+    val navController = rememberNavController()
+    val navigator = ProfileNavigator(navController)
+
     AlddeulBabsangTheme {
         LikeItem(
-            data = ProfileLikeListEntity(
+            navigator = navigator,
+            data = BabsangListEntity(
                 id = 1,
                 avatar = null,
                 name = "송이네 밥상",

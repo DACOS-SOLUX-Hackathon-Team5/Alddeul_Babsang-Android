@@ -35,13 +35,14 @@ fun ProfileScreenItem(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(30.dp)
+            .height(40.dp)
             .clickable { onClick() }
+            .padding(vertical = 8.dp)
     ) {
         Text(
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .padding(start = 30.dp),
+                ,
             text = text,
             color = Gray400,
             style = head7Semi

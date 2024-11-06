@@ -90,7 +90,6 @@ fun ProfileScreen(
     val context = LocalContext.current
     var showBottomSheet by remember { mutableStateOf(false) }
     var bottomSheetKeyword by remember { mutableStateOf("") }
-    var bottomSheetQuery by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -118,7 +117,7 @@ fun ProfileScreen(
 
             Column {
                 Spacer(modifier = Modifier.height(25.dp))
-                Text("닉네임", style = head4Bold)
+                Text(stringResource(R.string.tv_profile_nickname), style = head4Bold)
                 Spacer(modifier = Modifier.height(10.dp))
                 Row {
                     Text(
@@ -147,17 +146,17 @@ fun ProfileScreen(
         Column(
             modifier = Modifier
                 .height(200.dp)
+                .padding(horizontal = 30.dp)
         ) {
             Text(
-                "이용안내", style = head6Semi, modifier = Modifier
-                    .padding(start = 30.dp)
+                stringResource(R.string.tv_profile_userservice), style = head6Semi, modifier = Modifier
                     .fillMaxWidth()
                     .height(30.dp)
             )
 
             Spacer(modifier = Modifier.height(20.dp))
             ProfileScreenItem(
-                text = "서비스 이용약관",
+                text = stringResource(R.string.tv_profile_userservice1),
                 onClick = {
                     navigateToWebsite(
                         context = context,
@@ -168,7 +167,7 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
             ProfileScreenItem(
-                text = "개인정보 처리방침",
+                text = stringResource(R.string.tv_profile_userservice2),
                 onClick = {
                     navigateToWebsite(
                         context = context,
@@ -179,7 +178,7 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
             ProfileScreenItem(
-                text = "버전 정보",
+                text = stringResource(R.string.tv_profile_userservice3),
                 onClick = {}
             )
 
@@ -198,23 +197,24 @@ fun ProfileScreen(
         Column(
             modifier = Modifier
                 .height(200.dp)
+                .padding(horizontal = 30.dp)
         ) {
             Text(
-                "기타", style = head6Semi, modifier = Modifier
-                    .padding(start = 30.dp)
+                stringResource(R.string.tv_profile_userservice4), style = head6Semi, modifier = Modifier
+
                     .fillMaxWidth()
                     .height(30.dp)
             )
 
             Spacer(modifier = Modifier.height(20.dp))
             ProfileScreenItem(
-                text = "고객센터",
+                text = stringResource(R.string.tv_profile_userservice5),
                 onClick = {}
             )
 
             Spacer(modifier = Modifier.height(20.dp))
             ProfileScreenItem(
-                text = "로그아웃",
+                text = stringResource(R.string.tv_profile_userservicelogout),
                 onClick = {
                     bottomSheetKeyword = "로그아웃"
                     showBottomSheet = true
@@ -223,7 +223,7 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
             ProfileScreenItem(
-                text = "회원 탈퇴",
+                text = stringResource(R.string.tv_profile_userservicedelete),
                 onClick = {
                     bottomSheetKeyword = "회원 탈퇴"
                     showBottomSheet = true
@@ -341,6 +341,7 @@ fun BottomSheetContent(
                         style = head7Bold
                     )
                 }
+                Spacer(modifier = Modifier.width(8.dp))
             }
         }
     }

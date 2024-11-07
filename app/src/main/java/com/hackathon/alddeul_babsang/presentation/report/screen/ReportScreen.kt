@@ -3,7 +3,7 @@ package com.hackathon.alddeul_babsang.presentation.report.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -31,6 +33,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.head6Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head7Bold
+import com.hackathon.alddeul_babsang.core_ui.theme.title4Bold
 import com.hackathon.alddeul_babsang.presentation.report.navigation.ReportNavigator
 
 @Composable
@@ -64,52 +67,58 @@ fun ReportScreen(
     onReportWriteClick: () -> Unit = {},
     babsangListViewModel: ReportBabsangViewModel
 ) {
-
-    Box {
-
+    Scaffold(
+        floatingActionButton = {
+            Button(
+                shape = RoundedCornerShape(40.dp),
+                onClick = { onReportWriteClick() },
+                contentPadding = PaddingValues(vertical = 20.dp, horizontal = 41.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Blue,
+                )
+            ) {
+                Text(
+                    text = stringResource(R.string.btn_report),
+                    style = title4Bold,
+                    color = White
+                )
+            }
+        }
+    ) { innerPadding ->
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
 
             modifier = Modifier
+                .padding(innerPadding)
                 .fillMaxSize()
                 .background(color = White)
-                .padding(horizontal = 20.dp, vertical = 25.dp)
+                .padding(horizontal = 20.dp)
         ) {
-
             item {
-                Text(stringResource(R.string.tv_report_title1), style = head7Bold, color = Gray900)
                 Text(
-                    stringResource(R.string.tv_report_title2),
+                    modifier = Modifier.padding(top = 25.dp),
+                    text = stringResource(R.string.tv_report_title1),
+                    style = head7Bold,
+                    color = Gray900
+                )
+                Text(
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    text = stringResource(R.string.tv_report_title2),
                     style = head6Bold,
                     color = Orange900
                 )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(stringResource(R.string.tv_report_title3), style = head7Bold, color = Gray900)
-
-                Spacer(modifier = Modifier.height(14.dp))
+                Text(
+                    modifier = Modifier.padding(bottom = 14.dp),
+                    text = stringResource(R.string.tv_report_title3),
+                    style = head7Bold, color = Gray900
+                )
             }
-
             items(babsangListViewModel.mockReportBabsang) { item ->
                 BabsangItem(
                     onClick = { onItemClick(item.id) },
                     data = item
                 )
             }
-        }
-
-        Button(
-            onClick = { onReportWriteClick() },
-            modifier = Modifier
-                .width(170.dp)
-                .height(70.dp)
-                .offset(y = -20.dp, x = -10.dp)
-                .align(Alignment.BottomEnd),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Blue, // 버튼 배경색
-                contentColor = White // 버튼 텍스트 색상
-            )
-        ) {
-            Text(text = "제보하러 가기", style = head7Bold) // 텍스트 색상은 흰색으로 설정
         }
     }
 }

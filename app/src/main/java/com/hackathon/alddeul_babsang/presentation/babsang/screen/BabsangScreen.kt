@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -93,9 +94,9 @@ fun BabsangScreen(
                 .background(color = White)
                 .padding(horizontal = 20.dp, vertical = 25.dp)
                 .verticalScroll(scrollState),
-
             ) {
             Text(
+                modifier = Modifier.padding(bottom = 15.dp),
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(color = Orange800)) {
                         append(stringResource(R.string.tv_babsang_recommend1))
@@ -108,12 +109,9 @@ fun BabsangScreen(
                 },
                 style = head6Semi
             )
-
-            Spacer(modifier = Modifier.height(10.dp))
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 items(babsangRecommendViewModel.mockBabsangRecommendList) { item ->
                     BabsangRecommendItem(
@@ -122,14 +120,11 @@ fun BabsangScreen(
                     )
                 }
             }
-
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Text(stringResource(R.string.tv_babsang_list), style = head6Semi)
-
-            Spacer(modifier = Modifier.height(15.dp))
-
+            Text(
+                modifier = Modifier.padding(top = 30.dp, bottom = 15.dp),
+                text = stringResource(R.string.tv_babsang_list),
+                style = head6Semi
+            )
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally

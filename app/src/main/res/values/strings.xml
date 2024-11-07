@@ -108,5 +108,6 @@
     <string name="tv_babsang_recommend3">추천</string>
     <string name="tv_babsang_recommend4">하는 밥상</string>
     <string name="tv_babsang_list">착한 밥상 리스트</string>
+    <string name="btn_report">제보하러 가기</string>
 
 </resources>

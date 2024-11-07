@@ -44,7 +44,6 @@ fun BabsangItem(
     onClick: () -> Unit = {},
     data: LikesEntity
 ) {
-
     var isFavorite by remember { mutableStateOf(data.favorite) }
 
     // 클릭할 때마다 favorite 값 토글
@@ -53,7 +52,6 @@ fun BabsangItem(
     } else {
         R.drawable.ic_heart_white
     }
-
 
     Column(
         modifier = Modifier
@@ -87,9 +85,7 @@ fun BabsangItem(
                     }
             )
         }
-
         Spacer(modifier = Modifier.height(15.dp))
-
         Row {
             Text(
                 text = data.name,
@@ -109,18 +105,14 @@ fun BabsangItem(
                     .padding(bottom = 3.dp)
             )
         }
-
         Spacer(modifier = Modifier.height(12.dp))
-
         Text(
             text = data.address,
             style = body4Regular,
             color = Gray300,
             modifier = Modifier.padding(start = 20.dp)
         )
-
         Spacer(modifier = Modifier.height(7.dp))
-
         Text(
             text = data.phone,
             style = body4Regular,

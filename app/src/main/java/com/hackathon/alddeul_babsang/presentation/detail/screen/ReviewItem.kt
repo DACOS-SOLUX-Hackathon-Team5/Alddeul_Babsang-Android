@@ -41,6 +41,7 @@ fun ReviewItem(
 ) {
     Row(
         modifier = Modifier
+            .padding(horizontal = 20.dp)
             .fillMaxWidth()
             .border(
                 width = 1.dp,

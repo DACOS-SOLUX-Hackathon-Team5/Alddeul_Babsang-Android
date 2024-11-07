@@ -1,4 +1,4 @@
-package com.hackathon.alddeul_babsang.app
+package com.hackathon.alddeul_babsang.app.di
 
 import com.sopt.data.service.ExampleApiService
 import dagger.Module

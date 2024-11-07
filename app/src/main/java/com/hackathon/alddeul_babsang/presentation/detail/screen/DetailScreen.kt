@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -77,16 +79,7 @@ fun DetailRoute(
     }
 
     DetailScreen(
-        data = BabsangDetailEntity(
-            id = 1,
-            name = "송이네 밥상",
-            codeName = "경양식/일식",
-            address = "서울특별시 용산구 청파동 11",
-            phone = "02-210-0220",
-            rating = 4.3,
-            menu = "김치찌개: 8000, 된장찌개 9000",
-            review = detailViewModel.mockReviews
-        ),
+        data = detailViewModel.mockDetail,
         onBackClick = { navigator.navigateBack() },
         onReviewClick = { id -> navigator.navigateReview(id) },
         detailViewModel = detailViewModel
@@ -101,8 +94,7 @@ fun DetailScreen(
     onReviewClick: (Long) -> Unit = {},
     detailViewModel: DetailViewModel
 ) {
-    var isFavorite by remember { mutableStateOf(false) }
-    val scrollState = rememberScrollState()
+    var isFavorite by remember { mutableStateOf(data.isFavorite) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -141,140 +133,140 @@ fun DetailScreen(
             )
         },
     ) { innerPadding ->
-
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .verticalScroll(scrollState)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .background(Orange700)
-                    .padding(horizontal = 20.dp)
-            ) {
-                AsyncImage(
-                    model = data.avatar ?: when (data.codeName) {
-                        "한식" -> R.drawable.ic_korean_food
-                        "중식" -> R.drawable.ic_chinese_food
-                        "경양식/일식" -> R.drawable.ic_japanese_food
-                        else -> R.drawable.ic_etc_food
-                    },
-                    contentDescription = null,
+            item {
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
                         .height(200.dp)
-                        .background(Orange400)
-                        .then(
-                            if (data.avatar == null) Modifier.size(100.dp) else Modifier
-                        ),
-                    contentScale = if (data.avatar == null) ContentScale.None else ContentScale.FillBounds,
-                    alignment = Alignment.Center
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(White)
-                    .padding(horizontal = 20.dp)
-            ) {
-                Column(
+                        .background(Orange700)
+                        .padding(horizontal = 20.dp)
+                ) {
+                    AsyncImage(
+                        model = data.avatar ?: when (data.codeName) {
+                            "한식" -> R.drawable.ic_korean_food
+                            "중식" -> R.drawable.ic_chinese_food
+                            "경양식/일식" -> R.drawable.ic_japanese_food
+                            else -> R.drawable.ic_etc_food
+                        },
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+                            .height(200.dp)
+                            .background(Orange400)
+                            .then(
+                                if (data.avatar == null) Modifier.size(100.dp) else Modifier
+                            ),
+                        contentScale = if (data.avatar == null) ContentScale.None else ContentScale.FillBounds,
+                        alignment = Alignment.Center
+                    )
+                }
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(
-                            color = White,
-                            shape = RoundedCornerShape(
-                                bottomStart = 10.dp,
-                                bottomEnd = 10.dp
-                            ),
-                        )
-                        .border(
-                            width = 1.dp,
-                            color = Orange700,
-                            shape = RoundedCornerShape(
-                                bottomStart = 10.dp,
-                                bottomEnd = 10.dp
-                            )
-                        )
-                        .padding(vertical = 12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .background(White)
+                        .padding(horizontal = 20.dp)
                 ) {
-                    Text(
-                        text = data.name,
-                        style = head4Bold,
-                        color = Gray900
-                    )
-                    Text(
-                        modifier = Modifier.padding(top = 15.dp),
-                        text = data.address,
-                        style = head7Regular,
-                        color = Gray300
-                    )
-                    Text(
-                        text = data.phone,
-                        style = head7Regular,
-                        color = Gray300
-                    )
-                    Spacer(modifier = Modifier.height(15.dp))
-                    Image(
-                        modifier = Modifier.size(width = 185.dp, height = 35.dp),
-                        painter = when (round(data.rating)) {
-                            in 0.0..1.4 -> painterResource(id = R.drawable.ic_star_one)
-                            in 1.5..2.4 -> painterResource(id = R.drawable.ic_star_two)
-                            in 2.5..3.4 -> painterResource(id = R.drawable.ic_star_three)
-                            in 3.5..4.4 -> painterResource(id = R.drawable.ic_star_four)
-                            in 4.5..5.0 -> painterResource(id = R.drawable.ic_star_five)
-                            else -> throw IllegalArgumentException("Invalid star value")
-                        },
-                        contentDescription = null
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = { onReviewClick(data.id) },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Blue
-                        )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                color = White,
+                                shape = RoundedCornerShape(
+                                    bottomStart = 10.dp,
+                                    bottomEnd = 10.dp
+                                ),
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = Orange700,
+                                shape = RoundedCornerShape(
+                                    bottomStart = 10.dp,
+                                    bottomEnd = 10.dp
+                                )
+                            )
+                            .padding(vertical = 12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = stringResource(R.string.btn_detail_review),
-                            style = body4Semi,
-                            color = White
+                            text = data.name,
+                            style = head4Bold,
+                            color = Gray900
                         )
+                        Text(
+                            modifier = Modifier.padding(top = 15.dp),
+                            text = data.address,
+                            style = head7Regular,
+                            color = Gray300
+                        )
+                        Text(
+                            text = data.phone,
+                            style = head7Regular,
+                            color = Gray300
+                        )
+                        Spacer(modifier = Modifier.height(15.dp))
+                        Image(
+                            modifier = Modifier.size(width = 185.dp, height = 35.dp),
+                            painter = when (round(data.rating)) {
+                                in 0.0..1.4 -> painterResource(id = R.drawable.ic_star_one)
+                                in 1.5..2.4 -> painterResource(id = R.drawable.ic_star_two)
+                                in 2.5..3.4 -> painterResource(id = R.drawable.ic_star_three)
+                                in 3.5..4.4 -> painterResource(id = R.drawable.ic_star_four)
+                                in 4.5..5.0 -> painterResource(id = R.drawable.ic_star_five)
+                                else -> throw IllegalArgumentException("Invalid star value")
+                            },
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(
+                            onClick = { onReviewClick(data.id) },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Blue
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(R.string.btn_detail_review),
+                                style = body4Semi,
+                                color = White
+                            )
+                        }
                     }
                 }
-            }
-            Spacer(modifier = Modifier.height(30.dp))
-            Column(
-                modifier = Modifier.padding(horizontal = 20.dp)
-            ) {
-                Text(
-                    modifier = Modifier.padding(bottom = 12.dp),
-                    text = stringResource(R.string.tv_detail_menu),
-                    style = head7Semi,
-                    color = Gray900
-                )
+                Spacer(modifier = Modifier.height(30.dp))
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(
-                            width = 1.dp,
-                            color = Gray200,
-                            shape = RoundedCornerShape(10.dp)
-                        )
-                        .padding(horizontal = 16.dp, vertical = 19.dp),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                    modifier = Modifier.padding(horizontal = 20.dp)
                 ) {
-                    for (item in detailViewModel.mockMenuList) {
-                        MenuItem(
-                            data = item
-                        )
+                    Text(
+                        modifier = Modifier.padding(bottom = 12.dp),
+                        text = stringResource(R.string.tv_detail_menu),
+                        style = head7Semi,
+                        color = Gray900
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(
+                                width = 1.dp,
+                                color = Gray200,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .padding(horizontal = 16.dp, vertical = 19.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        for (item in detailViewModel.mockMenuList) {
+                            MenuItem(
+                                data = item
+                            )
+                        }
                     }
                 }
                 Text(
-                    modifier = Modifier.padding(vertical = 12.dp),
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
                     text = stringResource(
                         R.string.tv_detail_review,
                         detailViewModel.mockReviews.size
@@ -282,15 +274,12 @@ fun DetailScreen(
                     style = head7Semi,
                     color = Gray900
                 )
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    for (item in detailViewModel.mockReviews) {
-                        ReviewItem(
-                            data = item
-                        )
-                    }
-                }
+            }
+            items(detailViewModel.mockReviews) { item ->
+                ReviewItem(
+                    data = item
+                )
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
@@ -301,25 +290,7 @@ fun DetailScreen(
 fun DetailScreenPreview() {
     AlddeulBabsangTheme {
         DetailScreen(
-            data = BabsangDetailEntity(
-                id = 1,
-                name = "송이네 밥상",
-                codeName = "한식",
-                address = "서울특별시 용산구 청파동 11",
-                phone = "02-210-0220",
-                rating = 4.5,
-                menu = "김치찌개: 8000, 된장찌개 9000",
-                review = listOf(
-                    ReviewEntity(
-                        id = 1,
-                        avatar = "",
-                        nickname = "김철수",
-                        star = 4.5,
-                        content = "맛있어요",
-                        createdAt = "2021-10-10"
-                    )
-                )
-            ),
+            data = DetailViewModel().mockDetail,
             detailViewModel = hiltViewModel()
         )
     }

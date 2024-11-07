@@ -9,5 +9,6 @@ data class BabsangDetailEntity(
     val phone: String,
     val rating: Double,
     val menu: String,
-    val review: List<ReviewEntity>
+    val review: List<ReviewEntity>,
+    var isFavorite: Boolean = false
 )

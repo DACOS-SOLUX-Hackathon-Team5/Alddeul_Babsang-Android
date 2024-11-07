@@ -40,7 +40,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
 
 @Composable
-fun BabsangItem(
+fun ReportItem(
     onClick: () -> Unit = {},
     data: LikesEntity
 ) {
@@ -93,9 +93,7 @@ fun BabsangItem(
                 color = Orange900,
                 modifier = Modifier.padding(start = 20.dp)
             )
-
             Spacer(modifier = Modifier.width(15.dp))
-
             Text(
                 text = data.codeName,
                 style = body2Regular,
@@ -130,8 +128,6 @@ fun LoadImageWithPlaceholder(codeName: String, imageUrl: String?) {
         "중식" -> R.drawable.ic_chinese_food
         else -> R.drawable.ic_etc_food
     }
-
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -170,7 +166,7 @@ fun LoadImageWithPlaceholder(codeName: String, imageUrl: String?) {
 @Composable
 fun BabsangItemPreview() {
     AlddeulBabsangTheme {
-        BabsangItem(
+        ReportItem(
             data = LikesEntity(
                 id = 1,
                 avatar = null,

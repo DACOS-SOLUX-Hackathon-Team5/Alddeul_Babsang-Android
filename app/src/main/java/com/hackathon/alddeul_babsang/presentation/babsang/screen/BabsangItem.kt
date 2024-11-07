@@ -41,7 +41,7 @@ import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
 import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeItem
 
 @Composable
-fun BabsangListItem(
+fun BabsangItem(
     onClick: () -> Unit = {},
     data: LikesEntity
 ) {

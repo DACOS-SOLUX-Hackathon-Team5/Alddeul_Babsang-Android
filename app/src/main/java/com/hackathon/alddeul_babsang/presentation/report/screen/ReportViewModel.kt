@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ReportBabsangViewModel @Inject constructor() : ViewModel() {
+class ReportViewModel @Inject constructor() : ViewModel() {
     val mockReportBabsang = listOf(
         LikesEntity(
             id = 1,

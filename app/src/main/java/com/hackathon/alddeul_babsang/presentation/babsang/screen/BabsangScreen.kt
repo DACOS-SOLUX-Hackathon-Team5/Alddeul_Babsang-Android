@@ -38,14 +38,13 @@ import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head6Semi
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavigator
-import com.hackathon.alddeul_babsang.presentation.report.screen.BabsangItem
+import com.hackathon.alddeul_babsang.presentation.report.screen.ReportItem
 
 @Composable
 fun BabsangRoute(
     navigator: BabsangNavigator
 ) {
     val babsangListViewModel: BabsangViewModel = hiltViewModel()
-    val babsangRecommendViewModel: BabsangRecommendViewModel = hiltViewModel()
     val systemUiController = rememberSystemUiController()
 
     SideEffect {
@@ -56,8 +55,7 @@ fun BabsangRoute(
 
     BabsangScreen(
         onItemClick = { id -> navigator.navigateDetail(id) },
-        babsangListViewModel = babsangListViewModel,
-        babsangRecommendViewModel = babsangRecommendViewModel
+        babsangViewModel = babsangListViewModel,
     )
 }
 
@@ -65,11 +63,8 @@ fun BabsangRoute(
 @Composable
 fun BabsangScreen(
     onItemClick: (Long) -> Unit = {},
-    babsangListViewModel: BabsangViewModel,
-    babsangRecommendViewModel: BabsangRecommendViewModel
+    babsangViewModel: BabsangViewModel,
 ) {
-    val scrollState = rememberScrollState()
-
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -87,59 +82,55 @@ fun BabsangScreen(
             )
         }
     ) { innerPadding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
                 .background(color = White)
-                .padding(horizontal = 20.dp, vertical = 25.dp)
-                .verticalScroll(scrollState),
-            ) {
-            Text(
-                modifier = Modifier.padding(bottom = 15.dp),
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(color = Orange800)) {
-                        append(stringResource(R.string.tv_babsang_recommend1))
+                .padding(horizontal = 20.dp)
+        ) {
+            item {
+                Text(
+                    modifier = Modifier.padding(bottom = 15.dp),
+                    text = buildAnnotatedString {
+                        withStyle(style = SpanStyle(color = Orange800)) {
+                            append(stringResource(R.string.tv_babsang_recommend1))
+                        }
+                        append(stringResource(R.string.tv_babsang_recommend2))
+                        withStyle(style = SpanStyle(color = Orange800)) {
+                            append(stringResource(R.string.tv_babsang_recommend3))
+                        }
+                        append(stringResource(R.string.tv_babsang_recommend4))
+                    },
+                    style = head6Semi
+                )
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(babsangViewModel.mockBabsangRecommendList) { item ->
+                        BabsangRecommendItem(
+                            onClick = { onItemClick(item.id) },
+                            data = item
+                        )
                     }
-                    append(stringResource(R.string.tv_babsang_recommend2))
-                    withStyle(style = SpanStyle(color = Orange800)) {
-                        append(stringResource(R.string.tv_babsang_recommend3))
-                    }
-                    append(stringResource(R.string.tv_babsang_recommend4))
-                },
-                style = head6Semi
-            )
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                items(babsangRecommendViewModel.mockBabsangRecommendList) { item ->
-                    BabsangRecommendItem(
-                        onClick = { onItemClick(item.id) },
-                        data = item
-                    )
                 }
+                Text(
+                    modifier = Modifier.padding(top = 30.dp, bottom = 15.dp),
+                    text = stringResource(R.string.tv_babsang_list),
+                    style = head6Semi
+                )
             }
-            Text(
-                modifier = Modifier.padding(top = 30.dp, bottom = 15.dp),
-                text = stringResource(R.string.tv_babsang_list),
-                style = head6Semi
-            )
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                for (item in babsangListViewModel.mockBabsang) {
-                    BabsangItem(
-                        onClick = { onItemClick(item.id) },
-                        data = item
-                    )
-                }
+            items(babsangViewModel.mockBabsang) { item ->
+                BabsangItem(
+                    onClick = { onItemClick(item.id) },
+                    data = item
+                )
+                Spacer(modifier = Modifier.height(16.dp))
             }
-        }}
+        }
 
-
-
+    }
 }
 
 @Preview(showBackground = true)
@@ -147,8 +138,7 @@ fun BabsangScreen(
 fun BabsangScreenPreview() {
     AlddeulBabsangTheme {
         BabsangScreen(
-            babsangListViewModel = hiltViewModel(),
-            babsangRecommendViewModel = hiltViewModel(),
+            babsangViewModel = hiltViewModel()
         )
     }
 }

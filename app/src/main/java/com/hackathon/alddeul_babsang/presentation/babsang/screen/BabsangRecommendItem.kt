@@ -48,7 +48,6 @@ fun BabsangRecommendItem(
     onClick: () -> Unit = {},
     data: BabsangRecommendEntity
 ) {
-
     Column(
         modifier = Modifier
             .width(170.dp)
@@ -63,7 +62,6 @@ fun BabsangRecommendItem(
         ) {
             // AsyncImage 로드
             ReplaceImage(data.codeName, data.avatar)
-
             Column(
                 modifier = Modifier
                     .padding(top = 110.dp)
@@ -95,13 +93,9 @@ fun BabsangRecommendItem(
                     style = body4Regular,
                     color = White
                 )
-
             }
-
         }
-
         Spacer(modifier = Modifier.height(15.dp))
-
         Row {
             Text(
                 text = data.name,
@@ -109,9 +103,7 @@ fun BabsangRecommendItem(
                 color = Orange900,
                 modifier = Modifier.padding(start = 20.dp)
             )
-
             Spacer(modifier = Modifier.width(15.dp))
-
             Text(
                 text = data.codeName,
                 style = body2Regular,
@@ -121,16 +113,13 @@ fun BabsangRecommendItem(
                     .padding(bottom = 3.dp)
             )
         }
-
         Spacer(modifier = Modifier.height(12.dp))
-
         Text(
             text = data.address,
             style = body4Regular,
             color = Gray300,
             modifier = Modifier.padding(start = 20.dp)
         )
-
         Spacer(modifier = Modifier.height(7.dp))
 
     }
@@ -144,14 +133,12 @@ fun ReplaceImage(codeName: String, imageUrl: String?) {
         "중식" -> R.drawable.ic_chinese_food
         else -> R.drawable.ic_etc_food
     }
-
     val backgroundColor = when (codeName) {
         "경양식/일식" -> Yellow
         "한식" -> Orange700
         "중식" -> Pink
         else -> Blue
     }
-
 
     Box(
         modifier = Modifier
@@ -182,7 +169,6 @@ fun ReplaceImage(codeName: String, imageUrl: String?) {
                     .fillMaxWidth()    // 가로는 꽉 차게
                     .fillMaxHeight()   // 세로도 꽉 차게
                     .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
-
             )
 
         }

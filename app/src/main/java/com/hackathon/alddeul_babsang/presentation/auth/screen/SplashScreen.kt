@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -29,6 +30,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Peach200
 import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.bmDohyeonRegular
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 
 @Composable
 fun SplashScreen(navController: NavController, modifier: Modifier = Modifier) {
@@ -38,6 +40,7 @@ fun SplashScreen(navController: NavController, modifier: Modifier = Modifier) {
         startY = 0.0f,
         endY = 1500f,
     )
+    val loginViewModel: LoginViewModel = hiltViewModel()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -47,9 +50,24 @@ fun SplashScreen(navController: NavController, modifier: Modifier = Modifier) {
 
     LaunchedEffect(Unit) {
         delay(2500)
-        navController.navigate("login") {
-            popUpTo(navController.graph.startDestinationId) {
-                inclusive = true
+        when {
+            (loginViewModel.getUserAccessToken().toString().isNotBlank() &&
+                    loginViewModel.getCheckLogin().first()) -> {
+                navController.navigate("main") {
+                    popUpTo("splash") {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            }
+
+            else -> {
+                navController.navigate("login") {
+                    popUpTo("splash") {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
             }
         }
     }

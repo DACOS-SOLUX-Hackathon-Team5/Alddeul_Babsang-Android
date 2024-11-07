@@ -79,13 +79,21 @@
     <string name="tv_profile_asklogout">로그아웃 하시겠습니까?</string>
     <string name="tv_profilelikelist_title">좋아요 목록</string>
     <string name="tv_profile_nickname">닉네임</string>
-    <string name="tv_profile_userservice">이용안내</string>
-    <string name="tv_profile_userservice1">서비스 이용약관</string>
-    <string name="tv_profile_userservice2">개인정보 처리방침</string>
-    <string name="tv_profile_userservice3">버전 정보</string>
-    <string name="tv_profile_userservice4">기타</string>
-    <string name="tv_profile_userservice5">고객센터</string>
-    <string name="tv_profile_userservicelogout">로그아웃</string>
-    <string name="tv_profile_userservicedelete">회원 탈퇴</string>
+    <string name="tv_profile_notice">이용안내</string>
+    <string name="tv_profile_service">서비스 이용약관</string>
+    <string name="tv_profile_privacy">개인정보 처리방침</string>
+    <string name="tv_profile_version">버전 정보</string>
+    <string name="tv_profile_etc">기타</string>
+    <string name="tv_profile_customer_center">고객센터</string>
+    <string name="tv_profile_logout">로그아웃</string>
+    <string name="tv_profile_quit">회원 탈퇴</string>
+    <string name="url_profile_service">https://flowery-alloy-47e.notion.site/1336b8d0ab7b8019a7a9da0d80ff285b</string>
+    <string name="url_profile_privacy">https://flowery-alloy-47e.notion.site/1336b8d0ab7b80949a59fe847a7e94d8</string>
+
+    <!-- 좋아요 목록 페이지 -->
+    <string name="tv_like_history">좋아요 히스토리</string>
+    <string name="tv_like_connection">를 바탕으로\n</string>
+    <string name="tv_like_recommend">밥상을 추천</string>
+    <string name="tv_like_end">해드려요</string>
 
 </resources>

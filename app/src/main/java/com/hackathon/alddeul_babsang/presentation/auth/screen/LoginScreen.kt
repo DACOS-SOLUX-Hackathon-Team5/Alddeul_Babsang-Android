@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.component.AlddeulButton
@@ -46,6 +47,7 @@ fun LoginRoute(
 ) {
     val systemUiController = rememberSystemUiController()
     val keyboardController = LocalSoftwareKeyboardController.current
+    val loginViewModel: LoginViewModel = hiltViewModel()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -56,6 +58,10 @@ fun LoginRoute(
     LoginScreen(
         onLoginClick = {
             keyboardController?.hide()
+            loginViewModel.apply {
+                saveCheckLogin(true)
+                saveUserAccessToken("111")
+            }
             navigator.navigateMain()
         },
         onSignUpClick = { navigator.navigateSignUp1() }

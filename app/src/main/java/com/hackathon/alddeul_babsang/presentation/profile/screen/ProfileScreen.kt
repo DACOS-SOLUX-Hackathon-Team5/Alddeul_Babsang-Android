@@ -44,6 +44,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
@@ -61,6 +62,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.head6Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.head7Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.title2Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.title4Bold
+import com.hackathon.alddeul_babsang.presentation.auth.screen.LoginViewModel
 import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavigator
 import kotlinx.coroutines.launch
 
@@ -70,6 +72,7 @@ fun ProfileRoute(
     navigator: ProfileNavigator
 ) {
     val systemUiController = rememberSystemUiController()
+    val loginViewModel: LoginViewModel = hiltViewModel()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -79,7 +82,10 @@ fun ProfileRoute(
 
     ProfileScreen(
         onLikeClick = { navigator.navigateLike() },
-        onBackClick = { navigator.navigateLogin() }
+        onBackClick = {
+            loginViewModel.clear()
+            navigator.navigateLogin()
+        }
     )
 }
 

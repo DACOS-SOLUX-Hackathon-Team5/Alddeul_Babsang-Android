@@ -1,4 +1,4 @@
-package com.hackathon.alddeul_babsang.app
+package com.hackathon.alddeul_babsang.app.di
 
 import com.hackathon.alddeul_babsang.data.datasource.ExampleDataSource
 import com.hackathon.alddeul_babsang.data.datasource.UserPreferencesDataSource

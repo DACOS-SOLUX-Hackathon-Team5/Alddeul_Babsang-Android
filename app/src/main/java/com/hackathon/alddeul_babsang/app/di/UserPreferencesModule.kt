@@ -1,4 +1,4 @@
-package com.hackathon.alddeul_babsang.app
+package com.hackathon.alddeul_babsang.app.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore

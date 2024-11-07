@@ -99,4 +99,14 @@
     <!-- 착한 밥상 페이지 -->
     <string name="tv_babsang_title">착한 밥상</string>
 
+    <!-- 예비 착한 밥상 페이지 -->
+    <string name="tv_report_title1">직접 제보받은</string>
+    <string name="tv_report_title2">착한 밥상 후보 리스트</string>
+    <string name="tv_report_title3">제보와 후기로 쌓아 보아요</string>
+    <string name="tv_babsang_recommend1">알뜰 밥상</string>
+    <string name="tv_babsang_recommend2">"이 "</string>
+    <string name="tv_babsang_recommend3">추천</string>
+    <string name="tv_babsang_recommend4">하는 밥상</string>
+    <string name="tv_babsang_list">착한 밥상 리스트</string>
+
 </resources>

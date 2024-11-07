@@ -2,11 +2,9 @@ package com.hackathon.alddeul_babsang.presentation.babsang.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -17,21 +15,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
@@ -48,13 +39,11 @@ import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body7Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head5Bold
-import com.hackathon.alddeul_babsang.domain.entity.BabsangListEntity
 import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
-import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavigator
 
 @Composable
 fun BabsangRecommendItem(
-    navigator: BabsangNavigator,
+    onClick: () -> Unit = {},
     data: BabsangRecommendEntity
 ) {
 
@@ -62,15 +51,13 @@ fun BabsangRecommendItem(
         modifier = Modifier
             .width(170.dp)
             .height(192.dp)
-            .clickable(onClick = {
-                navigator.navigateDetail(data.id)
-            })
+            .clickable(onClick = { onClick() })
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .clip(RoundedCornerShape(10.dp))
+                .clip(RoundedCornerShape(14.dp))
         ) {
             // AsyncImage 로드
             ReplaceImage(data.codeName, data.avatar)
@@ -84,7 +71,7 @@ fun BabsangRecommendItem(
                     modifier = Modifier
                         .width(34.dp)
                         .height(17.dp)
-                        .clip(RoundedCornerShape(50.dp))
+                        .clip(RoundedCornerShape(6.dp))
                         .background(White),
                     contentAlignment = Alignment.Center
 
@@ -196,12 +183,8 @@ fun ReplaceImage(codeName: String, imageUrl: String?) {
 @Preview(showBackground = true)
 @Composable
 fun BabsangRecommendItemPreview() {
-    val navController = rememberNavController()
-    val navigator = BabsangNavigator(navController)
-
     AlddeulBabsangTheme {
         BabsangRecommendItem(
-            navigator = navigator,
             data = BabsangRecommendEntity(
                 id = 1,
                 avatar = null,

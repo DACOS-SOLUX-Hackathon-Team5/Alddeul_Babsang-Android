@@ -1,14 +1,16 @@
 package com.hackathon.alddeul_babsang.presentation.babsang.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -27,26 +29,23 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray900
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange800
-import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
-import com.hackathon.alddeul_babsang.core_ui.theme.head6Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head6Semi
-import com.hackathon.alddeul_babsang.core_ui.theme.head7Bold
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavigator
-import com.hackathon.alddeul_babsang.presentation.profile.screen.BabsangListViewModel
+import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeViewModel
+import com.hackathon.alddeul_babsang.presentation.report.screen.BabsangItem
 
 @Composable
 fun BabsangRoute(
     navigator: BabsangNavigator
 ) {
-    val babsangListViewModel: BabsangListViewModel = hiltViewModel()
+    val babsangListViewModel: LikeViewModel = hiltViewModel()
     val babsangRecommendViewModel: BabsangRecommendViewModel = hiltViewModel()
     val systemUiController = rememberSystemUiController()
 
@@ -57,7 +56,7 @@ fun BabsangRoute(
     }
 
     BabsangScreen(
-        navigator = navigator,  // navController 대신 navigator 전달
+        onItemClick = { id -> navigator.navigateDetail(id) },
         babsangListViewModel = babsangListViewModel,
         babsangRecommendViewModel = babsangRecommendViewModel
     )
@@ -66,12 +65,12 @@ fun BabsangRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BabsangScreen(
-    navigator: BabsangNavigator,
-    babsangListViewModel: BabsangListViewModel,
+    onItemClick: (Long) -> Unit = {},
+    babsangListViewModel: LikeViewModel,
     babsangRecommendViewModel: BabsangRecommendViewModel
 ) {
     val scrollState = rememberScrollState()
-    val rowScrollState = rememberScrollState()
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -101,26 +100,26 @@ fun BabsangScreen(
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(color = Orange800)) {
-                        append("알뜰 밥상")
+                        append(stringResource(R.string.tv_babsang_recommend1))
                     }
-                    append("이 ")
+                    append(stringResource(R.string.tv_babsang_recommend2))
                     withStyle(style = SpanStyle(color = Orange800)) {
-                        append("추천")
+                        append(stringResource(R.string.tv_babsang_recommend3))
                     }
-                    append("하는 밥상")
+                    append(stringResource(R.string.tv_babsang_recommend4))
                 },
                 style = head6Semi
             )
 
             Spacer(modifier = Modifier.height(10.dp))
-            Row(
+            LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
-                    .horizontalScroll(rowScrollState)
+                    .fillMaxWidth()
             ) {
-                for (item in babsangRecommendViewModel.mockBabsangRecommendList) {
+                items(babsangRecommendViewModel.mockBabsangRecommendList) { item ->
                     BabsangRecommendItem(
-                        navigator = navigator,
+                        onClick = { onItemClick(item.id) },
                         data = item
                     )
                 }
@@ -129,7 +128,7 @@ fun BabsangScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            Text("착한 밥상 리스트", style = head6Semi)
+            Text(stringResource(R.string.tv_babsang_list), style = head6Semi)
 
             Spacer(modifier = Modifier.height(15.dp))
 
@@ -137,9 +136,9 @@ fun BabsangScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                for (item in babsangListViewModel.mockLikeList) {
-                    BabsangListItem(
-                        navigator = navigator,
+                for (item in babsangListViewModel.mockLikes) {
+                    BabsangItem(
+                        onClick = { onItemClick(item.id) },
                         data = item
                     )
                 }
@@ -148,22 +147,15 @@ fun BabsangScreen(
 
 
 
-
 }
 
 @Preview(showBackground = true)
 @Composable
 fun BabsangScreenPreview() {
-    val babsangListViewModel: BabsangListViewModel = hiltViewModel()
-    val babsangRecommendViewModel: BabsangRecommendViewModel = hiltViewModel()
-    val navController = rememberNavController()
-    val navigator = BabsangNavigator(navController)
-
     AlddeulBabsangTheme {
         BabsangScreen(
-            navigator = navigator,
-            babsangListViewModel = babsangListViewModel,
-            babsangRecommendViewModel = babsangRecommendViewModel
+            babsangListViewModel = hiltViewModel(),
+            babsangRecommendViewModel = hiltViewModel(),
         )
     }
 }

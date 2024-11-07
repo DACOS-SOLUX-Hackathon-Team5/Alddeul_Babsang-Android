@@ -1,7 +1,6 @@
 package com.hackathon.alddeul_babsang.presentation.babsang.screen
 
 import androidx.lifecycle.ViewModel
-import com.hackathon.alddeul_babsang.domain.entity.BabsangListEntity
 import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

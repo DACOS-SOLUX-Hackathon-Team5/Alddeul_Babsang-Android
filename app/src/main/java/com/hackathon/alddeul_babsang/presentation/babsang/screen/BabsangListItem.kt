@@ -27,7 +27,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
@@ -38,16 +37,15 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
-import com.hackathon.alddeul_babsang.domain.entity.BabsangListEntity
-import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavigator
+import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
+import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeItem
 
 @Composable
 fun BabsangListItem(
-    navigator: BabsangNavigator,
-    data: BabsangListEntity
+    onClick: () -> Unit = {},
+    data: LikesEntity
 ) {
-
-    var isFavorite by remember { mutableStateOf(data.favorite ?: false) }
+    var isFavorite by remember { mutableStateOf(data.favorite) }
 
     // 클릭할 때마다 favorite 값 토글
     val heartIconId = if (isFavorite) {
@@ -55,7 +53,6 @@ fun BabsangListItem(
     } else {
         R.drawable.ic_heart_white
     }
-
 
     Column(
         modifier = Modifier
@@ -65,10 +62,7 @@ fun BabsangListItem(
                 color = Orange700,
                 shape = RoundedCornerShape(14.dp)
             )
-            .height(240.dp)
-            .clickable(onClick = {
-                navigator.navigateDetail(data.id)
-            })
+            .clickable(onClick = { onClick() })
     ) {
         Box(
             modifier = Modifier
@@ -77,23 +71,20 @@ fun BabsangListItem(
                 .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
         ) {
             // AsyncImage 로드
-            ReplaceBabsangListImage(data.codeName, data.avatar)
-
+            ReplaceImage2(data.codeName, data.avatar)
             Image(
                 painter = painterResource(heartIconId),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(end = 10.dp, top = 10.dp)
-                    .align(Alignment.TopEnd) // Box 내에서 오른쪽 끝으로 배치
+                    .align(Alignment.TopEnd)
                     .clickable {
                         // 클릭 시 좋아요 상태를 토글
                         isFavorite = !isFavorite
                     }
             )
         }
-
         Spacer(modifier = Modifier.height(15.dp))
-
         Row {
             Text(
                 text = data.name,
@@ -101,9 +92,7 @@ fun BabsangListItem(
                 color = Orange900,
                 modifier = Modifier.padding(start = 20.dp)
             )
-
             Spacer(modifier = Modifier.width(15.dp))
-
             Text(
                 text = data.codeName,
                 style = body2Regular,
@@ -113,36 +102,31 @@ fun BabsangListItem(
                     .padding(bottom = 3.dp)
             )
         }
-
         Spacer(modifier = Modifier.height(12.dp))
-
         Text(
             text = data.address,
             style = body4Regular,
             color = Gray300,
             modifier = Modifier.padding(start = 20.dp)
         )
-
         Spacer(modifier = Modifier.height(7.dp))
-
         Text(
             text = data.phone,
             style = body4Regular,
             color = Gray300,
-            modifier = Modifier.padding(start = 20.dp)
+            modifier = Modifier.padding(start = 20.dp, bottom = 20.dp)
         )
     }
 }
 
 @Composable
-fun ReplaceBabsangListImage(codeName: String, imageUrl: String?) {
+fun ReplaceImage2(codeName: String, imageUrl: String?) {
     val imageId = when (codeName) {
         "경양식/일식" -> R.drawable.ic_japanese_food
         "한식" -> R.drawable.ic_korean_food
         "중식" -> R.drawable.ic_chinese_food
         else -> R.drawable.ic_etc_food
     }
-
 
     Box(
         modifier = Modifier
@@ -171,9 +155,7 @@ fun ReplaceBabsangListImage(codeName: String, imageUrl: String?) {
                     .fillMaxWidth()    // 가로는 꽉 차게
                     .fillMaxHeight()   // 세로도 꽉 차게
                     .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
-
             )
-
         }
     }
 }
@@ -181,13 +163,9 @@ fun ReplaceBabsangListImage(codeName: String, imageUrl: String?) {
 @Preview(showBackground = true)
 @Composable
 fun BabsangListItemPreview() {
-    val navController = rememberNavController()
-    val navigator = BabsangNavigator(navController)
-
     AlddeulBabsangTheme {
-        BabsangListItem(
-            navigator = navigator,
-            data = BabsangListEntity(
+        LikeItem(
+            data = LikesEntity(
                 id = 1,
                 avatar = null,
                 name = "송이네 밥상",

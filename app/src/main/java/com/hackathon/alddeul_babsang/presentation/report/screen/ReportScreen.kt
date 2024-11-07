@@ -3,15 +3,17 @@ package com.hackathon.alddeul_babsang.presentation.report.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -19,20 +21,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
-import com.hackathon.alddeul_babsang.core_ui.theme.*
-import com.hackathon.alddeul_babsang.domain.entity.BabsangListEntity
-import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavigator
-import com.hackathon.alddeul_babsang.presentation.profile.screen.BabsangListViewModel
-import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeItem
+import com.hackathon.alddeul_babsang.core_ui.theme.Blue
+import com.hackathon.alddeul_babsang.core_ui.theme.Gray900
+import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
+import com.hackathon.alddeul_babsang.core_ui.theme.White
+import com.hackathon.alddeul_babsang.core_ui.theme.head6Bold
+import com.hackathon.alddeul_babsang.core_ui.theme.head7Bold
+import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeViewModel
 import com.hackathon.alddeul_babsang.presentation.report.navigation.ReportNavigator
 
 @Composable
@@ -40,7 +42,7 @@ fun ReportRoute(
     navigator: ReportNavigator
 ) {
 
-    val babsangListViewModel: BabsangListViewModel = hiltViewModel()
+    val babsangListViewModel: LikeViewModel = hiltViewModel()
     val systemUiController = rememberSystemUiController()
 
     SideEffect {
@@ -50,10 +52,11 @@ fun ReportRoute(
     }
 
     ReportScreen(
+        onItemClick = { id -> navigator.navigateDetail(id) },
         onReportWriteClick = {
             navigator.navigateReportWrite()
         },
-        navigator = navigator,  // navController 대신 navigator 전달
+
         babsangListViewModel = babsangListViewModel
     )
 
@@ -61,74 +64,69 @@ fun ReportRoute(
 
 @Composable
 fun ReportScreen(
+    onItemClick: (Long) -> Unit = {},
     onReportWriteClick: () -> Unit = {},
-    navigator: ReportNavigator,
-    babsangListViewModel: BabsangListViewModel
+    babsangListViewModel: LikeViewModel
 ) {
 
+    Box {
 
-    val scrollState = rememberScrollState()
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
 
-    Box{
-        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = White)
                 .padding(horizontal = 20.dp, vertical = 25.dp)
-                .verticalScroll(scrollState),
+        ) {
 
-            ) {
-            Text("직접 제보받은", style = head7Bold, color = Gray900)
-            Text("착한 밥상 후보 리스트", style = head6Bold, color = Orange900)
-            Spacer(modifier = Modifier.height(10.dp))
-            Text("제보와 후기로 쌓아 보아요", style = head7Bold, color = Gray900)
+            item {
+                Text(stringResource(R.string.tv_report_title1), style = head7Bold, color = Gray900)
+                Text(
+                    stringResource(R.string.tv_report_title2),
+                    style = head6Bold,
+                    color = Orange900
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(stringResource(R.string.tv_report_title3), style = head7Bold, color = Gray900)
 
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                for (item in babsangListViewModel.mockLikeList) {
-                    BabsangItem(
-                        navigator = navigator,
-                        data = item
-                    )
-                }
+                Spacer(modifier = Modifier.height(14.dp))
             }
 
+            items(babsangListViewModel.mockLikes) { item ->
+                BabsangItem(
+                    onClick = { onItemClick(item.id) },
+                    data = item
+                )
+            }
         }
+
         Button(
             onClick = { onReportWriteClick() },
             modifier = Modifier
                 .width(170.dp)
                 .height(70.dp)
-                .offset(y = -20.dp, x=-10.dp)
+                .offset(y = -20.dp, x = -10.dp)
                 .align(Alignment.BottomEnd),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Blue, // 버튼 배경색
                 contentColor = White // 버튼 텍스트 색상
             )
         ) {
-            Text(text = "제보하러 가기", style= head7Bold) // 텍스트 색상은 흰색으로 설정
+            Text(text = "제보하러 가기", style = head7Bold) // 텍스트 색상은 흰색으로 설정
         }
-
     }
-
 }
 
 
 @Preview
 @Composable
 fun ReportScreenPreview() {
-    val babsangListViewModel: BabsangListViewModel = hiltViewModel()
-    val navController = rememberNavController()
-    val navigator = ReportNavigator(navController)
+    val babsangListViewModel: LikeViewModel = hiltViewModel()
     AlddeulBabsangTheme {
         ReportScreen(
             onReportWriteClick = {
             },
-            navigator = navigator,
             babsangListViewModel = babsangListViewModel
         )
 

@@ -27,7 +27,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
@@ -38,17 +37,15 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
-import com.hackathon.alddeul_babsang.domain.entity.BabsangListEntity
-import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavigator
-import com.hackathon.alddeul_babsang.presentation.report.navigation.ReportNavigator
+import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
 
 @Composable
 fun BabsangItem(
-    navigator: ReportNavigator,
-    data: BabsangListEntity
+    onClick: () -> Unit = {},
+    data: LikesEntity
 ) {
 
-    var isFavorite by remember { mutableStateOf(data.favorite ?: false) }
+    var isFavorite by remember { mutableStateOf(data.favorite) }
 
     // 클릭할 때마다 favorite 값 토글
     val heartIconId = if (isFavorite) {
@@ -67,9 +64,7 @@ fun BabsangItem(
                 shape = RoundedCornerShape(14.dp)
             )
             .height(240.dp)
-            .clickable(onClick = {
-                navigator.navigateDetail(data.id)
-            })
+            .clickable(onClick = { onClick() })
     ) {
         Box(
             modifier = Modifier
@@ -182,13 +177,9 @@ fun LoadImageWithPlaceholder(codeName: String, imageUrl: String?) {
 @Preview(showBackground = true)
 @Composable
 fun BabsangItemPreview() {
-    val navController = rememberNavController()
-    val navigator = ReportNavigator(navController)
-
     AlddeulBabsangTheme {
         BabsangItem(
-            navigator = navigator,
-            data = BabsangListEntity(
+            data = LikesEntity(
                 id = 1,
                 avatar = null,
                 name = "송이네 밥상",

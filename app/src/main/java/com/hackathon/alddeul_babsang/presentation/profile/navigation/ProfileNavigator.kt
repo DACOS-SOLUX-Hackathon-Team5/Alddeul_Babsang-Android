@@ -16,7 +16,7 @@ class ProfileNavigator(
 
     fun navigateLogin() {
         navController.navigate("login") {
-            popUpTo("profile") { inclusive = true }
+            popUpTo(0) { inclusive = true }
             launchSingleTop = true
         }
 

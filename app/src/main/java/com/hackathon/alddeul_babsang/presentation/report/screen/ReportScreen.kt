@@ -3,11 +3,8 @@ package com.hackathon.alddeul_babsang.presentation.report.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -34,7 +31,6 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.head6Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head7Bold
-import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeViewModel
 import com.hackathon.alddeul_babsang.presentation.report.navigation.ReportNavigator
 
 @Composable
@@ -42,7 +38,7 @@ fun ReportRoute(
     navigator: ReportNavigator
 ) {
 
-    val babsangListViewModel: LikeViewModel = hiltViewModel()
+    val babsangListViewModel: ReportBabsangViewModel = hiltViewModel()
     val systemUiController = rememberSystemUiController()
 
     SideEffect {
@@ -66,7 +62,7 @@ fun ReportRoute(
 fun ReportScreen(
     onItemClick: (Long) -> Unit = {},
     onReportWriteClick: () -> Unit = {},
-    babsangListViewModel: LikeViewModel
+    babsangListViewModel: ReportBabsangViewModel
 ) {
 
     Box {
@@ -93,7 +89,7 @@ fun ReportScreen(
                 Spacer(modifier = Modifier.height(14.dp))
             }
 
-            items(babsangListViewModel.mockLikes) { item ->
+            items(babsangListViewModel.mockReportBabsang) { item ->
                 BabsangItem(
                     onClick = { onItemClick(item.id) },
                     data = item
@@ -122,7 +118,7 @@ fun ReportScreen(
 @Preview
 @Composable
 fun ReportScreenPreview() {
-    val babsangListViewModel: LikeViewModel = hiltViewModel()
+    val babsangListViewModel: ReportBabsangViewModel = hiltViewModel()
     AlddeulBabsangTheme {
         ReportScreen(
             onReportWriteClick = {

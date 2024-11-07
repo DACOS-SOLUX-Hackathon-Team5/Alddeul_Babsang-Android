@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -38,14 +37,13 @@ import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head6Semi
 import com.hackathon.alddeul_babsang.presentation.babsang.navigation.BabsangNavigator
-import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeViewModel
 import com.hackathon.alddeul_babsang.presentation.report.screen.BabsangItem
 
 @Composable
 fun BabsangRoute(
     navigator: BabsangNavigator
 ) {
-    val babsangListViewModel: LikeViewModel = hiltViewModel()
+    val babsangListViewModel: BabsangViewModel = hiltViewModel()
     val babsangRecommendViewModel: BabsangRecommendViewModel = hiltViewModel()
     val systemUiController = rememberSystemUiController()
 
@@ -66,7 +64,7 @@ fun BabsangRoute(
 @Composable
 fun BabsangScreen(
     onItemClick: (Long) -> Unit = {},
-    babsangListViewModel: LikeViewModel,
+    babsangListViewModel: BabsangViewModel,
     babsangRecommendViewModel: BabsangRecommendViewModel
 ) {
     val scrollState = rememberScrollState()
@@ -136,7 +134,7 @@ fun BabsangScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                for (item in babsangListViewModel.mockLikes) {
+                for (item in babsangListViewModel.mockBabsang) {
                     BabsangItem(
                         onClick = { onItemClick(item.id) },
                         data = item

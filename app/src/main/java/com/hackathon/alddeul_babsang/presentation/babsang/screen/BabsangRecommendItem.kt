@@ -35,11 +35,14 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
+import com.hackathon.alddeul_babsang.core_ui.theme.Blue
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray300
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange700
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange800
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
+import com.hackathon.alddeul_babsang.core_ui.theme.Pink
 import com.hackathon.alddeul_babsang.core_ui.theme.White
+import com.hackathon.alddeul_babsang.core_ui.theme.Yellow
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body7Semi
@@ -57,11 +60,6 @@ fun BabsangRecommendItem(
 
     Column(
         modifier = Modifier
-            .border(
-                width = 1.dp,
-                color = Orange700,
-                shape = RoundedCornerShape(14.dp)
-            )
             .width(170.dp)
             .height(192.dp)
             .clickable(onClick = {
@@ -88,6 +86,7 @@ fun BabsangRecommendItem(
                         .height(17.dp)
                         .clip(RoundedCornerShape(50.dp))
                         .background(White),
+                    contentAlignment = Alignment.Center
 
                     ){
                     Text(data.address, textAlign = TextAlign.Center, style = body7Semi)
@@ -151,10 +150,10 @@ fun ReplaceImage(codeName: String, imageUrl: String?) {
     }
 
     val backgroundColor = when (codeName) {
-        "경양식/일식" -> Orange700
-        "한식" -> Color(0xFAB935)
-        "중식" -> Color(0xFAB935)
-        else -> Color(0xFAB935)
+        "경양식/일식" -> Yellow
+        "한식" -> Orange700
+        "중식" -> Pink
+        else -> Blue
     }
 
 
@@ -162,7 +161,7 @@ fun ReplaceImage(codeName: String, imageUrl: String?) {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(color = Orange700) // 배경색 설정
+            .background(color = backgroundColor) // 배경색 설정
     ) {
         if (imageUrl.isNullOrEmpty()) {
             // imageUrl이 null이나 empty일 경우 대체 이미지 표시
@@ -175,7 +174,6 @@ fun ReplaceImage(codeName: String, imageUrl: String?) {
                     .padding(horizontal = 15.dp)
                     .padding(bottom = 80.dp)
                     .padding(top = 15.dp)
-                    .background(color = backgroundColor)
             )
         } else {
             // imageUrl이 null이 아니면 AsyncImage로 비동기 이미지 로드

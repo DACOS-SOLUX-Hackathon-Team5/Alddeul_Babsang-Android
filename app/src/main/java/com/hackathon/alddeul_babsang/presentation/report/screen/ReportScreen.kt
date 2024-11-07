@@ -2,15 +2,18 @@ package com.hackathon.alddeul_babsang.presentation.report.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -66,44 +69,52 @@ fun ReportScreen(
 
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = White)
-            .padding(horizontal = 20.dp, vertical = 25.dp)
-            .verticalScroll(scrollState),
-
-        ) {
-        Text("직접 제보받은", style = head7Bold, color = Gray900)
-        Text("착한 밥상 후보 리스트", style = head6Bold, color = Orange900)
-        Spacer(modifier = Modifier.height(10.dp))
-        Text("제보와 후기로 쌓아 보아요", style = head7Bold, color = Gray900)
-
-        Spacer(modifier = Modifier.height(30.dp))
-
+    Box{
         Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            for (item in babsangListViewModel.mockLikeList) {
-                BabsangItem(
-                    navigator = navigator,
-                    data = item
-                )
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = White)
+                .padding(horizontal = 20.dp, vertical = 25.dp)
+                .verticalScroll(scrollState),
+
+            ) {
+            Text("직접 제보받은", style = head7Bold, color = Gray900)
+            Text("착한 밥상 후보 리스트", style = head6Bold, color = Orange900)
+            Spacer(modifier = Modifier.height(10.dp))
+            Text("제보와 후기로 쌓아 보아요", style = head7Bold, color = Gray900)
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                for (item in babsangListViewModel.mockLikeList) {
+                    BabsangItem(
+                        navigator = navigator,
+                        data = item
+                    )
+                }
             }
+
+        }
+        Button(
+            onClick = { onReportWriteClick() },
+            modifier = Modifier
+                .width(170.dp)
+                .height(70.dp)
+                .offset(y = -20.dp, x=-10.dp)
+                .align(Alignment.BottomEnd),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Blue, // 버튼 배경색
+                contentColor = White // 버튼 텍스트 색상
+            )
+        ) {
+            Text(text = "제보하러 가기", style= head7Bold) // 텍스트 색상은 흰색으로 설정
         }
 
-
-
-
-
-
-
-
-        Button(onClick = { onReportWriteClick() }) {
-            Text(text = "제보하러 가기")
-        }
     }
+
 }
 
 

@@ -78,7 +78,7 @@ fun ProfileRoute(
     }
 
     ProfileScreen(
-        onLikeClick = { navigator.navigateProfileLikeList() },
+        onLikeClick = { navigator.navigateLike() },
         onBackClick = { navigator.navigateLogin() }
     )
 }
@@ -154,7 +154,7 @@ fun ProfileScreen(
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
             )
-            ProfileScreenItem(
+            ProfileItem(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(R.string.tv_profile_service),
                 onClick = {
@@ -164,7 +164,7 @@ fun ProfileScreen(
                     )
                 }
             )
-            ProfileScreenItem(
+            ProfileItem(
                 text = stringResource(R.string.tv_profile_privacy),
                 onClick = {
                     navigateToWebsite(
@@ -173,7 +173,7 @@ fun ProfileScreen(
                     )
                 }
             )
-            ProfileScreenItem(
+            ProfileItem(
                 text = stringResource(R.string.tv_profile_version),
                 onClick = {}
             )
@@ -191,18 +191,18 @@ fun ProfileScreen(
                     .fillMaxWidth()
                     .padding(top = 30.dp, bottom = 16.dp),
             )
-            ProfileScreenItem(
+            ProfileItem(
                 text = stringResource(R.string.tv_profile_customer_center),
                 onClick = {}
             )
-            ProfileScreenItem(
+            ProfileItem(
                 text = stringResource(R.string.tv_profile_logout),
                 onClick = {
                     bottomSheetKeyword = "로그아웃"
                     showBottomSheet = true
                 }
             )
-            ProfileScreenItem(
+            ProfileItem(
                 text = stringResource(R.string.tv_profile_quit),
                 onClick = {
                     bottomSheetKeyword = "회원 탈퇴"

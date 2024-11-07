@@ -90,4 +90,10 @@
     <string name="url_profile_service">https://flowery-alloy-47e.notion.site/1336b8d0ab7b8019a7a9da0d80ff285b</string>
     <string name="url_profile_privacy">https://flowery-alloy-47e.notion.site/1336b8d0ab7b80949a59fe847a7e94d8</string>
 
+    <!-- 좋아요 목록 페이지 -->
+    <string name="tv_like_history">좋아요 히스토리</string>
+    <string name="tv_like_connection">를 바탕으로\n</string>
+    <string name="tv_like_recommend">밥상을 추천</string>
+    <string name="tv_like_end">해드려요</string>
+
 </resources>

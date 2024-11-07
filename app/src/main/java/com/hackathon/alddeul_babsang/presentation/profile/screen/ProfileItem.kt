@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,7 +21,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.body1Semi
 
 
 @Composable
-fun ProfileScreenItem(
+fun ProfileItem(
     modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit
@@ -57,7 +56,7 @@ fun ProfileScreenItem(
 @Preview
 @Composable
 fun ProfileScreenItemPreview() {
-    ProfileScreenItem(
+    ProfileItem(
         text = "개인정보 수정",
         onClick = {}
     )

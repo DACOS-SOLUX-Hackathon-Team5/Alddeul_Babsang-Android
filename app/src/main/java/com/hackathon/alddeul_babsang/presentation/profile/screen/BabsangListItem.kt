@@ -38,15 +38,14 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
-import com.hackathon.alddeul_babsang.domain.entity.BabsangListEntity
+import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
 import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavigator
 
 @Composable
 fun LikeItem(
-    navigator: ProfileNavigator,
-    data: BabsangListEntity
+    onClick: () -> Unit = {},
+    data: LikesEntity
 ) {
-
     var isFavorite by remember { mutableStateOf(data.favorite ?: false) }
 
     // 클릭할 때마다 favorite 값 토글
@@ -55,7 +54,6 @@ fun LikeItem(
     } else {
         R.drawable.ic_heart_white
     }
-
 
     Column(
         modifier = Modifier
@@ -67,7 +65,7 @@ fun LikeItem(
             )
             .height(240.dp)
             .clickable(onClick = {
-                navigator.navigateDetail(data.id)
+                onClick()
             })
     ) {
         Box(
@@ -186,8 +184,7 @@ fun LikeItemPreview() {
 
     AlddeulBabsangTheme {
         LikeItem(
-            navigator = navigator,
-            data = BabsangListEntity(
+            data = LikesEntity(
                 id = 1,
                 avatar = null,
                 name = "송이네 밥상",

@@ -1,6 +1,6 @@
 package com.hackathon.alddeul_babsang.domain.entity
 
-data class BabsangListEntity(
+data class LikesEntity(
     val id: Long,
     val avatar: String? = null,
     val name: String,

@@ -22,8 +22,8 @@ class ProfileNavigator(
 
     }
 
-    fun navigateProfileLikeList() {
-        navController.navigate("profileLikeList")
+    fun navigateLike() {
+        navController.navigate("like")
     }
 
 }

@@ -83,6 +83,7 @@ fun DetailRoute(
         data = detailViewModel.mockDetail,
         onBackClick = { navigator.navigateBack() },
         onReviewClick = { id -> navigator.navigateReview(id) },
+        onItemClick = { id -> navigator.navigateDetail(id) },
         detailViewModel = detailViewModel
     )
 }
@@ -93,6 +94,7 @@ fun DetailScreen(
     data: BabsangDetailEntity,
     onBackClick: () -> Unit = {},
     onReviewClick: (Long) -> Unit = {},
+    onItemClick: (Long) -> Unit = {},
     detailViewModel: DetailViewModel
 ) {
     var isFavorite by remember { mutableStateOf(data.isFavorite) }
@@ -304,7 +306,8 @@ fun DetailScreen(
                 ) {
                     items(detailViewModel.mockDetailRecommend) { item ->
                         DetailRecommendedItem(
-                            data = item
+                            data = item,
+                            onClick = { onItemClick(item.id) }
                         )
                     }
                 }

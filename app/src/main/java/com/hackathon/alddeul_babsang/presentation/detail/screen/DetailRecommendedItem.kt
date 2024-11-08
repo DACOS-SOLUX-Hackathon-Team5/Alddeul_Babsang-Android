@@ -1,6 +1,7 @@
 package com.hackathon.alddeul_babsang.presentation.detail.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,9 +30,12 @@ import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
 
 @Composable
 fun DetailRecommendedItem(
-    data: BabsangRecommendEntity
+    data: BabsangRecommendEntity,
+    onClick: () -> Unit = {}
 ) {
-    Column {
+    Column(
+        modifier = Modifier.clickable { onClick() }
+    ) {
         AsyncImage(
             model = data.avatar ?: when (data.codeName) {
                 "한식" -> R.drawable.ic_korean_food

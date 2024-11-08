@@ -1,12 +1,55 @@
 package com.hackathon.alddeul_babsang.presentation.map.screen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseMapStoreDetailDto
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseMapStoresDto
 import com.hackathon.alddeul_babsang.domain.entity.MapEntity
+import com.hackathon.alddeul_babsang.domain.repository.MapRepository
+import com.hackathon.alddeul_babsang.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MapViewModel @Inject constructor() : ViewModel() {
+class MapViewModel @Inject constructor(
+    private val mapRepository: MapRepository
+) : ViewModel() {
+    private val _getMapStoresState =
+        MutableStateFlow<UiState<List<ResponseMapStoresDto>>>(UiState.Empty)
+    val getMapStoresState: StateFlow<UiState<List<ResponseMapStoresDto>>> = _getMapStoresState
+
+    private val _getMapStoreDetailState =
+        MutableStateFlow<UiState<ResponseMapStoreDetailDto?>>(UiState.Empty)
+    val getMapStoreDetailState: StateFlow<UiState<ResponseMapStoreDetailDto?>> =
+        _getMapStoreDetailState
+
+    fun getMapStores() = viewModelScope.launch {
+        _getMapStoresState.emit(UiState.Loading)
+        mapRepository.getMapStores().fold(
+            onSuccess = {
+                _getMapStoresState.emit(UiState.Success(it))
+            },
+            onFailure = {
+                _getMapStoresState.emit(UiState.Failure(it.message.toString()))
+            }
+        )
+    }
+
+    fun getMapStoreDetail(id: Long) = viewModelScope.launch {
+        _getMapStoreDetailState.emit(UiState.Loading)
+        mapRepository.getMapStoreDetail(id).fold(
+            onSuccess = {
+                _getMapStoreDetailState.emit(UiState.Success(it))
+            },
+            onFailure = {
+                _getMapStoreDetailState.emit(UiState.Failure(it.message.toString()))
+            }
+        )
+    }
+
     val mockMapList = listOf(
         MapEntity(
             id = 1,

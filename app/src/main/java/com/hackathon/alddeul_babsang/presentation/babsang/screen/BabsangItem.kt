@@ -38,6 +38,8 @@ import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangDto
+import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
+import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeItem
 
 @Composable
 fun BabsangItem(
@@ -156,23 +158,5 @@ fun ReplaceImage2(codeName: String, imageUrl: String?) {
                     .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BabsangListItemPreview() {
-    AlddeulBabsangTheme {
-        BabsangItem(
-            data = ResponseBabsangDto(
-                id = 1,
-                name = "송이네 밥상",
-                category = "경양식/일식",
-                address = "서울특별시 용산구 청파동 11",
-                contact = "02-210-0220",
-                imageUrl = null,
-                favorite = true
-            )
-        )
     }
 }

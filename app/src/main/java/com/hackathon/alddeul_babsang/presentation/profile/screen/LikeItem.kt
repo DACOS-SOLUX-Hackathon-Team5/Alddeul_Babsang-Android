@@ -37,13 +37,14 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
+import com.hackathon.alddeul_babsang.data.dto.response.FavoriteRestaurantDto
 import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
 import com.hackathon.alddeul_babsang.domain.entity.ReportEntity
 
 @Composable
 fun LikeItem(
     onClick: () -> Unit = {},
-    data: LikesEntity
+    data: FavoriteRestaurantDto
 ) {
     var isFavorite by remember { mutableStateOf(data.favorite) }
 
@@ -71,7 +72,7 @@ fun LikeItem(
                 .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
         ) {
             // AsyncImage 로드
-            LoadImageWithPlaceholder(data.codeName, data.avatar)
+            LoadImageWithPlaceholder(data.category, data.restaurantImageUrl)
             Image(
                 painter = painterResource(heartIconId),
                 contentDescription = null,
@@ -94,7 +95,7 @@ fun LikeItem(
             )
             Spacer(modifier = Modifier.width(15.dp))
             Text(
-                text = data.codeName,
+                text = data.category,
                 style = body2Regular,
                 color = Orange800,
                 modifier = Modifier
@@ -111,7 +112,7 @@ fun LikeItem(
         )
         Spacer(modifier = Modifier.height(7.dp))
         Text(
-            text = data.phone,
+            text = data.contact,
             style = body4Regular,
             color = Gray300,
             modifier = Modifier.padding(start = 20.dp, bottom = 20.dp)
@@ -157,23 +158,5 @@ fun LoadImageWithPlaceholder(codeName: String, imageUrl: String?) {
                     .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LikeItemPreview() {
-    AlddeulBabsangTheme {
-        LikeItem(
-            data = LikesEntity(
-                id = 1,
-                avatar = null,
-                name = "송이네 밥상",
-                codeName = "경양식/일식",
-                address = "서울특별시 용산구 청파동 11",
-                phone = "02-210-0220",
-                favorite = true
-            )
-        )
     }
 }

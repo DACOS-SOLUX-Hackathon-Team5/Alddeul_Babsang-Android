@@ -25,6 +25,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -39,6 +40,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
@@ -55,15 +58,36 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Yellow
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.presentation.detail.navigation.DetailNavigator
+import com.hackathon.alddeul_babsang.util.UiState
 import com.hackathon.alddeul_babsang.util.toast
+import com.hackathon.alddeul_babsang.util.uriToFile
+import timber.log.Timber
 
 @Composable
 fun ReviewRoute(
     navigator: DetailNavigator,
     id: Long,
 ) {
+    val reviewViewModel: ReviewViewModel = hiltViewModel()
     val keyboardController = LocalSoftwareKeyboardController.current
     val systemUiController = rememberSystemUiController()
+    val postReviewState by reviewViewModel.postReviewState.collectAsStateWithLifecycle(UiState.Empty)
+
+    when (postReviewState) {
+        is UiState.Success -> {
+            navigator.navigateBack()
+            keyboardController?.hide()
+            Timber.d("Review post success")
+        }
+
+        is UiState.Failure -> {
+            val message = (postReviewState as UiState.Failure).msg
+            Timber.e("Review post failed: $message")
+            LocalContext.current.toast(message)
+        }
+
+        else -> {}
+    }
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -72,19 +96,18 @@ fun ReviewRoute(
     }
 
     ReviewScreen(
+        id = id,
         onBackClick = { navigator.navigateBack() },
-        onCompleteClick = {
-            keyboardController?.hide()
-            navigator.navigateBack()
-        }
+        reviewViewModel = reviewViewModel
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReviewScreen(
+    id: Long = 0,
     onBackClick: () -> Unit = {},
-    onCompleteClick: () -> Unit = {}
+    reviewViewModel: ReviewViewModel
 ) {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     val galleryLauncher = rememberLauncherForActivityResult(
@@ -95,6 +118,7 @@ fun ReviewScreen(
     )
     var reviewLength by remember { mutableStateOf("") }
     val context = LocalContext.current
+    var rating by remember { mutableIntStateOf(0) }
 
     Scaffold(
         topBar = {
@@ -158,7 +182,10 @@ fun ReviewScreen(
             }
             Spacer(modifier = Modifier.height(30.dp))
             AlddeulHeader(text = R.string.tv_review_rating)
-            StarRating()
+            StarRating(
+                rating = rating,
+                onRatingChange = { rating = it }
+            )
             AlddeulHeader(text = R.string.tv_review_detail)
             ReviewTextField(
                 value = reviewLength,
@@ -177,8 +204,16 @@ fun ReviewScreen(
             AlddeulButton(
                 text = R.string.btn_review_complete,
                 onClick = {
-                    if (reviewLength.length <= 100) onCompleteClick()
-                    else context.toast(context.getString(R.string.toast_review_length))
+                    if (reviewLength.length <= 100 && imageUri != null) {
+                        val file = uriToFile(imageUri!!, context)
+                        reviewViewModel.postReview(
+                            storeId = id,
+                            userId = 1,
+                            rating = rating.toDouble(),
+                            content = reviewLength,
+                            reviewImage = file
+                        )
+                    } else context.toast(context.getString(R.string.toast_review_length))
                 }
             )
         }
@@ -186,21 +221,23 @@ fun ReviewScreen(
 }
 
 @Composable
-fun StarRating() {
+fun StarRating(
+    rating: Int, // 현재 선택된 별 개수
+    onRatingChange: (Int) -> Unit // 별 개수 변경 시 호출되는 함수
+) {
     val starCount = 5
-    var selectedStars by remember { mutableStateOf(List(starCount) { false }) }
 
     LazyRow {
         items(starCount) { index ->
             IconButton(
                 onClick = {
-                    selectedStars = List(selectedStars.size) { i -> i <= index }
+                    onRatingChange(index + 1) // 클릭된 별까지의 개수를 전달
                 }
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_review_star),
                     contentDescription = null,
-                    tint = if (selectedStars[index]) Yellow else Gray100
+                    tint = if (index < rating) Yellow else Gray100
                 )
             }
         }
@@ -211,6 +248,8 @@ fun StarRating() {
 @Composable
 fun ReviewScreenPreview() {
     AlddeulBabsangTheme {
-        ReviewScreen()
+        ReviewScreen(
+            reviewViewModel = hiltViewModel()
+        )
     }
 }

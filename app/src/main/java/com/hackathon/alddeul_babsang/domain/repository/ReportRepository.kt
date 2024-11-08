@@ -4,7 +4,7 @@ import com.hackathon.alddeul_babsang.data.dto.response.ResponseReportDto
 
 interface ReportRepository {
     suspend fun postReports(
-        userId: Long
+        userId: Int
     ): Result<List<ResponseReportDto>>
 
     suspend fun postReportWrite(

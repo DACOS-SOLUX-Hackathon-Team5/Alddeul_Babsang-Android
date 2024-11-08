@@ -11,8 +11,8 @@ import javax.inject.Inject
 class ReportDataSourceImpl @Inject constructor(
     private val reportApiService: ReportApiService
 ) : ReportDataSource {
-    override suspend fun postReports(requestReportDto: RequestReportDto): BaseResponse<List<ResponseReportDto>> {
-        return reportApiService.postReports(requestReportDto)
+    override suspend fun postReports(userId : Int): BaseResponse<List<ResponseReportDto>> {
+        return reportApiService.postReports(userId)
     }
 
     override suspend fun postReportWrite(requestReportWriteDto: RequestReportWriteDto): BaseResponse<String> {

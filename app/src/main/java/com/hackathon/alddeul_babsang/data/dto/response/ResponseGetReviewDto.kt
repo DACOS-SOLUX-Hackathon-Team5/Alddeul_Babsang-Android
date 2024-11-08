@@ -14,4 +14,6 @@ data class Review (
     @SerialName("nickname") val nickname: String,
     @SerialName("rate") val rate: Double,
     @SerialName("content") val content: String,
+    @SerialName("image") val imageUrl: String,
+    @SerialName("date") val date: String
 )

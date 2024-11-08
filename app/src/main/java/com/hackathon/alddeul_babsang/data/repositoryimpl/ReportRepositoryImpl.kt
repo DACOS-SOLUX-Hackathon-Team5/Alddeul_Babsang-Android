@@ -1,7 +1,6 @@
 package com.hackathon.alddeul_babsang.data.repositoryimpl
 
 import com.hackathon.alddeul_babsang.data.datasource.ReportDataSource
-import com.hackathon.alddeul_babsang.data.dto.request.RequestReportDto
 import com.hackathon.alddeul_babsang.data.dto.request.RequestReportWriteDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseReportDto
 import com.hackathon.alddeul_babsang.domain.repository.ReportRepository
@@ -11,13 +10,11 @@ class ReportRepositoryImpl @Inject constructor(
     private val reportDataSource: ReportDataSource
 ) : ReportRepository {
     override suspend fun postReports(
-        userId: Long
+        userId: Int
     ): Result<List<ResponseReportDto>> {
         return runCatching {
             reportDataSource.postReports(
-                requestReportDto = RequestReportDto(
-                    userId = userId
-                )
+                userId = userId
             ).result ?: emptyList()
         }
     }

@@ -8,11 +8,12 @@ import com.sopt.data.service.ApiKeyStorage.POST
 import com.sopt.data.service.ApiKeyStorage.REPORTS
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ReportApiService {
-    @POST("/$REPORTS")
+    @POST("/$REPORTS/")
     suspend fun postReports(
-        @Body requestReportDto: RequestReportDto
+        @Query("userId") userId: Int
     ): BaseResponse<List<ResponseReportDto>>
 
     @POST("/$REPORTS/$POST")

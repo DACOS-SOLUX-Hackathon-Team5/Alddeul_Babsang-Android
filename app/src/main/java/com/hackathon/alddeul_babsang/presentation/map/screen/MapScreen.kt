@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +36,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.Blue
@@ -45,7 +47,9 @@ import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseMapStoresDto
 import com.hackathon.alddeul_babsang.presentation.map.navigation.MapNavigator
+import com.hackathon.alddeul_babsang.util.UiState
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraPosition
@@ -70,6 +74,7 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.MarkerIcons
+import timber.log.Timber
 
 @Composable
 fun MapRoute(
@@ -77,6 +82,8 @@ fun MapRoute(
 ) {
     val mapViewModel: MapViewModel = hiltViewModel()
     val systemUiController = rememberSystemUiController()
+    val getMapStoresState by mapViewModel.getMapStoresState.collectAsStateWithLifecycle(UiState.Empty)
+    var data = emptyList<ResponseMapStoresDto>()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -84,7 +91,22 @@ fun MapRoute(
         )
     }
 
+    LaunchedEffect(Unit) {
+        mapViewModel.getMapStores()
+    }
+
+    when (getMapStoresState) {
+        is UiState.Success -> {
+            data = (getMapStoresState as UiState.Success).data
+        }
+        is UiState.Failure -> {
+            Timber.e((getMapStoresState as UiState.Failure).msg)
+        }
+        else -> {}
+    }
+
     MapScreen(
+        mapEntityList = data,
         mapViewModel = mapViewModel,
         onDetailClick = { id -> navigator.navigateDetail(id) }
     )
@@ -93,6 +115,7 @@ fun MapRoute(
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
 fun MapScreen(
+    mapEntityList: List<ResponseMapStoresDto> = emptyList(),
     mapViewModel: MapViewModel,
     onDetailClick: (Long) -> Unit,
 ) {
@@ -110,13 +133,13 @@ fun MapScreen(
             MapUiSettings(isLocationButtonEnabled = true)
         )
     }
-    val mapEntityList = mapViewModel.mockMapList
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition(NaverMapConstants.DefaultCameraPosition.target, 10.0)
     }
     var showBabsangDetail by remember { mutableStateOf(false) }
     var selectedBabsangDetail by remember { mutableStateOf<MapData?>(null) }
     val context = LocalContext.current
+    val getMapStoreDetailState by mapViewModel.getMapStoreDetailState.collectAsStateWithLifecycle(UiState.Empty)
 
     Box(
         modifier = Modifier
@@ -162,7 +185,7 @@ fun MapScreen(
                             if (cluster.maxZoom <= 9) {
                                 null
                             } else {
-                                MapData(-1, "", "", (cluster.children.first().tag as MapData).gu, "", "")
+                                MapData(-1, "", "", (cluster.children.first().tag as MapData).gu, "")
                             }
                         }
                         .markerManager(object : DefaultMarkerManager() {
@@ -221,13 +244,12 @@ fun MapScreen(
 
                 // MapEntity 데이터를 Clusterer에 추가
                 val keyTagMap = mapEntityList.associate {
-                    ItemKey(it.id.toInt(), LatLng(it.latitude, it.longitude)) to MapData(
-                        id = it.id,
+                    ItemKey(it.storeId.toInt(), LatLng(it.latitude, it.longitude)) to MapData(
+                        id = it.storeId,
                         name = it.name,
-                        codeName = it.codeName,
-                        gu = it.gu,
-                        address = it.address,
-                        phone = it.phone
+                        codeName = it.category,
+                        gu = it.region,
+                        address = it.address
                     )
                 }
                 clusterManager?.addAll(keyTagMap)
@@ -239,73 +261,89 @@ fun MapScreen(
         }
         if (showBabsangDetail && selectedBabsangDetail != null) {
             val data = selectedBabsangDetail ?: throw IllegalStateException("Data is null")
-            Surface(
-                modifier = Modifier
-                    .padding(horizontal = 18.dp, vertical = 12.dp)
-                    .align(Alignment.BottomCenter)
-                    .shadow(
-                        elevation = 4.dp,
-                        shape = RoundedCornerShape(14.dp)
-                    )
-                    .clickable { onDetailClick(data.id) }
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            color = White,
-                            shape = RoundedCornerShape(14.dp)
-                        )
-                        .padding(20.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
+            mapViewModel.getMapStoreDetail(data.id)
+
+            when (getMapStoreDetailState) {
+                is UiState.Success -> {
+                    val detailData = (getMapStoreDetailState as UiState.Success).data ?: return
+                    Surface(
                         modifier = Modifier
-                            .size(70.dp)
-                            .clip(CircleShape),
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds
-                    )
-                    Spacer(modifier = Modifier.width(14.dp))
-                    Column {
+                            .padding(horizontal = 18.dp, vertical = 12.dp)
+                            .align(Alignment.BottomCenter)
+                            .shadow(
+                                elevation = 4.dp,
+                                shape = RoundedCornerShape(14.dp)
+                            )
+                            .clickable { onDetailClick(data.id) }
+                    ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.Bottom
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    color = White,
+                                    shape = RoundedCornerShape(14.dp)
+                                )
+                                .padding(20.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                text = data.name,
-                                style = head4Bold,
-                                color = Orange900
+                            Image(
+                                modifier = Modifier
+                                    .size(70.dp)
+                                    .clip(CircleShape),
+                                painter = painterResource(id = R.drawable.ic_launcher_background),
+                                contentDescription = null,
+                                contentScale = ContentScale.FillBounds
                             )
-                            Spacer(modifier = Modifier.weight(1f))
-                            Text(
-                                text = data.codeName,
-                                style = body2Regular,
-                                color = Orange800
-                            )
+                            Spacer(modifier = Modifier.width(14.dp))
+                            Column {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.Bottom
+                                ) {
+                                    Text(
+                                        text = detailData.name,
+                                        style = head4Bold,
+                                        color = Orange900
+                                    )
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    Text(
+                                        text = when(detailData.category) {
+                                            "KOREAN" -> "한식"
+                                            "CHINESE" -> "중식"
+                                            "WESTERN_JAPANESE" -> "경양식/일식"
+                                            else -> "기타외식업"
+                                        },
+                                        style = body2Regular,
+                                        color = Orange800
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = detailData.address,
+                                    style = body4Regular,
+                                    color = Gray300
+                                )
+                                Text(
+                                    modifier = Modifier.padding(top = 4.dp),
+                                    text = detailData.contact,
+                                    style = body4Regular,
+                                    color = Gray300
+                                )
+                            }
                         }
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = data.address,
-                            style = body4Regular,
-                            color = Gray300
-                        )
-                        Text(
-                            modifier = Modifier.padding(top = 4.dp),
-                            text = data.phone,
-                            style = body4Regular,
-                            color = Gray300
-                        )
                     }
                 }
+                is UiState.Failure -> {
+                    Timber.e((getMapStoreDetailState as UiState.Failure).msg)
+                }
+                else -> {}
             }
         }
     }
 }
 
 
-private class MapData(val id: Long, val name: String, val codeName: String, val gu: String, val address: String, val phone: String)
+private class MapData(val id: Long, val name: String, val codeName: String, val gu: String, val address: String)
 
 @Preview(showBackground = true)
 @Composable

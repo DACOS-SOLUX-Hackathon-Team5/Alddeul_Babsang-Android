@@ -18,4 +18,5 @@ object ApiKeyStorage {
     const val DELETE_ACCOUNT = "delete-account"
     const val MYPAGE = "mypage"
     const val LOGOUT = "logout"
+    const val USER_ID = "userId"
 }

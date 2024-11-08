@@ -23,7 +23,7 @@ class LikeViewModel @Inject constructor(
 
     fun getLikes() = viewModelScope.launch {
         _getLikesState.emit(UiState.Loading)
-        profileRepository.getLikes().fold(
+        profileRepository.getLikes(userId = 1).fold(
             onSuccess = {
                 _getLikesState.emit(UiState.Success(it))
             },

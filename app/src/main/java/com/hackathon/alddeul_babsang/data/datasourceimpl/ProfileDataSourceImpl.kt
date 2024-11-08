@@ -8,8 +8,10 @@ import javax.inject.Inject
 
 class ProfileDataSourceImpl @Inject constructor(
     private val profileApiService: ProfileApiService
-): ProfileDataSource {
-    override suspend fun getLikes(): BaseResponse<ResponseLikesDto> {
-        return profileApiService.getLikes()
+) : ProfileDataSource {
+    override suspend fun getLikes(
+        userId: Long
+    ): BaseResponse<ResponseLikesDto> {
+        return profileApiService.getLikes(userId)
     }
 }

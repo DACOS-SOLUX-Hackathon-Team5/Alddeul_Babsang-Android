@@ -23,4 +23,5 @@ object ApiKeyStorage {
     const val ID = "id"
     const val REVIEWS = "reviews"
     const val RECOMMEND = "recommend"
+    const val SIMILAR = "similar"
 }

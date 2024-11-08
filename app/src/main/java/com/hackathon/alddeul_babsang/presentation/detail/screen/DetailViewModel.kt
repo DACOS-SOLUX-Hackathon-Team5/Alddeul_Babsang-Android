@@ -2,7 +2,9 @@ package com.hackathon.alddeul_babsang.presentation.detail.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangRecommendDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailDto
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailRecommendDto
 import com.hackathon.alddeul_babsang.data.dto.response.Review
 import com.hackathon.alddeul_babsang.domain.entity.BabsangDetailEntity
 import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
@@ -16,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,6 +30,10 @@ class DetailViewModel @Inject constructor(
 
     private val _postDetailState = MutableSharedFlow<UiState<ResponseDetailDto?>>(replay = 1)
     val postDetailState: SharedFlow<UiState<ResponseDetailDto?>> = _postDetailState
+
+    private val _postDetailRecommendState =
+        MutableStateFlow<UiState<List<ResponseDetailRecommendDto>>>(UiState.Empty)
+    val postDetailRecommendState: StateFlow<UiState<List<ResponseDetailRecommendDto>>> = _postDetailRecommendState
 
     fun getReviews(id: Long) = viewModelScope.launch {
         _getReviewsState.emit(UiState.Loading)
@@ -51,6 +58,23 @@ class DetailViewModel @Inject constructor(
             }
         )
     }
+
+
+    fun postDetailRecommend(storeId: Int) = viewModelScope.launch  {
+        _postDetailRecommendState.emit(UiState.Loading)
+        detailRepository.postRecommendStores(storeId = storeId).fold(
+            onSuccess = {
+                _postDetailRecommendState.emit(UiState.Success(it))
+            },
+            onFailure = {
+                _postDetailRecommendState.emit(UiState.Failure(it.message.toString()))
+                Timber.e(it.localizedMessage)
+            }
+        )
+    }
+
+
+
 
     val mockMenuList = listOf(
         MenuEntity("김치찌개", 8000),

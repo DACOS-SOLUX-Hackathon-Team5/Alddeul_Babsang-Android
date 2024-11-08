@@ -1,8 +1,11 @@
 package com.hackathon.alddeul_babsang.presentation.detail.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -26,41 +30,20 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Pink
 import com.hackathon.alddeul_babsang.core_ui.theme.Yellow
 import com.hackathon.alddeul_babsang.core_ui.theme.body1Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailRecommendDto
 import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
+import com.hackathon.alddeul_babsang.presentation.babsang.screen.LoadImage
 
 @Composable
 fun DetailRecommendedItem(
-    data: BabsangRecommendEntity,
+    data: ResponseDetailRecommendDto,
     onClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier.clickable { onClick() }
     ) {
-        AsyncImage(
-            model = data.avatar ?: when (data.codeName) {
-                "한식" -> R.drawable.ic_korean_food
-                "중식" -> R.drawable.ic_chinese_food
-                "경양식/일식" -> R.drawable.ic_japanese_food
-                else -> R.drawable.ic_etc_food
-            },
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(10.dp))
-                .height(200.dp)
-                .background(
-                    color = when (data.codeName) {
-                        "한식" -> Orange700
-                        "중식" -> Yellow
-                        "경양식/일식" -> Pink
-                        "기타외식업" -> Blue
-                        else -> Font_B04
-                    },
-                    shape = RoundedCornerShape(14.dp)
-                ),
-            contentScale = if (data.avatar == null) ContentScale.None else ContentScale.FillBounds,
-            alignment = Alignment.Center
-        )
+        LoadImage2(data.category)
+
         Text(
             modifier = Modifier.padding(vertical = 5.dp),
             text = data.name,
@@ -68,9 +51,47 @@ fun DetailRecommendedItem(
             color = Black
         )
         Text(
-            text = data.codeName,
+            text = data.category,
             style = body4Regular,
             color = Font_B04
+        )
+    }
+}
+
+@Composable
+fun LoadImage2(codeName: String) {
+    val imageId = when (codeName) {
+        "WESTERN_JAPANESE" -> R.drawable.ic_japanese_food
+        "KOREAN" -> R.drawable.ic_korean_food
+        "CHINESE" -> R.drawable.ic_chinese_food
+        else -> R.drawable.ic_etc_food
+    }
+    val backgroundColor = when (codeName) {
+        "WESTERN_JAPANESE" -> Yellow
+        "KOREAN" -> Orange700
+        "CHINESE" -> Pink
+        else -> Blue
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+            .height(200.dp)
+            .background(
+                color = backgroundColor,
+                shape = RoundedCornerShape(14.dp)
+            )
+    ) {
+        Image(
+            painter = painterResource(id = imageId),  // 대체 이미지
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(horizontal = 15.dp)
+                .padding(bottom = 80.dp)
+                .padding(top = 15.dp)
         )
     }
 }
@@ -80,12 +101,11 @@ fun DetailRecommendedItem(
 fun DetailRecommendedItemPreview() {
     AlddeulBabsangTheme {
         DetailRecommendedItem(
-            data = BabsangRecommendEntity(
-                id = 1,
-                avatar = null,
+            data = ResponseDetailRecommendDto(
+                storeId = 1,
                 name = "족발 야시장",
-                codeName = "한식",
-                address = "용산 동자동",
+                category = "한식",
+                region = "용산구",
             )
         )
     }

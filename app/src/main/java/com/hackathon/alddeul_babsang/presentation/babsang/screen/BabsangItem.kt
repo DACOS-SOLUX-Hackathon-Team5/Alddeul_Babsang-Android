@@ -37,13 +37,14 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
-import com.hackathon.alddeul_babsang.domain.entity.ReportEntity
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangDto
+import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
 import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeItem
 
 @Composable
 fun BabsangItem(
     onClick: () -> Unit = {},
-    data: ReportEntity
+    data: ResponseBabsangDto
 ) {
     var isFavorite by remember { mutableStateOf(data.favorite) }
 
@@ -71,7 +72,7 @@ fun BabsangItem(
                 .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
         ) {
             // AsyncImage 로드
-            ReplaceImage2(data.codeName, data.avatar)
+            ReplaceImage2(data.category, data.imageUrl)
             Image(
                 painter = painterResource(heartIconId),
                 contentDescription = null,
@@ -94,7 +95,7 @@ fun BabsangItem(
             )
             Spacer(modifier = Modifier.width(15.dp))
             Text(
-                text = data.codeName,
+                text = data.category,
                 style = body2Regular,
                 color = Orange800,
                 modifier = Modifier
@@ -111,7 +112,7 @@ fun BabsangItem(
         )
         Spacer(modifier = Modifier.height(7.dp))
         Text(
-            text = data.phone,
+            text = data.contact,
             style = body4Regular,
             color = Gray300,
             modifier = Modifier.padding(start = 20.dp, bottom = 20.dp)
@@ -122,9 +123,9 @@ fun BabsangItem(
 @Composable
 fun ReplaceImage2(codeName: String, imageUrl: String?) {
     val imageId = when (codeName) {
-        "경양식/일식" -> R.drawable.ic_japanese_food
-        "한식" -> R.drawable.ic_korean_food
-        "중식" -> R.drawable.ic_chinese_food
+        "WESTERN_JAPANESE" -> R.drawable.ic_japanese_food
+        "KOREAN" -> R.drawable.ic_korean_food
+        "CHINESE" -> R.drawable.ic_chinese_food
         else -> R.drawable.ic_etc_food
     }
 
@@ -165,7 +166,7 @@ fun ReplaceImage2(codeName: String, imageUrl: String?) {
 fun BabsangListItemPreview() {
     AlddeulBabsangTheme {
         LikeItem(
-            data = ReportEntity(
+            data = LikesEntity(
                 id = 1,
                 avatar = null,
                 name = "송이네 밥상",

@@ -11,6 +11,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MapApiService {
     @GET("/$MAP/$STORES")
@@ -19,6 +20,6 @@ interface MapApiService {
     @POST("/$MAP/$STORES/{$ID}")
     suspend fun postMapStoreDetail(
         @Path("id") id: Long,
-        @Body requestMapStoreDetailDto: RequestMapStoreDetailDto
+        @Query("userId") userId: Long,
     ): BaseResponse<ResponseMapStoreDetailDto>
 }

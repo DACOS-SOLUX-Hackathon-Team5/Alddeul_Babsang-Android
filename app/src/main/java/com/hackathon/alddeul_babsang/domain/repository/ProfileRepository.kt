@@ -6,4 +6,9 @@ interface ProfileRepository {
     suspend fun getLikes(
         userId: Long,
     ): Result<List<FavoriteRestaurantDto>>
+
+    suspend fun postLike(
+        userId: Long,
+        storeId: Long,
+    ): Result<String>
 }

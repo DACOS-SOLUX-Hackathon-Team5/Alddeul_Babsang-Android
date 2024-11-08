@@ -18,4 +18,15 @@ class ProfileRepositoryImpl @Inject constructor(
             ).result?.favoriteRestaurants ?: emptyList()
         }
     }
+
+    override suspend fun postLike(userId: Long, storeId: Long): Result<String> {
+        return runCatching {
+            profileDataSource.postLike(
+                requestLikesDto = RequestLikesDto(
+                    userId = userId,
+                    storeId = storeId
+                )
+            ).result.toString()
+        }
+    }
 }

@@ -29,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,13 +43,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
-import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
 import com.hackathon.alddeul_babsang.core_ui.theme.Blue
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray200
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray300
@@ -63,6 +63,8 @@ import com.hackathon.alddeul_babsang.core_ui.theme.head7Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head7Semi
 import com.hackathon.alddeul_babsang.domain.entity.BabsangDetailEntity
 import com.hackathon.alddeul_babsang.presentation.detail.navigation.DetailNavigator
+import com.hackathon.alddeul_babsang.util.UiState
+import timber.log.Timber
 import kotlin.math.round
 
 @Composable
@@ -77,6 +79,10 @@ fun DetailRoute(
         systemUiController.setStatusBarColor(
             color = Orange700
         )
+    }
+
+    LaunchedEffect(Unit) {
+        detailViewModel.getReviews(id)
     }
 
     DetailScreen(
@@ -98,6 +104,7 @@ fun DetailScreen(
     detailViewModel: DetailViewModel
 ) {
     var isFavorite by remember { mutableStateOf(data.isFavorite) }
+    val getReviewsState by detailViewModel.getReviewsState.collectAsStateWithLifecycle(UiState.Empty)
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -278,13 +285,32 @@ fun DetailScreen(
                     color = Gray900
                 )
             }
-            itemsIndexed(detailViewModel.mockReviews) { index, item ->
-                ReviewItem(
-                    data = item
-                )
-                if (index != detailViewModel.mockReviews.size - 1) {
-                    Spacer(modifier = Modifier.height(16.dp))
+            when (getReviewsState) {
+                is UiState.Success -> {
+                    val data = (getReviewsState as UiState.Success).data
+                    itemsIndexed(data) { index, item ->
+                        ReviewItem(
+                            data = item
+                        )
+                        if (index != data.size - 1) {
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+                    }
                 }
+
+                is UiState.Failure -> {
+                    item {
+                        Text(
+                            text = (getReviewsState as UiState.Failure).msg,
+                            style = head7Semi,
+                            color = Orange700,
+                            modifier = Modifier.padding(vertical = 20.dp)
+                        )
+                    }
+                    Timber.e("Get reviews failed: ${(getReviewsState as UiState.Failure).msg}")
+                }
+
+                else -> {}
             }
             item {
                 Text(
@@ -313,16 +339,5 @@ fun DetailScreen(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DetailScreenPreview() {
-    AlddeulBabsangTheme {
-        DetailScreen(
-            data = DetailViewModel().mockDetail,
-            detailViewModel = hiltViewModel()
-        )
     }
 }

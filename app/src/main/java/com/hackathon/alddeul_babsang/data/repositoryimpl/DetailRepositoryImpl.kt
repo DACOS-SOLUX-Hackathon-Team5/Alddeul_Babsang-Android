@@ -1,12 +1,12 @@
 package com.hackathon.alddeul_babsang.data.repositoryimpl
 
 import com.hackathon.alddeul_babsang.data.datasource.DetailDataSource
+import com.hackathon.alddeul_babsang.data.dto.response.Review
 import com.hackathon.alddeul_babsang.domain.repository.DetailRepository
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import java.io.File
 import javax.inject.Inject
 
@@ -38,6 +38,12 @@ class DetailRepositoryImpl @Inject constructor(
                 data = dataMap,
                 reviewImage = filePart
             ).message
+        }
+    }
+
+    override suspend fun getReviews(id: Long): Result<List<Review>> {
+        return runCatching {
+            detailDataSource.getReviews(id).result?.reviewList ?: emptyList()
         }
     }
 }

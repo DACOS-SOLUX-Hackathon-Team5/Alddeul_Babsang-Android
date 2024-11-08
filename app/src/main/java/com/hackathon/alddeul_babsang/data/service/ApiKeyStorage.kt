@@ -21,4 +21,5 @@ object ApiKeyStorage {
     const val USER_ID = "userId"
     const val STORE_ID = "storeId"
     const val ID = "id"
+    const val REVIEWS = "reviews"
 }

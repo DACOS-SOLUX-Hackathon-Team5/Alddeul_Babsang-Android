@@ -1,5 +1,6 @@
 package com.hackathon.alddeul_babsang.domain.repository
 
+import com.hackathon.alddeul_babsang.data.dto.response.Review
 import java.io.File
 
 interface DetailRepository {
@@ -10,4 +11,8 @@ interface DetailRepository {
         content: String,
         reviewImage: File
     ): Result<String>
+
+    suspend fun getReviews(
+        id: Long
+    ): Result<List<Review>>
 }

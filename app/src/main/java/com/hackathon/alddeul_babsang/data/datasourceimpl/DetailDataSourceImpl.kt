@@ -2,6 +2,7 @@ package com.hackathon.alddeul_babsang.data.datasourceimpl
 
 import com.hackathon.alddeul_babsang.data.datasource.DetailDataSource
 import com.hackathon.alddeul_babsang.data.dto.BaseResponse
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseGetReviewDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseReviewDto
 import com.hackathon.alddeul_babsang.data.service.DetailApiService
 import okhttp3.MultipartBody
@@ -17,6 +18,10 @@ class DetailDataSourceImpl @Inject constructor(
         reviewImage: MultipartBody.Part?
     ): BaseResponse<ResponseReviewDto> {
         return detailApiService.postReview(storeId, data, reviewImage)
+    }
+
+    override suspend fun getReviews(id: Long): BaseResponse<ResponseGetReviewDto> {
+        return detailApiService.getReviews(id)
     }
 
 }

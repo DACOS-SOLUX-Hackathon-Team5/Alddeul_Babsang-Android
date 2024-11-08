@@ -2,6 +2,7 @@ package com.hackathon.alddeul_babsang.presentation.profile.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -146,12 +148,17 @@ fun LikeScreen(
                     val data = (getLikesState as UiState.Success).data // getLikesState로 수정
                     if (data.isEmpty()) {
                         item {
-                            Text(
-                                text = "좋아요를 누른 밥상이 없어요",
-                                style = head6Semi,
-                                color = Orange900,
-                                modifier = Modifier.padding(vertical = 20.dp)
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                            ) {
+                                Text(
+                                    text = "좋아요를 누른 밥상이 없어요",
+                                    style = head6Semi,
+                                    color = Orange900,
+                                    modifier = Modifier.align(Alignment.Center)
+                                )
+                            }
                         }
                     } else {
                         itemsIndexed(data) { index, item ->

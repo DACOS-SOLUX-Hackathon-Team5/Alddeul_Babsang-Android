@@ -27,7 +27,7 @@ class ReportViewModel @Inject constructor(
 
 
     fun postReports(
-        userId : Long = 1
+        userId : Int = 1
     ) = viewModelScope.launch  {
         _getReportState.emit(UiState.Loading)
         reportRepository.postReports(userId).fold(

@@ -2,6 +2,7 @@ package com.hackathon.alddeul_babsang.presentation.report.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -135,12 +137,17 @@ fun ReportScreen(
                 val data = (getReportState as UiState.Success).data
                 if (data.isEmpty()) {
                     item {
-                        Text(
-                            text = "밥상 데이터가 없어요",
-                            style = head6Semi,
-                            color = Orange900,
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            Text(
+                                text = "제보된 밥상이 없어요",
+                                style = head6Semi,
+                                color = Orange900,
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
                     }
                 } else {
                     itemsIndexed(data) { index, item ->

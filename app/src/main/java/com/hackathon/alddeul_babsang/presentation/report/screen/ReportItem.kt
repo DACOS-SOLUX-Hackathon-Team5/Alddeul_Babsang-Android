@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
@@ -38,6 +39,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseReportDto
+import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeViewModel
 
 @Composable
 fun ReportItem(
@@ -45,6 +47,7 @@ fun ReportItem(
     data: ResponseReportDto
 ) {
     var isFavorite by remember { mutableStateOf(data.favorite) }
+    val likeViewModel: LikeViewModel = hiltViewModel()
 
     // 클릭할 때마다 favorite 값 토글
     val heartIconId = if (isFavorite) {
@@ -82,6 +85,7 @@ fun ReportItem(
                     .clickable {
                         // 클릭 시 좋아요 상태를 토글
                         isFavorite = !isFavorite
+                        likeViewModel.postLike(storeId = data.id)
                     }
             )
         }

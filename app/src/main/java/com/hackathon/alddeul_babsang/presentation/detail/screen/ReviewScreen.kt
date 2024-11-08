@@ -73,11 +73,17 @@ fun ReviewRoute(
     val systemUiController = rememberSystemUiController()
     val postReviewState by reviewViewModel.postReviewState.collectAsStateWithLifecycle(UiState.Empty)
 
+    // navigateBack이 이미 호출되었는지 여부를 추적하는 상태 변수
+    val hasNavigatedBack = remember { mutableStateOf(false) }
+
     when (postReviewState) {
         is UiState.Success -> {
-            keyboardController?.hide()
-            navigator.navigateBack()
-            Timber.d("Review post success")
+            if (!hasNavigatedBack.value) {
+                keyboardController?.hide()
+                navigator.navigateBack() // 한 번만 호출되도록 처리
+                hasNavigatedBack.value = true // 한 번 호출된 후에는 다시 호출되지 않도록 설정
+                Timber.d("Review post success")
+            }
         }
 
         is UiState.Failure -> {
@@ -97,7 +103,6 @@ fun ReviewRoute(
 
     ReviewScreen(
         id = id,
-        onBackClick = { navigator.navigateBack() },
         reviewViewModel = reviewViewModel
     )
 }

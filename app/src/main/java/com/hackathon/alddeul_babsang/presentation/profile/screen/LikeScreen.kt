@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -15,7 +14,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -26,8 +27,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
+import com.hackathon.alddeul_babsang.core_ui.component.LoadingCircleIndicator
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray900
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange800
@@ -35,6 +38,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head6Semi
 import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavigator
+import com.hackathon.alddeul_babsang.util.UiState
 
 @Composable
 fun LikeRoute(
@@ -48,6 +52,10 @@ fun LikeRoute(
         systemUiController.setStatusBarColor(
             color = White
         )
+    }
+
+    LaunchedEffect(Unit) {
+        likeViewModel.getLikes()
     }
 
     LikeScreen(
@@ -64,7 +72,7 @@ fun LikeScreen(
     onBackClick: () -> Unit = {},
     likeViewModel: LikeViewModel
 ) {
-    val scrollState = rememberScrollState()
+    val getLikesState by likeViewModel.getLikesState.collectAsStateWithLifecycle(UiState.Empty)
 
     Scaffold(
         topBar = {
@@ -114,11 +122,29 @@ fun LikeScreen(
                     style = head6Semi
                 )
             }
-            items(likeViewModel.mockLikes) { item ->
-                LikeItem(
-                    onClick = { onItemClick(item.id) },
-                    data = item
-                )
+            when (getLikesState) {
+                is UiState.Success -> {
+                    items((getLikesState as UiState.Success).data) { item ->
+                        LikeItem(
+                            onClick = { onItemClick(item.restaurantId) },
+                            data = item
+                        )
+                    }
+                }
+
+                is UiState.Loading -> {
+                    item {
+                        LoadingCircleIndicator()
+                    }
+                }
+
+                is UiState.Failure -> {
+                    item {
+                        Text(text = (getLikesState as UiState.Failure).msg)
+                    }
+                }
+
+                else -> {}
             }
         }
     }

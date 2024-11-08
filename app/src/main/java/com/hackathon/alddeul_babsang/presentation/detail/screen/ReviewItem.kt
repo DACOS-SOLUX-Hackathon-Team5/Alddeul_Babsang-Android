@@ -22,22 +22,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.hackathon.alddeul_babsang.R
-import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
 import com.hackathon.alddeul_babsang.core_ui.theme.Font_B04
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray200
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray600
 import com.hackathon.alddeul_babsang.core_ui.theme.body3Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
-import com.hackathon.alddeul_babsang.domain.entity.ReviewEntity
+import com.hackathon.alddeul_babsang.data.dto.response.Review
 import kotlin.math.round
 
 @Composable
 fun ReviewItem(
-    data: ReviewEntity
+    data: Review
 ) {
     Row(
         modifier = Modifier
@@ -52,7 +50,7 @@ fun ReviewItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
-            model = data.avatar,
+            model = "",
             contentDescription = null,
             placeholder = painterResource(id = R.drawable.ic_launcher_background),
             modifier = Modifier
@@ -72,14 +70,14 @@ fun ReviewItem(
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = data.createdAt,
+                    text = "",
                     style = body4Regular,
                     color = Font_B04
                 )
             }
             Spacer(modifier = Modifier.height(5.dp))
             Image(
-                imageVector = when(round(data.star)) {
+                imageVector = when (round(data.rate)) {
                     in 0.0..1.4 -> ImageVector.vectorResource(id = R.drawable.ic_review_star_one)
                     in 1.5..2.4 -> ImageVector.vectorResource(id = R.drawable.ic_review_star_two)
                     in 2.5..3.4 -> ImageVector.vectorResource(id = R.drawable.ic_review_star_three)
@@ -99,22 +97,5 @@ fun ReviewItem(
                 overflow = TextOverflow.Ellipsis
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ReviewItemPreview() {
-    AlddeulBabsangTheme {
-        ReviewItem(
-            data = ReviewEntity(
-                id = 1,
-                avatar = "",
-                nickname = "최강 눈송이",
-                createdAt = "24.03.12",
-                star = 4.8,
-                content = "최고의 맛집입니다.\n또 와서 먹고 싶어요 ㅎㅎ\nㅋ",
-            )
-        )
     }
 }

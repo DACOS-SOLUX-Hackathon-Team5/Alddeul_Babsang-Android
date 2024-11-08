@@ -1,15 +1,39 @@
 package com.hackathon.alddeul_babsang.presentation.detail.screen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.hackathon.alddeul_babsang.data.dto.response.Review
 import com.hackathon.alddeul_babsang.domain.entity.BabsangDetailEntity
 import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
 import com.hackathon.alddeul_babsang.domain.entity.MenuEntity
 import com.hackathon.alddeul_babsang.domain.entity.ReviewEntity
+import com.hackathon.alddeul_babsang.domain.repository.DetailRepository
+import com.hackathon.alddeul_babsang.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor() : ViewModel() {
+class DetailViewModel @Inject constructor(
+    private val detailRepository: DetailRepository
+) : ViewModel() {
+    private val _getReviewsState = MutableStateFlow<UiState<List<Review>>>(UiState.Empty)
+    val getReviewsState: StateFlow<UiState<List<Review>>> = _getReviewsState
+
+    fun getReviews(id: Long) = viewModelScope.launch {
+        _getReviewsState.emit(UiState.Loading)
+        detailRepository.getReviews(id).fold(
+            onSuccess = {
+                _getReviewsState.emit(UiState.Success(it))
+            },
+            onFailure = {
+                _getReviewsState.emit(UiState.Failure(it.message ?: ""))
+            }
+        )
+    }
+
     val mockMenuList = listOf(
         MenuEntity("김치찌개", 8000),
         MenuEntity("된장찌개", 9000),

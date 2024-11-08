@@ -2,12 +2,37 @@ package com.hackathon.alddeul_babsang.presentation.profile.screen
 
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.hackathon.alddeul_babsang.data.dto.response.FavoriteRestaurantDto
 import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
+import com.hackathon.alddeul_babsang.domain.repository.ProfileRepository
+import com.hackathon.alddeul_babsang.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LikeViewModel @Inject constructor() : ViewModel() {
+class LikeViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository
+) : ViewModel() {
+    private val _getLikesState =
+        MutableStateFlow<UiState<List<FavoriteRestaurantDto>>>(UiState.Empty)
+    val getLikesState: StateFlow<UiState<List<FavoriteRestaurantDto>>> = _getLikesState
+
+    fun getLikes() = viewModelScope.launch {
+        _getLikesState.emit(UiState.Loading)
+        profileRepository.getLikes().fold(
+            onSuccess = {
+                _getLikesState.emit(UiState.Success(it))
+            },
+            onFailure = {
+                _getLikesState.emit(UiState.Failure(it.message.toString()))
+            }
+        )
+    }
+
     val mockLikes = listOf(
         LikesEntity(
             id = 1,

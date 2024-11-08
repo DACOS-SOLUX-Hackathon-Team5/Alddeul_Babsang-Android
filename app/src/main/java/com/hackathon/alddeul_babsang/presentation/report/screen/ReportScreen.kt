@@ -71,7 +71,6 @@ fun ReportScreen(
     onReportWriteClick: () -> Unit = {},
     reportViewModel: ReportViewModel
 ) {
-
     val getReportState by reportViewModel.postReportsState.collectAsStateWithLifecycle(UiState.Empty)
 
     Scaffold(
@@ -80,9 +79,7 @@ fun ReportScreen(
                 shape = RoundedCornerShape(40.dp),
                 onClick = { onReportWriteClick() },
                 contentPadding = PaddingValues(vertical = 20.dp, horizontal = 41.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Blue,
-                )
+                colors = ButtonDefaults.buttonColors(containerColor = Blue)
             ) {
                 Text(
                     text = stringResource(R.string.btn_report),
@@ -94,7 +91,6 @@ fun ReportScreen(
     ) { innerPadding ->
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
@@ -117,14 +113,15 @@ fun ReportScreen(
                 Text(
                     modifier = Modifier.padding(bottom = 14.dp),
                     text = stringResource(R.string.tv_report_title3),
-                    style = head7Bold, color = Gray900
+                    style = head7Bold,
+                    color = Gray900
                 )
             }
 
             when (getReportState) {
                 is UiState.Loading -> {
                     item {
-                        LoadingCircleIndicator()
+                        LoadingCircleIndicator() // 로딩 상태 UI
                     }
                 }
 

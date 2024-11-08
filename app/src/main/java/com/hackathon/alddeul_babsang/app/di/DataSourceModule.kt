@@ -52,7 +52,4 @@ abstract class DataSourceModule {
     @Singleton
     abstract fun bindReportDataSource(reportDataSourceImpl: ReportDataSourceImpl): ReportDataSource
 
-    @Binds
-    @Singleton
-    abstract fun bindReportWriteDataSource(reportWriteDataSourceImpl: ReportDataSourceImpl): ReportDataSource
 }

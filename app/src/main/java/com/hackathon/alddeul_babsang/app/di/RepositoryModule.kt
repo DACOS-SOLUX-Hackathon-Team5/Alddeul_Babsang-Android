@@ -50,9 +50,5 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindReportWriteRepository(reportWriteDataSourceImpl: ReportRepositoryImpl): ReportRepository
-
-    @Binds
-    @Singleton
     abstract fun bindMapRepository(mapRepositoryImpl: MapRepositoryImpl): MapRepository
 }

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseLikesDto(
-    @SerialName("favoriteStoreDetailDtos") val favoriteRestaurants: List<FavoriteRestaurantDto>
+    @SerialName("favoriteStoreDetailDtos") val favoriteStoreDetailDtos: List<FavoriteRestaurantDto>
 )
 
 @Serializable

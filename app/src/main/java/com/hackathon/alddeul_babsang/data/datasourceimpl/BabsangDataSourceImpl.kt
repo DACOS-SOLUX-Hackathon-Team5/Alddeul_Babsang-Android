@@ -9,7 +9,9 @@ import javax.inject.Inject
 class BabsangDataSourceImpl @Inject constructor(
     private val babsangApiService: BabsangApiService
 ) : BabsangDataSource {
-    override suspend fun getStores(): BaseResponse<List<ResponseBabsangDto>> {
-        return babsangApiService.getStores()
+    override suspend fun postStores(
+        userId: Int
+    ): BaseResponse<List<ResponseBabsangDto>> {
+        return babsangApiService.postStores(userId)
     }
 }

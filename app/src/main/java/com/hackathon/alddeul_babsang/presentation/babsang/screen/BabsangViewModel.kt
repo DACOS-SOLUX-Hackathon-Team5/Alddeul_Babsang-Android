@@ -11,24 +11,26 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class BabsangViewModel @Inject constructor(
     private val babsangRepository: BabsangRepository
 ) : ViewModel() {
-    private val _getBabsangState =
+    private val _postBabsangState =
         MutableStateFlow<UiState<List<ResponseBabsangDto>>>(UiState.Empty)
-    val getBabsangState: StateFlow<UiState<List<ResponseBabsangDto>>> = _getBabsangState
+    val postBabsangState: StateFlow<UiState<List<ResponseBabsangDto>>> = _postBabsangState
 
-    fun getBabsang() = viewModelScope.launch  {
-        _getBabsangState.emit(UiState.Loading)
-        babsangRepository.getStores().fold(
+    fun postBabsang() = viewModelScope.launch  {
+        _postBabsangState.emit(UiState.Loading)
+        babsangRepository.postStores(userId = 1).fold(
             onSuccess = {
-                _getBabsangState.emit(UiState.Success(it))
+                _postBabsangState.emit(UiState.Success(it))
             },
             onFailure = {
-                _getBabsangState.emit(UiState.Failure(it.message.toString()))
+                _postBabsangState.emit(UiState.Failure(it.message.toString()))
+                Timber.e(it.localizedMessage)
             }
         )
     }

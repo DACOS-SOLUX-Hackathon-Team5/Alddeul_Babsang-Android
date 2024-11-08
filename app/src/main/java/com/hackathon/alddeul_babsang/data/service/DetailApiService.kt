@@ -1,12 +1,16 @@
 package com.hackathon.alddeul_babsang.data.service
 
 import com.hackathon.alddeul_babsang.data.dto.BaseResponse
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangRecommendDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailDto
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailRecommendDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseGetReviewDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseReviewDto
 import com.sopt.data.service.ApiKeyStorage.ID
+import com.sopt.data.service.ApiKeyStorage.RECOMMEND
 import com.sopt.data.service.ApiKeyStorage.REVIEW
 import com.sopt.data.service.ApiKeyStorage.REVIEWS
+import com.sopt.data.service.ApiKeyStorage.SIMILAR
 import com.sopt.data.service.ApiKeyStorage.STORES
 import com.sopt.data.service.ApiKeyStorage.STORE_ID
 import okhttp3.MultipartBody
@@ -39,4 +43,8 @@ interface DetailApiService {
         @Query("Userid") Userid: Int
     ): BaseResponse<ResponseDetailDto>
 
+    @POST("/$RECOMMEND/$SIMILAR")
+    suspend fun postRecommendStores(
+        @Query("storeId") storeId: Int
+    ) : BaseResponse<List<ResponseDetailRecommendDto>>
 }

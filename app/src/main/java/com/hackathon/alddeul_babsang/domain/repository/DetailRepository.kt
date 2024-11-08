@@ -1,6 +1,8 @@
 package com.hackathon.alddeul_babsang.domain.repository
 
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangRecommendDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailDto
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailRecommendDto
 import com.hackathon.alddeul_babsang.data.dto.response.Review
 import java.io.File
 
@@ -21,4 +23,8 @@ interface DetailRepository {
         id: Int,
         userId: Int
     ): Result<ResponseDetailDto?>
+
+    suspend fun postRecommendStores(
+        storeId: Int
+    ): Result<List<ResponseDetailRecommendDto>>
 }

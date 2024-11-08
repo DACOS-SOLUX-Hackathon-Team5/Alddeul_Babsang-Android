@@ -2,7 +2,9 @@ package com.hackathon.alddeul_babsang.data.datasourceimpl
 
 import com.hackathon.alddeul_babsang.data.datasource.DetailDataSource
 import com.hackathon.alddeul_babsang.data.dto.BaseResponse
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangRecommendDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailDto
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailRecommendDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseGetReviewDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseReviewDto
 import com.hackathon.alddeul_babsang.data.service.DetailApiService
@@ -29,4 +31,9 @@ class DetailDataSourceImpl @Inject constructor(
         return detailApiService.postStoreDetail(id, Userid)
     }
 
+    override suspend fun postRecommendStores(
+        storeId: Int
+    ): BaseResponse<List<ResponseDetailRecommendDto>> {
+        return detailApiService.postRecommendStores(storeId)
+    }
 }

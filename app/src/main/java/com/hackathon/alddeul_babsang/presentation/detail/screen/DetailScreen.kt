@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -49,17 +49,19 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
+import com.hackathon.alddeul_babsang.core_ui.component.LoadingCircleIndicator
 import com.hackathon.alddeul_babsang.core_ui.theme.Blue
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray200
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray300
-import com.hackathon.alddeul_babsang.core_ui.theme.Gray500
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray900
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange400
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange700
+import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.Red
 import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
+import com.hackathon.alddeul_babsang.core_ui.theme.head6Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.head7Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head7Semi
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailDto
@@ -87,6 +89,7 @@ fun DetailRoute(
     LaunchedEffect(Unit) {
         detailViewModel.getReviews(id)
         detailViewModel.postDetail(id.toInt())
+        detailViewModel.postDetailRecommend(id.toInt())
     }
 
     when (postDetailState) {
@@ -124,6 +127,10 @@ fun DetailScreen(
     var isFavorite by remember { mutableStateOf(data.storeInfo.favorite) }
     val getReviewsState by detailViewModel.getReviewsState.collectAsStateWithLifecycle(UiState.Empty)
     val likeViewModel: LikeViewModel = hiltViewModel()
+
+    val postDetailRecommendState by detailViewModel.postDetailRecommendState.collectAsStateWithLifecycle(
+        UiState.Empty
+    )
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -345,24 +352,57 @@ fun DetailScreen(
                     color = Gray900
                 )
             }
-            item {
-                LazyVerticalGrid(
-                    contentPadding = PaddingValues(horizontal = 20.dp),
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(550.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    items(detailViewModel.mockDetailRecommend) { item ->
-                        DetailRecommendedItem(
-                            data = item,
-                            onClick = { onItemClick(item.id) }
+
+
+            when (postDetailRecommendState) {
+                is UiState.Loading -> {
+                    item {
+                        LoadingCircleIndicator()
+                    }
+                }
+
+                is UiState.Success -> {
+                    val data = (postDetailRecommendState as UiState.Success).data
+                    if (data.isEmpty()) {
+                    } else {
+                        item {
+                            LazyVerticalGrid(
+                                contentPadding = PaddingValues(horizontal = 20.dp),
+                                columns = GridCells.Fixed(2),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(550.dp),
+                                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                itemsIndexed(data) { index, item ->
+                                    DetailRecommendedItem(
+                                        onClick = { onItemClick(item.storeId) },
+                                        data = item
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+
+                }
+
+                is UiState.Failure -> {
+                    item {
+                        Text(
+                            text = (postDetailRecommendState as UiState.Failure).msg,
+                            style = head6Semi,
+                            color = Orange900,
+                            modifier = Modifier.padding(vertical = 20.dp)
                         )
                     }
                 }
+
+                else -> {}
+
             }
+
         }
     }
 }

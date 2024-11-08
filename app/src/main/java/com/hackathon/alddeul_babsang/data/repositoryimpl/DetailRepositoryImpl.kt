@@ -1,7 +1,9 @@
 package com.hackathon.alddeul_babsang.data.repositoryimpl
 
 import com.hackathon.alddeul_babsang.data.datasource.DetailDataSource
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangRecommendDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailDto
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailRecommendDto
 import com.hackathon.alddeul_babsang.data.dto.response.Review
 import com.hackathon.alddeul_babsang.domain.repository.DetailRepository
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -51,6 +53,16 @@ class DetailRepositoryImpl @Inject constructor(
     override suspend fun postStoreDetail(id: Int, userId: Int): Result<ResponseDetailDto?> {
         return runCatching {
             detailDataSource.postStoreDetail(id = id, Userid = userId).result
+        }
+    }
+
+    override suspend fun postRecommendStores(
+        storeId: Int
+    ): Result<List<ResponseDetailRecommendDto>> {
+        return runCatching {
+            detailDataSource.postRecommendStores(
+                storeId = storeId
+            ).result ?: emptyList()
         }
     }
 }

@@ -33,7 +33,7 @@ class DetailDataSourceImpl @Inject constructor(
 
     override suspend fun postRecommendStores(
         storeId: Int
-    ): BaseResponse<List<ResponseDetailRecommendDto>> {
+    ): BaseResponse<List<ResponseDetailRecommendDto?>> {
         return detailApiService.postRecommendStores(storeId)
     }
 }

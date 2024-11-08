@@ -10,21 +10,21 @@ import androidx.compose.ui.unit.dp
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray600
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Semi
-import com.hackathon.alddeul_babsang.domain.entity.MenuEntity
+import com.hackathon.alddeul_babsang.data.dto.response.Menu
 
 @Composable
 fun MenuItem(
-    data: MenuEntity
+    data: Menu
 ) {
     Row {
         Text(
-            text = data.name,
+            text = data.name.ifBlank { "메뉴명 없음" },
             style = body2Semi,
             color = Gray600
         )
         Spacer(modifier = Modifier.width(5.dp))
         Text(
-            text = data.price.toString(),
+            text = if (data.price == 0) "가격 없음" else data.price.toString(),
             style = body2Semi,
             color = Orange900
         )

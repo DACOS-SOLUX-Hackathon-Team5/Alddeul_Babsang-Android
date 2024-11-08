@@ -46,5 +46,5 @@ interface DetailApiService {
     @POST("/$RECOMMEND/$SIMILAR")
     suspend fun postRecommendStores(
         @Query("storeId") storeId: Int
-    ) : BaseResponse<List<ResponseDetailRecommendDto>>
+    ) : BaseResponse<List<ResponseDetailRecommendDto?>>
 }

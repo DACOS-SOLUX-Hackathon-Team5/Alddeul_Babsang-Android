@@ -26,5 +26,5 @@ interface DetailRepository {
 
     suspend fun postRecommendStores(
         storeId: Int
-    ): Result<List<ResponseDetailRecommendDto>>
+    ): Result<List<ResponseDetailRecommendDto?>>
 }

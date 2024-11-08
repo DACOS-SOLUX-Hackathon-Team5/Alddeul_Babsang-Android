@@ -58,7 +58,7 @@ class DetailRepositoryImpl @Inject constructor(
 
     override suspend fun postRecommendStores(
         storeId: Int
-    ): Result<List<ResponseDetailRecommendDto>> {
+    ): Result<List<ResponseDetailRecommendDto?>> {
         return runCatching {
             detailDataSource.postRecommendStores(
                 storeId = storeId

@@ -27,5 +27,5 @@ interface DetailDataSource {
 
     suspend fun postRecommendStores(
         storeId: Int
-    ): BaseResponse<List<ResponseDetailRecommendDto>>
+    ): BaseResponse<List<ResponseDetailRecommendDto?>>
 }

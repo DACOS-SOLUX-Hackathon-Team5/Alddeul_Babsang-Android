@@ -298,11 +298,8 @@ fun DetailScreen(
                             .padding(horizontal = 16.dp, vertical = 19.dp),
                         verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
-                        for (item in detailViewModel.mockMenuList) {
-                            MenuItem(
-                                data = item
-                            )
-                        }
+                        MenuItem(data = data.menu1)
+                        MenuItem(data = data.menu2)
                     }
                 }
             }
@@ -376,10 +373,12 @@ fun DetailScreen(
                                 verticalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
                                 itemsIndexed(data) { index, item ->
-                                    DetailRecommendedItem(
-                                        onClick = { onItemClick(item.storeId) },
-                                        data = item
-                                    )
+                                    item?.let {
+                                        DetailRecommendedItem(
+                                            onClick = { onItemClick(item.storeId) },
+                                            data = item
+                                        )
+                                    }
                                 }
                             }
                         }

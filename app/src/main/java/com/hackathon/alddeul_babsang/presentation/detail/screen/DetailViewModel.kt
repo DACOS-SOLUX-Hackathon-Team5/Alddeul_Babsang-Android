@@ -32,8 +32,8 @@ class DetailViewModel @Inject constructor(
     val postDetailState: SharedFlow<UiState<ResponseDetailDto?>> = _postDetailState
 
     private val _postDetailRecommendState =
-        MutableStateFlow<UiState<List<ResponseDetailRecommendDto>>>(UiState.Empty)
-    val postDetailRecommendState: StateFlow<UiState<List<ResponseDetailRecommendDto>>> = _postDetailRecommendState
+        MutableStateFlow<UiState<List<ResponseDetailRecommendDto?>>>(UiState.Empty)
+    val postDetailRecommendState: StateFlow<UiState<List<ResponseDetailRecommendDto?>>> = _postDetailRecommendState
 
     fun getReviews(id: Long) = viewModelScope.launch {
         _getReviewsState.emit(UiState.Loading)

@@ -37,10 +37,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.Blue
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray300
+import com.hackathon.alddeul_babsang.core_ui.theme.Orange700
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange800
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.White
@@ -316,11 +318,17 @@ fun MapScreen(
                         .padding(20.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
+                    AsyncImage(
                         modifier = Modifier
                             .size(70.dp)
-                            .clip(CircleShape),
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
+                            .clip(CircleShape)
+                            .background(color = Orange700, shape = CircleShape),
+                        model = data.imageUrl?: when (data.category) {
+                            "KOREAN" -> R.drawable.ic_korean_food
+                            "CHINESE" -> R.drawable.ic_chinese_food
+                            "WESTERN_JAPANESE" -> R.drawable.ic_japanese_food
+                            else -> R.drawable.ic_etc_food
+                        },
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds
                     )
@@ -355,7 +363,7 @@ fun MapScreen(
                         )
                         Text(
                             modifier = Modifier.padding(top = 4.dp),
-                            text = data.contact,
+                            text = data.contact.ifBlank { "연락처 정보 없음" },
                             style = body4Regular,
                             color = Gray300
                         )

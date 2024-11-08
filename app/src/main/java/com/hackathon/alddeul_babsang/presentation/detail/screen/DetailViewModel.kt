@@ -2,6 +2,7 @@ package com.hackathon.alddeul_babsang.presentation.detail.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailDto
 import com.hackathon.alddeul_babsang.data.dto.response.Review
 import com.hackathon.alddeul_babsang.domain.entity.BabsangDetailEntity
 import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
@@ -10,7 +11,9 @@ import com.hackathon.alddeul_babsang.domain.entity.ReviewEntity
 import com.hackathon.alddeul_babsang.domain.repository.DetailRepository
 import com.hackathon.alddeul_babsang.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,6 +25,9 @@ class DetailViewModel @Inject constructor(
     private val _getReviewsState = MutableStateFlow<UiState<List<Review>>>(UiState.Empty)
     val getReviewsState: StateFlow<UiState<List<Review>>> = _getReviewsState
 
+    private val _postDetailState = MutableSharedFlow<UiState<ResponseDetailDto?>>(replay = 1)
+    val postDetailState: SharedFlow<UiState<ResponseDetailDto?>> = _postDetailState
+
     fun getReviews(id: Long) = viewModelScope.launch {
         _getReviewsState.emit(UiState.Loading)
         detailRepository.getReviews(id).fold(
@@ -30,6 +36,18 @@ class DetailViewModel @Inject constructor(
             },
             onFailure = {
                 _getReviewsState.emit(UiState.Failure(it.message ?: ""))
+            }
+        )
+    }
+
+    fun postDetail(id: Int) = viewModelScope.launch {
+        _postDetailState.emit(UiState.Loading)
+        detailRepository.postStoreDetail(id = id, userId = 1).fold(
+            onSuccess = {
+                _postDetailState.emit(UiState.Success(it))
+            },
+            onFailure = {
+                _postDetailState.emit(UiState.Failure(it.message ?: ""))
             }
         )
     }

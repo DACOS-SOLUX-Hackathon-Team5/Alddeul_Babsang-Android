@@ -10,12 +10,12 @@ class ProfileRepositoryImpl @Inject constructor(
     private val profileDataSource: ProfileDataSource
 ) : ProfileRepository {
     override suspend fun getLikes(
-        userId: Long,
+        userId: Int,
     ): Result<List<FavoriteRestaurantDto>> {
         return runCatching {
             profileDataSource.getLikes(
                 userId = userId
-            ).result?.favoriteRestaurants ?: emptyList()
+            ).result?.favoriteStoreDetailDtos ?: emptyList()
         }
     }
 

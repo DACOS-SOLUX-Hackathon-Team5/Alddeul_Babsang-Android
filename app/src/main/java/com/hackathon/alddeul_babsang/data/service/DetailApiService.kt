@@ -1,6 +1,7 @@
 package com.hackathon.alddeul_babsang.data.service
 
 import com.hackathon.alddeul_babsang.data.dto.BaseResponse
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseGetReviewDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseReviewDto
 import com.sopt.data.service.ApiKeyStorage.ID
@@ -16,6 +17,7 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.PartMap
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface DetailApiService {
     @Multipart
@@ -30,5 +32,11 @@ interface DetailApiService {
     suspend fun getReviews(
         @Path("id") id: Long
     ): BaseResponse<ResponseGetReviewDto>
+
+    @POST("/$STORES/{$ID}")
+    suspend fun postStoreDetail(
+        @Path("id") id: Int,
+        @Query("Userid") Userid: Int
+    ): BaseResponse<ResponseDetailDto>
 
 }

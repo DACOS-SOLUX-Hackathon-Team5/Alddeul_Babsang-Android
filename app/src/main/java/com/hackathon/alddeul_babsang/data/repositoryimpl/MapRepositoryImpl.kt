@@ -23,9 +23,7 @@ class MapRepositoryImpl @Inject constructor(
         return runCatching {
             mapDataSource.postMapStoreDetail(
                 id = id,
-                requestMapStoreDetailDto = RequestMapStoreDetailDto(
-                    userId
-                )
+                userId = userId
             ).result
         }
     }

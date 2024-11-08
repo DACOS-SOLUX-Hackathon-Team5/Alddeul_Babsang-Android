@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 
@@ -17,25 +18,23 @@ import javax.inject.Inject
 class ReportViewModel @Inject constructor(
     private val reportRepository: ReportRepository
 ) : ViewModel() {
-    private val _getReportState =
+    private val _postReportsState =
         MutableStateFlow<UiState<List<ResponseReportDto>>>(UiState.Empty)
-    val getReportState: StateFlow<UiState<List<ResponseReportDto>>> = _getReportState
+    val postReportsState: StateFlow<UiState<List<ResponseReportDto>>> = _postReportsState
 
     private val _postReportWriteState =
         MutableStateFlow<UiState<String>>(UiState.Empty)
     val postReportWriteState: StateFlow<UiState<String>> = _postReportWriteState
 
 
-    fun postReports(
-        userId : Long = 1
-    ) = viewModelScope.launch  {
-        _getReportState.emit(UiState.Loading)
-        reportRepository.postReports(userId).fold(
+    fun postReports() = viewModelScope.launch  {
+        _postReportsState.emit(UiState.Loading)
+        reportRepository.postReports(userId = 1).fold(
             onSuccess = {
-                _getReportState.emit(UiState.Success(it))
+                _postReportsState.emit(UiState.Success(it))
             },
             onFailure = {
-                _getReportState.emit(UiState.Failure(it.message.toString()))
+                _postReportsState.emit(UiState.Failure(it.message.toString()))
             }
         )
     }
@@ -49,7 +48,7 @@ class ReportViewModel @Inject constructor(
         menuPrice1: Int,
         menuName2: String,
         menuPrice2: Int,
-        imageUrl: String
+        imageUrl: File
     ) = viewModelScope.launch  {
         _postReportWriteState.emit(UiState.Loading)
         reportRepository.postReportWrite(

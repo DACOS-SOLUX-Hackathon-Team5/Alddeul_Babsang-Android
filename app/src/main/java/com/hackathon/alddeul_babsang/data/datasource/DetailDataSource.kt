@@ -1,6 +1,7 @@
 package com.hackathon.alddeul_babsang.data.datasource
 
 import com.hackathon.alddeul_babsang.data.dto.BaseResponse
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseGetReviewDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseReviewDto
 import okhttp3.MultipartBody
@@ -16,4 +17,9 @@ interface DetailDataSource {
     suspend fun getReviews(
         id: Long
     ): BaseResponse<ResponseGetReviewDto>
+
+    suspend fun postStoreDetail(
+        id: Int,
+        Userid: Int
+    ): BaseResponse<ResponseDetailDto>
 }

@@ -8,9 +8,13 @@ import javax.inject.Inject
 class BabsangRepositoryImpl @Inject constructor(
     private val babsangDataSource: BabsangDataSource
 ) : BabsangRepository{
-    override suspend fun getStores(): Result<List<ResponseBabsangDto>> {
+    override suspend fun postStores(
+        userId: Int
+    ): Result<List<ResponseBabsangDto>> {
         return runCatching {
-            babsangDataSource.getStores().result ?: emptyList()
+            babsangDataSource.postStores(
+                userId = userId
+            ).result ?: emptyList()
         }
     }
 }

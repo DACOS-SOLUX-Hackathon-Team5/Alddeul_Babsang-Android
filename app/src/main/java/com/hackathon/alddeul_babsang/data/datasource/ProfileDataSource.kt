@@ -6,7 +6,7 @@ import com.hackathon.alddeul_babsang.data.dto.response.ResponseLikesDto
 
 interface ProfileDataSource {
     suspend fun getLikes(
-        userId: Long
+        userId: Int
     ): BaseResponse<ResponseLikesDto>
 
     suspend fun postLike(

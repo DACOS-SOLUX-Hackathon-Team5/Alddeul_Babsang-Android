@@ -116,7 +116,7 @@ fun ProfileScreen(
                     .size(110.dp)
                     .clip(CircleShape)
                     .border(3.dp, Yellow, CircleShape),
-                model = "",
+                model = "https://avatars.githubusercontent.com/u/91470334?s=80&u=4a743fda141cf8a074022b515b0ce3286e6c8560&v=4",
                 placeholder = painterResource(id = R.drawable.ic_signup_profile),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
@@ -126,7 +126,7 @@ fun ProfileScreen(
             ) {
                 Text(
                     modifier = Modifier.padding(bottom = 18.dp),
-                    text = stringResource(R.string.tv_profile_nickname),
+                    text = "알뜰밥상",
                     style = head4Bold
                 )
                 Row(

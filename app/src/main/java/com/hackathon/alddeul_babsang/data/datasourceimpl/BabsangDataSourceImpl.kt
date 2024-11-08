@@ -3,6 +3,7 @@ package com.hackathon.alddeul_babsang.data.datasourceimpl
 import com.hackathon.alddeul_babsang.data.datasource.BabsangDataSource
 import com.hackathon.alddeul_babsang.data.dto.BaseResponse
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangDto
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangRecommendDto
 import com.hackathon.alddeul_babsang.data.service.BabsangApiService
 import javax.inject.Inject
 
@@ -13,5 +14,11 @@ class BabsangDataSourceImpl @Inject constructor(
         userId: Int
     ): BaseResponse<List<ResponseBabsangDto>> {
         return babsangApiService.postStores(userId)
+    }
+
+    override suspend fun postRecommendStores(
+        userId: Int
+    ): BaseResponse<List<ResponseBabsangRecommendDto>> {
+        return babsangApiService.postRecommendStores(userId)
     }
 }

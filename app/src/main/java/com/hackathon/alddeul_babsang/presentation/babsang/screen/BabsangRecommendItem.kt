@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -19,13 +18,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
 import com.hackathon.alddeul_babsang.core_ui.theme.Blue
@@ -41,12 +38,12 @@ import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body7Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head5Bold
-import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangRecommendDto
 
 @Composable
 fun BabsangRecommendItem(
     onClick: () -> Unit = {},
-    data: BabsangRecommendEntity
+    data: ResponseBabsangRecommendDto
 ) {
     Column(
         modifier = Modifier
@@ -60,8 +57,8 @@ fun BabsangRecommendItem(
                 .fillMaxHeight()
                 .clip(RoundedCornerShape(14.dp))
         ) {
-            // AsyncImage 로드
-            ReplaceImage(data.codeName, data.avatar)
+            //카테고리별 이미지 지정
+            LoadImage(data.category)
             Column(
                 modifier = Modifier
                     .padding(top = 110.dp)
@@ -75,7 +72,7 @@ fun BabsangRecommendItem(
                         .background(White),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(data.address, textAlign = TextAlign.Center, style = body7Semi)
+                    Text(data.region, textAlign = TextAlign.Center, style = body7Semi)
                 }
                 Text(
                     modifier = Modifier
@@ -89,7 +86,7 @@ fun BabsangRecommendItem(
                 )
                 Text(
                     modifier = Modifier.padding(top = 6.dp),
-                    text = data.codeName,
+                    text = data.category,
                     style = body4Regular,
                     color = White
                 )
@@ -105,7 +102,7 @@ fun BabsangRecommendItem(
             )
             Spacer(modifier = Modifier.width(15.dp))
             Text(
-                text = data.codeName,
+                text = data.category,
                 style = body2Regular,
                 color = Orange800,
                 modifier = Modifier
@@ -115,7 +112,7 @@ fun BabsangRecommendItem(
         }
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = data.address,
+            text = data.region,
             style = body4Regular,
             color = Gray300,
             modifier = Modifier.padding(start = 20.dp)
@@ -126,7 +123,7 @@ fun BabsangRecommendItem(
 }
 
 @Composable
-fun ReplaceImage(codeName: String, imageUrl: String?) {
+fun LoadImage(codeName: String) {
     val imageId = when (codeName) {
         "경양식/일식" -> R.drawable.ic_japanese_food
         "한식" -> R.drawable.ic_korean_food
@@ -146,32 +143,16 @@ fun ReplaceImage(codeName: String, imageUrl: String?) {
             .fillMaxHeight()
             .background(color = backgroundColor) // 배경색 설정
     ) {
-        if (imageUrl.isNullOrEmpty()) {
-            // imageUrl이 null이나 empty일 경우 대체 이미지 표시
-            Image(
-                painter = painterResource(id = imageId),  // 대체 이미지
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(horizontal = 15.dp)
-                    .padding(bottom = 80.dp)
-                    .padding(top = 15.dp)
-            )
-        } else {
-            // imageUrl이 null이 아니면 AsyncImage로 비동기 이미지 로드
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = null,
-                placeholder = painterResource(id = imageId),
-                contentScale = ContentScale.Crop,  // 이미지 비율 유지, 크기 확대 또는 자르기
-                modifier = Modifier
-                    .fillMaxWidth()    // 가로는 꽉 차게
-                    .fillMaxHeight()   // 세로도 꽉 차게
-                    .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
-            )
-
-        }
+        Image(
+            painter = painterResource(id = imageId),  // 대체 이미지
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(horizontal = 15.dp)
+                .padding(bottom = 80.dp)
+                .padding(top = 15.dp)
+        )
     }
 }
 
@@ -180,12 +161,11 @@ fun ReplaceImage(codeName: String, imageUrl: String?) {
 fun BabsangRecommendItemPreview() {
     AlddeulBabsangTheme {
         BabsangRecommendItem(
-            data = BabsangRecommendEntity(
-                id = 1,
-                avatar = null,
+            data = ResponseBabsangRecommendDto(
+                storeId = 1,
                 name = "송이네 밥상",
-                codeName = "경양식/일식",
-                address = "용산구",
+                category = "한식",
+                region = "용산구",
             )
         )
     }

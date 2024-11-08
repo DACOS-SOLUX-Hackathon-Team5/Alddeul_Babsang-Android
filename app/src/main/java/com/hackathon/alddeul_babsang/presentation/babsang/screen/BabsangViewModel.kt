@@ -3,6 +3,7 @@ package com.hackathon.alddeul_babsang.presentation.babsang.screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangDto
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangRecommendDto
 import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
 import com.hackathon.alddeul_babsang.domain.repository.BabsangRepository
 import com.hackathon.alddeul_babsang.util.UiState
@@ -21,6 +22,11 @@ class BabsangViewModel @Inject constructor(
         MutableStateFlow<UiState<List<ResponseBabsangDto>>>(UiState.Empty)
     val postBabsangState: StateFlow<UiState<List<ResponseBabsangDto>>> = _postBabsangState
 
+    private val _postBabsangRecommendState =
+        MutableStateFlow<UiState<List<ResponseBabsangRecommendDto>>>(UiState.Empty)
+    val postBabsangRecommendState: StateFlow<UiState<List<ResponseBabsangRecommendDto>>> = _postBabsangRecommendState
+
+
     fun postBabsang() = viewModelScope.launch  {
         _postBabsangState.emit(UiState.Loading)
         babsangRepository.postStores(userId = 1).fold(
@@ -29,6 +35,19 @@ class BabsangViewModel @Inject constructor(
             },
             onFailure = {
                 _postBabsangState.emit(UiState.Failure(it.message.toString()))
+                Timber.e(it.localizedMessage)
+            }
+        )
+    }
+
+    fun postBabsangRecommend() = viewModelScope.launch  {
+        _postBabsangRecommendState.emit(UiState.Loading)
+        babsangRepository.postRecommendStores(userId = 1).fold(
+            onSuccess = {
+                _postBabsangRecommendState.emit(UiState.Success(it))
+            },
+            onFailure = {
+                _postBabsangRecommendState.emit(UiState.Failure(it.message.toString()))
                 Timber.e(it.localizedMessage)
             }
         )

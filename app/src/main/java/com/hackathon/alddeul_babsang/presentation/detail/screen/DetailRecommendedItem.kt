@@ -27,6 +27,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Blue
 import com.hackathon.alddeul_babsang.core_ui.theme.Font_B04
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange700
 import com.hackathon.alddeul_babsang.core_ui.theme.Pink
+import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.Yellow
 import com.hackathon.alddeul_babsang.core_ui.theme.body1Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
@@ -51,7 +52,13 @@ fun DetailRecommendedItem(
             color = Black
         )
         Text(
-            text = data.category,
+            modifier = Modifier.padding(top = 6.dp),
+            text = when(data.category) {
+                "KOREAN" -> "한식"
+                "CHINESE" -> "중식"
+                "WESTERN_JAPANESE" -> "경양식/일식"
+                else -> "기타외식업"
+            },
             style = body4Regular,
             color = Font_B04
         )
@@ -89,9 +96,9 @@ fun LoadImage2(codeName: String) {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .padding(horizontal = 15.dp)
-                .padding(bottom = 80.dp)
-                .padding(top = 15.dp)
+                .align(Alignment.Center)
+                .padding(vertical = 40.dp)
+                .padding(horizontal = 40.dp)
         )
     }
 }

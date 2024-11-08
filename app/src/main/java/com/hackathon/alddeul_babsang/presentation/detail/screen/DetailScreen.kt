@@ -188,9 +188,9 @@ fun DetailScreen(
                 ) {
                     AsyncImage(
                         model = data.storeInfo.imageUrl ?: when (data.storeInfo.category) {
-                            "한식" -> R.drawable.ic_korean_food
-                            "중식" -> R.drawable.ic_chinese_food
-                            "경양식/일식" -> R.drawable.ic_japanese_food
+                            "KOREAN" -> R.drawable.ic_korean_food
+                            "CHINESE" -> R.drawable.ic_chinese_food
+                            "WESTERN_JAPANESE" -> R.drawable.ic_japanese_food
                             else -> R.drawable.ic_etc_food
                         },
                         contentDescription = null,

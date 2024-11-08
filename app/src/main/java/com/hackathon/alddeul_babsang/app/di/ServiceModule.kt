@@ -1,6 +1,8 @@
 package com.hackathon.alddeul_babsang.app.di
 
 import com.hackathon.alddeul_babsang.data.service.BabsangApiService
+import com.hackathon.alddeul_babsang.data.service.ReportApiService
+import com.hackathon.alddeul_babsang.data.service.ReportWriteApiService
 import com.sopt.data.service.ExampleApiService
 import dagger.Module
 import dagger.Provides
@@ -24,4 +26,16 @@ object ServiceModule {
     fun provideBabsangService(
         @AlddeulRetrofit retrofit: Retrofit
     ): BabsangApiService = retrofit.create(BabsangApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideReportService(
+        @AlddeulRetrofit retrofit: Retrofit
+    ): ReportApiService = retrofit.create(ReportApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideReportWriteService(
+        @AlddeulRetrofit retrofit: Retrofit
+    ): ReportWriteApiService = retrofit.create(ReportWriteApiService::class.java)
 }

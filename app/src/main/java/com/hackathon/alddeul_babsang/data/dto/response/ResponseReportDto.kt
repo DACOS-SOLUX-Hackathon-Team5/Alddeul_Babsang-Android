@@ -11,6 +11,6 @@ data class ResponseReportDto(
     @SerialName("address") val address: String,
     @SerialName("contact") val contact: String,
     @SerialName("imageUrl") val imageUrl: String? = null,
-    @SerialName("favorite") val isFavorite: Boolean
+    @SerialName("favorite") val favorite: Boolean
 )
 

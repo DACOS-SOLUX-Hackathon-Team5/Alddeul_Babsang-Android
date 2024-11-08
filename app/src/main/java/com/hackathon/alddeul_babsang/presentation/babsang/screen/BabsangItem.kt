@@ -38,8 +38,6 @@ import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangDto
-import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
-import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeItem
 
 @Composable
 fun BabsangItem(
@@ -165,14 +163,14 @@ fun ReplaceImage2(codeName: String, imageUrl: String?) {
 @Composable
 fun BabsangListItemPreview() {
     AlddeulBabsangTheme {
-        LikeItem(
-            data = LikesEntity(
+        BabsangItem(
+            data = ResponseBabsangDto(
                 id = 1,
-                avatar = null,
                 name = "송이네 밥상",
-                codeName = "경양식/일식",
+                category = "경양식/일식",
                 address = "서울특별시 용산구 청파동 11",
-                phone = "02-210-0220",
+                contact = "02-210-0220",
+                imageUrl = null,
                 favorite = true
             )
         )

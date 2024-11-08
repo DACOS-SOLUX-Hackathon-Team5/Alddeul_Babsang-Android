@@ -2,6 +2,7 @@ package com.hackathon.alddeul_babsang.presentation.profile.screen
 
 
 import androidx.lifecycle.ViewModel
+import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
 import com.hackathon.alddeul_babsang.domain.entity.ReportEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -9,7 +10,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LikeViewModel @Inject constructor() : ViewModel() {
     val mockLikes = listOf(
-        ReportEntity(
+        LikesEntity(
             id = 1,
             avatar = null,
             name = "송이네 밥상",
@@ -18,7 +19,7 @@ class LikeViewModel @Inject constructor() : ViewModel() {
             phone = "02-210-0120",
             favorite = true
         ),
-        ReportEntity(
+        LikesEntity(
             id = 2,
             avatar = null,
             name = "송이네 일식",
@@ -27,7 +28,7 @@ class LikeViewModel @Inject constructor() : ViewModel() {
             phone = "02-210-0220",
             favorite = true
         ),
-        ReportEntity(
+        LikesEntity(
             id = 3,
             avatar = null,
             name = "송이네 한식",
@@ -36,7 +37,7 @@ class LikeViewModel @Inject constructor() : ViewModel() {
             phone = "02-223-0220",
             favorite = true
         ),
-        ReportEntity(
+        LikesEntity(
             id = 4,
             avatar = null,
             name = "송이네 중식",
@@ -45,7 +46,7 @@ class LikeViewModel @Inject constructor() : ViewModel() {
             phone = "02-223-0220",
             favorite = true
         ),
-        ReportEntity(
+        LikesEntity(
             id = 4,
             avatar = "https://avatars.githubusercontent.com/u/166610834?s=400&u=568eacc2e4696d563a4fd732c148edba2196e4f6&v=4",
             name = "송이네 밥상",

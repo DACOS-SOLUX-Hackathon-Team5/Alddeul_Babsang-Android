@@ -47,9 +47,11 @@ import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseMapStoreDetailDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseMapStoresDto
 import com.hackathon.alddeul_babsang.presentation.map.navigation.MapNavigator
 import com.hackathon.alddeul_babsang.util.UiState
+import com.hackathon.alddeul_babsang.util.toast
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraPosition
@@ -99,9 +101,11 @@ fun MapRoute(
         is UiState.Success -> {
             data = (getMapStoresState as UiState.Success).data
         }
+
         is UiState.Failure -> {
             Timber.e((getMapStoresState as UiState.Failure).msg)
         }
+
         else -> {}
     }
 
@@ -137,9 +141,28 @@ fun MapScreen(
         position = CameraPosition(NaverMapConstants.DefaultCameraPosition.target, 10.0)
     }
     var showBabsangDetail by remember { mutableStateOf(false) }
-    var selectedBabsangDetail by remember { mutableStateOf<MapData?>(null) }
+    var selectedBabsangDetail by remember { mutableStateOf<ResponseMapStoreDetailDto?>(null) }
     val context = LocalContext.current
-    val getMapStoreDetailState by mapViewModel.getMapStoreDetailState.collectAsStateWithLifecycle(UiState.Empty)
+    val postMapStoreDetailState by mapViewModel.postMapStoreDetailState.collectAsStateWithLifecycle(
+        UiState.Empty
+    )
+
+    when (postMapStoreDetailState) {
+        is UiState.Success -> {
+            val data = (postMapStoreDetailState as UiState.Success).data
+            Timber.d("Map store detail success: $data")
+            if (data != null) {
+                selectedBabsangDetail = data
+            }
+        }
+
+        is UiState.Failure -> {
+            Timber.e("Map store detail failed: ${(postMapStoreDetailState as UiState.Failure).msg}")
+            context.toast((postMapStoreDetailState as UiState.Failure).msg)
+        }
+
+        else -> {}
+    }
 
     Box(
         modifier = Modifier
@@ -185,7 +208,13 @@ fun MapScreen(
                             if (cluster.maxZoom <= 9) {
                                 null
                             } else {
-                                MapData(-1, "", "", (cluster.children.first().tag as MapData).gu, "")
+                                MapData(
+                                    -1,
+                                    "",
+                                    "",
+                                    (cluster.children.first().tag as MapData).gu,
+                                    ""
+                                )
                             }
                         }
                         .markerManager(object : DefaultMarkerManager() {
@@ -223,7 +252,12 @@ fun MapScreen(
                             marker.setCaptionAligns(Align.Bottom)
                             marker.captionColor = Orange900.toArgb()
                             marker.captionHaloColor = White.toArgb()
-                            marker.subCaptionText = (info.tag as MapData).codeName
+                            marker.subCaptionText = when ((info.tag as MapData).codeName) {
+                                "KOREAN" -> "한식"
+                                "CHINESE" -> "중식"
+                                "WESTERN_JAPANESE" -> "경양식/일식"
+                                else -> "기타외식업"
+                            }
                             marker.subCaptionColor = Blue.toArgb()
                             marker.onClickListener = Overlay.OnClickListener { _ ->
                                 val position = marker.position
@@ -232,9 +266,9 @@ fun MapScreen(
                                     .animate(CameraAnimation.Easing)
                                 map.moveCamera(cameraUpdate)
 
+                                mapViewModel.postMapStoreDetail((info.tag as MapData).id)
                                 // 클릭된 마커의 정보
                                 showBabsangDetail = true
-                                selectedBabsangDetail = info.tag as MapData
                                 true
                             }
                         }
@@ -260,90 +294,86 @@ fun MapScreen(
             }
         }
         if (showBabsangDetail && selectedBabsangDetail != null) {
-            val data = selectedBabsangDetail ?: throw IllegalStateException("Data is null")
-            mapViewModel.getMapStoreDetail(data.id)
+            val data = selectedBabsangDetail!!
 
-            when (getMapStoreDetailState) {
-                is UiState.Success -> {
-                    val detailData = (getMapStoreDetailState as UiState.Success).data ?: return
-                    Surface(
+            Surface(
+                modifier = Modifier
+                    .padding(horizontal = 18.dp, vertical = 12.dp)
+                    .align(Alignment.BottomCenter)
+                    .shadow(
+                        elevation = 4.dp,
+                        shape = RoundedCornerShape(14.dp)
+                    )
+                    .clickable { onDetailClick(data.storeId) }
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = White,
+                            shape = RoundedCornerShape(14.dp)
+                        )
+                        .padding(20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
                         modifier = Modifier
-                            .padding(horizontal = 18.dp, vertical = 12.dp)
-                            .align(Alignment.BottomCenter)
-                            .shadow(
-                                elevation = 4.dp,
-                                shape = RoundedCornerShape(14.dp)
-                            )
-                            .clickable { onDetailClick(data.id) }
-                    ) {
+                            .size(70.dp)
+                            .clip(CircleShape),
+                        painter = painterResource(id = R.drawable.ic_launcher_background),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds
+                    )
+                    Spacer(modifier = Modifier.width(14.dp))
+                    Column {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(
-                                    color = White,
-                                    shape = RoundedCornerShape(14.dp)
-                                )
-                                .padding(20.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.Bottom
                         ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(70.dp)
-                                    .clip(CircleShape),
-                                painter = painterResource(id = R.drawable.ic_launcher_background),
-                                contentDescription = null,
-                                contentScale = ContentScale.FillBounds
+                            Text(
+                                text = data.name,
+                                style = head4Bold,
+                                color = Orange900
                             )
-                            Spacer(modifier = Modifier.width(14.dp))
-                            Column {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.Bottom
-                                ) {
-                                    Text(
-                                        text = detailData.name,
-                                        style = head4Bold,
-                                        color = Orange900
-                                    )
-                                    Spacer(modifier = Modifier.weight(1f))
-                                    Text(
-                                        text = when(detailData.category) {
-                                            "KOREAN" -> "한식"
-                                            "CHINESE" -> "중식"
-                                            "WESTERN_JAPANESE" -> "경양식/일식"
-                                            else -> "기타외식업"
-                                        },
-                                        style = body2Regular,
-                                        color = Orange800
-                                    )
-                                }
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Text(
-                                    text = detailData.address,
-                                    style = body4Regular,
-                                    color = Gray300
-                                )
-                                Text(
-                                    modifier = Modifier.padding(top = 4.dp),
-                                    text = detailData.contact,
-                                    style = body4Regular,
-                                    color = Gray300
-                                )
-                            }
+                            Spacer(modifier = Modifier.weight(1f))
+                            Text(
+                                text = when (data.category) {
+                                    "KOREAN" -> "한식"
+                                    "CHINESE" -> "중식"
+                                    "WESTERN_JAPANESE" -> "경양식/일식"
+                                    else -> "기타외식업"
+                                },
+                                style = body2Regular,
+                                color = Orange800
+                            )
                         }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = data.address,
+                            style = body4Regular,
+                            color = Gray300
+                        )
+                        Text(
+                            modifier = Modifier.padding(top = 4.dp),
+                            text = data.contact,
+                            style = body4Regular,
+                            color = Gray300
+                        )
                     }
                 }
-                is UiState.Failure -> {
-                    Timber.e((getMapStoreDetailState as UiState.Failure).msg)
-                }
-                else -> {}
             }
         }
     }
 }
 
 
-private class MapData(val id: Long, val name: String, val codeName: String, val gu: String, val address: String)
+private class MapData(
+    val id: Long,
+    val name: String,
+    val codeName: String,
+    val gu: String,
+    val address: String
+)
 
 @Preview(showBackground = true)
 @Composable

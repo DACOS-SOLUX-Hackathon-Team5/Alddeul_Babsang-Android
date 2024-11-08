@@ -1,6 +1,7 @@
 package com.hackathon.alddeul_babsang.data.repositoryimpl
 
 import com.hackathon.alddeul_babsang.data.datasource.MapDataSource
+import com.hackathon.alddeul_babsang.data.dto.request.RequestMapStoreDetailDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseMapStoreDetailDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseMapStoresDto
 import com.hackathon.alddeul_babsang.domain.repository.MapRepository
@@ -15,9 +16,17 @@ class MapRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMapStoreDetail(id: Long): Result<ResponseMapStoreDetailDto?> {
+    override suspend fun postMapStoreDetail(
+        id: Long,
+        userId: Long
+    ): Result<ResponseMapStoreDetailDto?> {
         return runCatching {
-            mapDataSource.getMapStoreDetail(id).result
+            mapDataSource.postMapStoreDetail(
+                id = id,
+                requestMapStoreDetailDto = RequestMapStoreDetailDto(
+                    userId
+                )
+            ).result
         }
     }
 }

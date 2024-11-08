@@ -75,8 +75,8 @@ fun ReviewRoute(
 
     when (postReviewState) {
         is UiState.Success -> {
-            navigator.navigateBack()
             keyboardController?.hide()
+            navigator.navigateBack()
             Timber.d("Review post success")
         }
 

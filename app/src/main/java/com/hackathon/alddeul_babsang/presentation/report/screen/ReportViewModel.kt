@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 
@@ -47,7 +48,7 @@ class ReportViewModel @Inject constructor(
         menuPrice1: Int,
         menuName2: String,
         menuPrice2: Int,
-        imageUrl: String
+        imageUrl: File
     ) = viewModelScope.launch  {
         _postReportWriteState.emit(UiState.Loading)
         reportRepository.postReportWrite(

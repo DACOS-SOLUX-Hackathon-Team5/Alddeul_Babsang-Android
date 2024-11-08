@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ResponseDetailDto(
     @SerialName("storeInfo") val storeInfo: StoreInfo,
+    @SerialName("aveRating") val aveRating: Double,
     @SerialName("menu1") val menu1: Menu,
     @SerialName("menu2") val menu2: Menu
 )

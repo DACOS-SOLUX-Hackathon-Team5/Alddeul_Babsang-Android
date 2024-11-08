@@ -248,7 +248,7 @@ fun DetailScreen(
                         Spacer(modifier = Modifier.height(15.dp))
                         Image(
                             modifier = Modifier.size(width = 185.dp, height = 35.dp),
-                            painter = when (round(5.0)) {
+                            painter = when (round(data.aveRating)) {
                                 in 0.0..1.4 -> painterResource(id = R.drawable.ic_star_one)
                                 in 1.5..2.4 -> painterResource(id = R.drawable.ic_star_two)
                                 in 2.5..3.4 -> painterResource(id = R.drawable.ic_star_three)

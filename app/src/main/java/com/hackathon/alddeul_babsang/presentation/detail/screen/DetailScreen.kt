@@ -86,9 +86,6 @@ fun DetailRoute(
 
     LaunchedEffect(Unit) {
         detailViewModel.getReviews(id)
-    }
-
-    LaunchedEffect(Unit) {
         detailViewModel.postDetail(id.toInt())
     }
 
@@ -241,7 +238,7 @@ fun DetailScreen(
                             color = Gray300
                         )
                         Text(
-                            text = data.storeInfo.contact,
+                            text = data.storeInfo.contact.ifBlank { "연락처 정보 없음" },
                             style = head7Regular,
                             color = Gray300
                         )

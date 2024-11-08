@@ -117,7 +117,7 @@ fun BabsangItem(
         )
         Spacer(modifier = Modifier.height(7.dp))
         Text(
-            text = data.contact,
+            text = data.contact.ifBlank { "연락처 정보 없음" },
             style = body4Regular,
             color = Gray300,
             modifier = Modifier.padding(start = 20.dp, bottom = 20.dp)

@@ -86,7 +86,12 @@ fun BabsangRecommendItem(
                 )
                 Text(
                     modifier = Modifier.padding(top = 6.dp),
-                    text = data.category,
+                    text = when(data.category) {
+                        "KOREAN" -> "한식"
+                        "CHINESE" -> "중식"
+                        "WESTERN_JAPANESE" -> "경양식/일식"
+                        else -> "기타"
+                    },
                     style = body4Regular,
                     color = White
                 )
@@ -102,7 +107,12 @@ fun BabsangRecommendItem(
             )
             Spacer(modifier = Modifier.width(15.dp))
             Text(
-                text = data.category,
+                text = when(data.category) {
+                    "KOREAN" -> "한식"
+                    "CHINESE" -> "중식"
+                    "WESTERN_JAPANESE" -> "경양식/일식"
+                    else -> "기타"
+                },
                 style = body2Regular,
                 color = Orange800,
                 modifier = Modifier
@@ -125,15 +135,15 @@ fun BabsangRecommendItem(
 @Composable
 fun LoadImage(codeName: String) {
     val imageId = when (codeName) {
-        "경양식/일식" -> R.drawable.ic_japanese_food
-        "한식" -> R.drawable.ic_korean_food
-        "중식" -> R.drawable.ic_chinese_food
+        "WESTERN_JAPANESE" -> R.drawable.ic_japanese_food
+        "KOREAN" -> R.drawable.ic_korean_food
+        "CHINESE" -> R.drawable.ic_chinese_food
         else -> R.drawable.ic_etc_food
     }
     val backgroundColor = when (codeName) {
-        "경양식/일식" -> Yellow
-        "한식" -> Orange700
-        "중식" -> Pink
+        "WESTERN_JAPANESE" -> Yellow
+        "KOREAN" -> Orange700
+        "CHINESE" -> Pink
         else -> Blue
     }
 

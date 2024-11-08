@@ -1,13 +1,38 @@
 package com.hackathon.alddeul_babsang.presentation.babsang.screen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangDto
 import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
 import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
+import com.hackathon.alddeul_babsang.domain.repository.BabsangRepository
+import com.hackathon.alddeul_babsang.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BabsangViewModel @Inject constructor() : ViewModel() {
+class BabsangViewModel @Inject constructor(
+    private val babsangRepository: BabsangRepository
+) : ViewModel() {
+    private val _getBabsangState =
+        MutableStateFlow<UiState<List<ResponseBabsangDto>>>(UiState.Empty)
+    val getBabsangState: StateFlow<UiState<List<ResponseBabsangDto>>> = _getBabsangState
+
+    fun getBabsang() = viewModelScope.launch  {
+        _getBabsangState.emit(UiState.Loading)
+        babsangRepository.getStores().fold(
+            onSuccess = {
+                _getBabsangState.emit(UiState.Success(it))
+            },
+            onFailure = {
+                _getBabsangState.emit(UiState.Failure(it.message.toString()))
+            }
+        )
+    }
+
     val mockBabsangRecommendList = listOf(
         BabsangRecommendEntity(
             id = 1,

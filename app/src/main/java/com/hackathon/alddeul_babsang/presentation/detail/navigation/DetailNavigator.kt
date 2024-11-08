@@ -13,4 +13,9 @@ class DetailNavigator(
         val route = "review?id=${id}"
         navController.navigate(route)
     }
+
+    fun navigateDetail(id: Long) {
+        val route = "detail?id=${id}"
+        navController.navigate(route)
+    }
 }

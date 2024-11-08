@@ -14,6 +14,7 @@
     <string name="btn_detail_review">리뷰하러 가기</string>
     <string name="tv_detail_menu">대표 메뉴</string>
     <string name="tv_detail_review">리뷰 모아보기 (%1$s)</string>
+    <string name="tv_detail_recommend">이 장소와 비슷한 식당</string>
 
     <!-- 리뷰 작성하기 페이지 -->
     <string name="appbar_review_title">리뷰 작성하기</string>

@@ -50,7 +50,7 @@ fun ReviewItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
-            model = "",
+            model = data.imageUrl,
             contentDescription = null,
             placeholder = painterResource(id = R.drawable.ic_launcher_background),
             modifier = Modifier

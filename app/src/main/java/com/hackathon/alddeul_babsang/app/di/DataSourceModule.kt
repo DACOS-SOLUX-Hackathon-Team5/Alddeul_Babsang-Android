@@ -5,12 +5,14 @@ import com.hackathon.alddeul_babsang.data.datasource.DetailDataSource
 import com.hackathon.alddeul_babsang.data.datasource.ExampleDataSource
 import com.hackathon.alddeul_babsang.data.datasource.MapDataSource
 import com.hackathon.alddeul_babsang.data.datasource.ProfileDataSource
+import com.hackathon.alddeul_babsang.data.datasource.ReportDataSource
 import com.hackathon.alddeul_babsang.data.datasource.UserPreferencesDataSource
 import com.hackathon.alddeul_babsang.data.datasourceimpl.BabsangDataSourceImpl
 import com.hackathon.alddeul_babsang.data.datasourceimpl.DetailDataSourceImpl
 import com.hackathon.alddeul_babsang.data.datasourceimpl.ExampleDataSourceImpl
 import com.hackathon.alddeul_babsang.data.datasourceimpl.MapDataSourceImpl
 import com.hackathon.alddeul_babsang.data.datasourceimpl.ProfileDataSourceImpl
+import com.hackathon.alddeul_babsang.data.datasourceimpl.ReportDataSourceImpl
 import com.hackathon.alddeul_babsang.data.datasourceimpl.UserPreferencesDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -45,4 +47,9 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindMapDataSource(mapDataSourceImpl: MapDataSourceImpl): MapDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindReportDataSource(reportDataSourceImpl: ReportDataSourceImpl): ReportDataSource
+
 }

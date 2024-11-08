@@ -39,6 +39,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head6Semi
 import com.hackathon.alddeul_babsang.presentation.profile.navigation.ProfileNavigator
 import com.hackathon.alddeul_babsang.util.UiState
+import timber.log.Timber
 
 @Composable
 fun LikeRoute(
@@ -48,10 +49,22 @@ fun LikeRoute(
     val systemUiController = rememberSystemUiController()
     val likeViewModel: LikeViewModel = hiltViewModel()
 
+    val postLikeState by likeViewModel.postLikeState.collectAsStateWithLifecycle(UiState.Empty)
+
     SideEffect {
         systemUiController.setStatusBarColor(
             color = White
         )
+    }
+
+    when(postLikeState) {
+        is UiState.Success -> {
+            navigator.navigateBack()
+        }
+        is UiState.Failure -> {
+            Timber.e((postLikeState as UiState.Failure).msg)
+        }
+        else -> {}
     }
 
     LaunchedEffect(Unit) {
@@ -127,7 +140,8 @@ fun LikeScreen(
                     items((getLikesState as UiState.Success).data) { item ->
                         LikeItem(
                             onClick = { onItemClick(item.restaurantId) },
-                            data = item
+                            data = item,
+                            likeViewModel = likeViewModel
                         )
                     }
                 }

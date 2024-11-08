@@ -25,11 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.hackathon.alddeul_babsang.R
-import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray300
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange700
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange800
@@ -38,8 +36,6 @@ import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseBabsangDto
-import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
-import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeItem
 
 @Composable
 fun BabsangItem(

@@ -9,6 +9,6 @@ interface MapDataSource {
     suspend fun getMapStores(): BaseResponse<List<ResponseMapStoresDto>>
     suspend fun postMapStoreDetail(
         id: Long,
-        requestMapStoreDetailDto: RequestMapStoreDetailDto
+        userId: Long,
     ): BaseResponse<ResponseMapStoreDetailDto>
 }

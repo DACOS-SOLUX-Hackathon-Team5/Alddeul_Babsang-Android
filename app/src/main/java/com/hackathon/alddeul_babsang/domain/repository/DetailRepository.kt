@@ -1,5 +1,6 @@
 package com.hackathon.alddeul_babsang.domain.repository
 
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailDto
 import com.hackathon.alddeul_babsang.data.dto.response.Review
 import java.io.File
 
@@ -15,4 +16,9 @@ interface DetailRepository {
     suspend fun getReviews(
         id: Long
     ): Result<List<Review>>
+
+    suspend fun postStoreDetail(
+        id: Int,
+        userId: Int
+    ): Result<ResponseDetailDto?>
 }

@@ -11,7 +11,7 @@ class ProfileDataSourceImpl @Inject constructor(
     private val profileApiService: ProfileApiService
 ) : ProfileDataSource {
     override suspend fun getLikes(
-        userId: Long
+        userId: Int
     ): BaseResponse<ResponseLikesDto> {
         return profileApiService.getLikes(userId)
     }

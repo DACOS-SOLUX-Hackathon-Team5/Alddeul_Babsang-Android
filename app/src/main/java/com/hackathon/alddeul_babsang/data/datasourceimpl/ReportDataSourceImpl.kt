@@ -6,6 +6,8 @@ import com.hackathon.alddeul_babsang.data.dto.request.RequestReportDto
 import com.hackathon.alddeul_babsang.data.dto.request.RequestReportWriteDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseReportDto
 import com.hackathon.alddeul_babsang.data.service.ReportApiService
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class ReportDataSourceImpl @Inject constructor(
@@ -15,6 +17,10 @@ class ReportDataSourceImpl @Inject constructor(
         return reportApiService.postReports(userId)
     }
 
-    override suspend fun postReportWrite(requestReportWriteDto: RequestReportWriteDto): BaseResponse<String> {
-        return reportApiService.postReportWrite(requestReportWriteDto)
-}}
+    override suspend fun postReportWrite(
+        data: Map<String, RequestBody>,
+        imageUrl: MultipartBody.Part?
+    ): BaseResponse<String> {
+        return reportApiService.postReportWrite(data, imageUrl)
+    }
+}

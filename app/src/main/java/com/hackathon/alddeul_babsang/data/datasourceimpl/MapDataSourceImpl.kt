@@ -17,8 +17,8 @@ class MapDataSourceImpl @Inject constructor(
 
     override suspend fun postMapStoreDetail(
         id: Long,
-        requestMapStoreDetailDto: RequestMapStoreDetailDto
+        userId: Long,
     ): BaseResponse<ResponseMapStoreDetailDto> {
-        return mapApiService.postMapStoreDetail(id, requestMapStoreDetailDto)
+        return mapApiService.postMapStoreDetail(id, userId)
     }
 }

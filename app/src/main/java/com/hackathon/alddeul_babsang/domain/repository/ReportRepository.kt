@@ -1,6 +1,7 @@
 package com.hackathon.alddeul_babsang.domain.repository
 
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseReportDto
+import java.io.File
 
 interface ReportRepository {
     suspend fun postReports(
@@ -16,7 +17,7 @@ interface ReportRepository {
         menuPrice1: Int,
         menuName2: String,
         menuPrice2: Int,
-        imageUrl: String,
+        imageUrl: File
     ): Result<String>
 
 }

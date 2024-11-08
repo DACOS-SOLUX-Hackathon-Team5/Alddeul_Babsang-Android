@@ -52,6 +52,7 @@ import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.theme.Blue
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray200
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray300
+import com.hackathon.alddeul_babsang.core_ui.theme.Gray500
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray900
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange400
 import com.hackathon.alddeul_babsang.core_ui.theme.Orange700
@@ -61,8 +62,9 @@ import com.hackathon.alddeul_babsang.core_ui.theme.body4Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head7Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head7Semi
-import com.hackathon.alddeul_babsang.domain.entity.BabsangDetailEntity
+import com.hackathon.alddeul_babsang.data.dto.response.ResponseDetailDto
 import com.hackathon.alddeul_babsang.presentation.detail.navigation.DetailNavigator
+import com.hackathon.alddeul_babsang.presentation.profile.screen.LikeViewModel
 import com.hackathon.alddeul_babsang.util.UiState
 import timber.log.Timber
 import kotlin.math.round
@@ -74,6 +76,7 @@ fun DetailRoute(
 ) {
     val systemUiController = rememberSystemUiController()
     val detailViewModel: DetailViewModel = hiltViewModel()
+    val postDetailState by detailViewModel.postDetailState.collectAsStateWithLifecycle(initialValue = UiState.Empty)
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -85,26 +88,45 @@ fun DetailRoute(
         detailViewModel.getReviews(id)
     }
 
-    DetailScreen(
-        data = detailViewModel.mockDetail,
-        onBackClick = { navigator.navigateBack() },
-        onReviewClick = { id -> navigator.navigateReview(id) },
-        onItemClick = { id -> navigator.navigateDetail(id) },
-        detailViewModel = detailViewModel
-    )
+    LaunchedEffect(Unit) {
+        detailViewModel.postDetail(id.toInt())
+    }
+
+    when (postDetailState) {
+        is UiState.Success -> {
+            (postDetailState as UiState.Success).data?.let {
+                DetailScreen(
+                    data = it,
+                    onBackClick = { navigator.navigateBack() },
+                    onReviewClick = { id -> navigator.navigateReview(id) },
+                    onItemClick = { id -> navigator.navigateDetail(id) },
+                    detailViewModel = detailViewModel
+                )
+            }
+            Timber.d("Post detail success: ${(postDetailState as UiState.Success).data}")
+
+        }
+
+        is UiState.Failure -> {
+            Timber.e("Post detail failed: ${(postDetailState as UiState.Failure).msg}")
+        }
+
+        else -> {}
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    data: BabsangDetailEntity,
+    data: ResponseDetailDto,
     onBackClick: () -> Unit = {},
     onReviewClick: (Long) -> Unit = {},
     onItemClick: (Long) -> Unit = {},
     detailViewModel: DetailViewModel
 ) {
-    var isFavorite by remember { mutableStateOf(data.isFavorite) }
+    var isFavorite by remember { mutableStateOf(data.storeInfo.favorite) }
     val getReviewsState by detailViewModel.getReviewsState.collectAsStateWithLifecycle(UiState.Empty)
+    val likeViewModel: LikeViewModel = hiltViewModel()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -123,7 +145,11 @@ fun DetailScreen(
                 },
                 title = {},
                 actions = {
-                    IconButton(onClick = { isFavorite = !isFavorite }) {
+                    IconButton(onClick = {
+                        isFavorite = !isFavorite
+                        likeViewModel.postLike(storeId = data.storeInfo.storeId)
+                    }
+                    ) {
                         Icon(
                             imageVector = if (isFavorite)
                                 ImageVector.vectorResource(
@@ -157,7 +183,7 @@ fun DetailScreen(
                         .padding(horizontal = 20.dp)
                 ) {
                     AsyncImage(
-                        model = data.avatar ?: when (data.codeName) {
+                        model = data.storeInfo.imageUrl ?: when (data.storeInfo.category) {
                             "한식" -> R.drawable.ic_korean_food
                             "중식" -> R.drawable.ic_chinese_food
                             "경양식/일식" -> R.drawable.ic_japanese_food
@@ -170,9 +196,9 @@ fun DetailScreen(
                             .height(200.dp)
                             .background(Orange400)
                             .then(
-                                if (data.avatar == null) Modifier.size(100.dp) else Modifier
+                                if (data.storeInfo.imageUrl == null) Modifier.size(100.dp) else Modifier
                             ),
-                        contentScale = if (data.avatar == null) ContentScale.None else ContentScale.FillBounds,
+                        contentScale = if (data.storeInfo.imageUrl == null) ContentScale.None else ContentScale.FillBounds,
                         alignment = Alignment.Center
                     )
                 }
@@ -204,25 +230,25 @@ fun DetailScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = data.name,
+                            text = data.storeInfo.name,
                             style = head4Bold,
                             color = Gray900
                         )
                         Text(
                             modifier = Modifier.padding(top = 15.dp),
-                            text = data.address,
+                            text = data.storeInfo.address,
                             style = head7Regular,
                             color = Gray300
                         )
                         Text(
-                            text = data.phone,
+                            text = data.storeInfo.contact,
                             style = head7Regular,
                             color = Gray300
                         )
                         Spacer(modifier = Modifier.height(15.dp))
                         Image(
                             modifier = Modifier.size(width = 185.dp, height = 35.dp),
-                            painter = when (round(data.rating)) {
+                            painter = when (round(data.aveRating)) {
                                 in 0.0..1.4 -> painterResource(id = R.drawable.ic_star_one)
                                 in 1.5..2.4 -> painterResource(id = R.drawable.ic_star_two)
                                 in 2.5..3.4 -> painterResource(id = R.drawable.ic_star_three)
@@ -234,7 +260,7 @@ fun DetailScreen(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(
-                            onClick = { onReviewClick(data.id) },
+                            onClick = { onReviewClick(data.storeInfo.storeId) },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Blue
                             )
@@ -275,19 +301,21 @@ fun DetailScreen(
                         }
                     }
                 }
-                Text(
-                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
-                    text = stringResource(
-                        R.string.tv_detail_review,
-                        detailViewModel.mockReviews.size
-                    ),
-                    style = head7Semi,
-                    color = Gray900
-                )
             }
             when (getReviewsState) {
                 is UiState.Success -> {
                     val data = (getReviewsState as UiState.Success).data
+                    item {
+                        Text(
+                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+                            text = stringResource(
+                                R.string.tv_detail_review,
+                                data.size
+                            ),
+                            style = head7Semi,
+                            color = Gray900
+                        )
+                    }
                     itemsIndexed(data) { index, item ->
                         ReviewItem(
                             data = item

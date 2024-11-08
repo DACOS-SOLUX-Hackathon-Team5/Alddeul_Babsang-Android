@@ -61,6 +61,7 @@ import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.presentation.report.navigation.ReportNavigator
 import com.hackathon.alddeul_babsang.util.UiState
 import com.hackathon.alddeul_babsang.util.toast
+import com.hackathon.alddeul_babsang.util.uriToFile
 import timber.log.Timber
 
 @Composable
@@ -241,7 +242,8 @@ fun ReportWriteScreen(
             )
             Spacer(modifier = Modifier.height(110.dp))
             AlddeulButton(text = R.string.btn_report_complete) {
-                if (name.isNotEmpty() && address.isNotEmpty() && phone.isNotEmpty() && menu1.isNotEmpty() && menu1price.isNotEmpty()) {
+                if (imageUri != null && name.isNotEmpty() && address.isNotEmpty() && phone.isNotEmpty() && menu1.isNotEmpty() && menu1price.isNotEmpty()) {
+                    val file = uriToFile(imageUri!!, context)
                     reportViewModel.postReportWrite(
                         name = name,
                         category = when(selectedCategory){
@@ -256,7 +258,7 @@ fun ReportWriteScreen(
                         menuPrice1 = menu1price.toInt(),
                         menuName2 = menu2,
                         menuPrice2 = menu2price.toInt(),
-                        imageUrl = ""
+                        imageUrl = file
                     )
                 } else {
                     context.toast(context.getString(R.string.toast_report_failure))

@@ -50,7 +50,7 @@ fun BabsangRoute(
     val systemUiController = rememberSystemUiController()
 
     LaunchedEffect(Unit) {
-        babsangViewModel.getBabsang()
+        babsangViewModel.postBabsang()
     }
 
     SideEffect {
@@ -71,7 +71,7 @@ fun BabsangScreen(
     onItemClick: (Long) -> Unit = {},
     babsangViewModel: BabsangViewModel,
 ) {
-    val getBabsangState by babsangViewModel.getBabsangState.collectAsStateWithLifecycle(UiState.Empty)
+    val getBabsangState by babsangViewModel.postBabsangState.collectAsStateWithLifecycle(UiState.Empty)
 
     Scaffold(
         topBar = {
@@ -150,7 +150,7 @@ fun BabsangScreen(
                     } else {
                         itemsIndexed(data) { index, item ->
                             BabsangItem(
-                                onClick = { onItemClick(item.id) },
+                                onClick = { onItemClick(item.storeId) },
                                 data = item
                             )
                             if (index != data.size - 1) {

@@ -11,9 +11,9 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ProfileApiService {
-    @GET("/$FAVORITES/{$USER_ID}}")
+    @GET("/$FAVORITES/{$USER_ID}")
     suspend fun getLikes(
-        @Path("userId") userId: Long,
+        @Path("userId") userId: Int,
     ): BaseResponse<ResponseLikesDto>
 
     @POST("/$FAVORITES")

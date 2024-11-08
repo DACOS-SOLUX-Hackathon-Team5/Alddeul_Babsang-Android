@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,10 +14,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -60,7 +62,6 @@ import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.core_ui.theme.head7Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head7Semi
 import com.hackathon.alddeul_babsang.domain.entity.BabsangDetailEntity
-import com.hackathon.alddeul_babsang.domain.entity.ReviewEntity
 import com.hackathon.alddeul_babsang.presentation.detail.navigation.DetailNavigator
 import kotlin.math.round
 
@@ -275,11 +276,38 @@ fun DetailScreen(
                     color = Gray900
                 )
             }
-            items(detailViewModel.mockReviews) { item ->
+            itemsIndexed(detailViewModel.mockReviews) { index, item ->
                 ReviewItem(
                     data = item
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                if (index != detailViewModel.mockReviews.size - 1) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+            }
+            item {
+                Text(
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+                    text = stringResource(id = R.string.tv_detail_recommend),
+                    style = head7Semi,
+                    color = Gray900
+                )
+            }
+            item {
+                LazyVerticalGrid(
+                    contentPadding = PaddingValues(horizontal = 20.dp),
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(550.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(detailViewModel.mockDetailRecommend) { item ->
+                        DetailRecommendedItem(
+                            data = item
+                        )
+                    }
+                }
             }
         }
     }

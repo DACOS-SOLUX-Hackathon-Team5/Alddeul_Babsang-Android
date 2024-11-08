@@ -2,6 +2,7 @@ package com.hackathon.alddeul_babsang.presentation.detail.screen
 
 import androidx.lifecycle.ViewModel
 import com.hackathon.alddeul_babsang.domain.entity.BabsangDetailEntity
+import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
 import com.hackathon.alddeul_babsang.domain.entity.MenuEntity
 import com.hackathon.alddeul_babsang.domain.entity.ReviewEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -60,5 +61,35 @@ class DetailViewModel @Inject constructor() : ViewModel() {
             )
         ),
         isFavorite = true
+    )
+    val mockDetailRecommend = listOf(
+        BabsangRecommendEntity(
+            id = 1,
+            avatar = null,
+            name = "족발 야시장",
+            codeName = "한식",
+            address = "용산 동자동",
+        ),
+        BabsangRecommendEntity(
+            id = 2,
+            avatar = null,
+            name = "족발 야시장",
+            codeName = "경양식/일식",
+            address = "용산 동자동",
+        ),
+        BabsangRecommendEntity(
+            id = 3,
+            avatar = null,
+            name = "족발 야시장",
+            codeName = "중식",
+            address = "용산 동자동",
+        ),
+        BabsangRecommendEntity(
+            id = 4,
+            avatar = null,
+            name = "족발 야시장",
+            codeName = "기타외식업",
+            address = "용산 동자동",
+        ),
     )
 }

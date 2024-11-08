@@ -30,6 +30,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -69,24 +70,28 @@ fun ReportWriteRoute(
     navigator: ReportNavigator
 ) {
     val reportViewModel: ReportViewModel = hiltViewModel()
-    val postReportWriteState by reportViewModel.postReportWriteState.collectAsStateWithLifecycle(
-        UiState.Empty
-    )
+    val postReportWriteState by reportViewModel.postReportWriteState.collectAsStateWithLifecycle(UiState.Empty)
 
-    when(postReportWriteState) {
-        is UiState.Success -> {
-            navigator.navigateBack()
+    // 상태 변화에 따른 네비게이션 처리
+    LaunchedEffect(postReportWriteState) {
+        when (postReportWriteState) {
+            is UiState.Success -> {
+                // 네비게이션 전에 상태가 완전히 업데이트된 후 진행
+                navigator.navigateBack()
+            }
+            is UiState.Failure -> {
+                Timber.e((postReportWriteState as UiState.Failure).msg)
+            }
+            else -> {}
         }
-        is UiState.Failure -> {
-            Timber.e((postReportWriteState as UiState.Failure).msg)
-        }
-        else -> {}
     }
+
     ReportWriteScreen(
         onBackClick = { navigator.navigateBack() },
         reportViewModel = reportViewModel
     )
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

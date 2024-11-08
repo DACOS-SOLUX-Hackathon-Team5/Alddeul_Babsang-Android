@@ -126,23 +126,6 @@ fun LikeScreen(
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            item {
-                Text(
-                    modifier = Modifier.padding(top = 8.dp, start = 8.dp),
-                    text = buildAnnotatedString {
-                        withStyle(style = SpanStyle(color = Orange800)) {
-                            append(stringResource(R.string.tv_like_history))
-                        }
-                        append(stringResource(R.string.tv_like_connection))
-                        withStyle(style = SpanStyle(color = Orange800)) {
-                            append(stringResource(R.string.tv_like_recommend))
-                        }
-                        append(stringResource(R.string.tv_like_end))
-                    },
-                    style = head6Semi
-                )
-            }
-
             when (getLikesState) {
                 is UiState.Success -> {
                     val data = (getLikesState as UiState.Success).data // getLikesState로 수정
@@ -157,10 +140,28 @@ fun LikeScreen(
                                     style = head6Semi,
                                     color = Orange900,
                                     modifier = Modifier.align(Alignment.Center)
+                                        .padding(vertical = 280.dp)
                                 )
                             }
                         }
                     } else {
+                        item {
+                            Text(
+                                modifier = Modifier.padding(top = 8.dp, start = 8.dp),
+                                text = buildAnnotatedString {
+                                    withStyle(style = SpanStyle(color = Orange800)) {
+                                        append(stringResource(R.string.tv_like_history))
+                                    }
+                                    append(stringResource(R.string.tv_like_connection))
+                                    withStyle(style = SpanStyle(color = Orange800)) {
+                                        append(stringResource(R.string.tv_like_recommend))
+                                    }
+                                    append(stringResource(R.string.tv_like_end))
+                                },
+                                style = head6Semi
+                            )
+                        }
+
                         itemsIndexed(data) { index, item ->
                             LikeItem(
                                 onClick = { onItemClick(item.restaurantId) },

@@ -2,7 +2,6 @@ package com.hackathon.alddeul_babsang.presentation.report.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -62,7 +60,6 @@ fun ReportRoute(
         onReportWriteClick = {
             navigator.navigateReportWrite()
         },
-
         reportViewModel = reportViewModel
     )
 
@@ -74,7 +71,6 @@ fun ReportScreen(
     onReportWriteClick: () -> Unit = {},
     reportViewModel: ReportViewModel
 ) {
-
     val getReportState by reportViewModel.postReportsState.collectAsStateWithLifecycle(UiState.Empty)
 
     Scaffold(
@@ -83,9 +79,7 @@ fun ReportScreen(
                 shape = RoundedCornerShape(40.dp),
                 onClick = { onReportWriteClick() },
                 contentPadding = PaddingValues(vertical = 20.dp, horizontal = 41.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Blue,
-                )
+                colors = ButtonDefaults.buttonColors(containerColor = Blue)
             ) {
                 Text(
                     text = stringResource(R.string.btn_report),
@@ -97,7 +91,6 @@ fun ReportScreen(
     ) { innerPadding ->
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
@@ -120,14 +113,15 @@ fun ReportScreen(
                 Text(
                     modifier = Modifier.padding(bottom = 14.dp),
                     text = stringResource(R.string.tv_report_title3),
-                    style = head7Bold, color = Gray900
+                    style = head7Bold,
+                    color = Gray900
                 )
             }
 
             when (getReportState) {
                 is UiState.Loading -> {
                     item {
-                        LoadingCircleIndicator()
+                        LoadingCircleIndicator() // 로딩 상태 UI
                     }
                 }
 
@@ -154,34 +148,6 @@ fun ReportScreen(
                         }
                     }
                 }
-            is UiState.Success -> {
-                val data = (getReportState as UiState.Success).data
-                if (data.isEmpty()) {
-                    item {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                        ) {
-                            Text(
-                                text = "제보된 밥상이 없어요",
-                                style = head6Semi,
-                                color = Orange900,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
-                    }
-                } else {
-                    itemsIndexed(data) { index, item ->
-                        ReportItem(
-                            onClick = { onItemClick(item.id) },
-                            data = item
-                        )
-                        if (index != data.size - 1) {
-                            Spacer(modifier = Modifier.height(16.dp))
-                        }
-                    }
-                }
-            }
 
                 is UiState.Failure -> {
                     item {

@@ -95,7 +95,12 @@ fun BabsangItem(
             )
             Spacer(modifier = Modifier.width(15.dp))
             Text(
-                text = data.category,
+                text = when (data.category){
+                    "KOREAN" -> "한식"
+                    "WESTERN_JAPANESE" -> "경양식/일식"
+                    "CHINESE" -> "중식"
+                    else -> "기타외식업"
+                },
                 style = body2Regular,
                 color = Orange800,
                 modifier = Modifier

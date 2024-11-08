@@ -242,7 +242,7 @@ fun ReportWriteScreen(
             )
             Spacer(modifier = Modifier.height(110.dp))
             AlddeulButton(text = R.string.btn_report_complete) {
-                if (name.isNotEmpty() && address.isNotEmpty() && phone.isNotEmpty() && menu1.isNotEmpty() && menu1price.isNotEmpty()) {
+                if (imageUri != null && name.isNotEmpty() && address.isNotEmpty() && phone.isNotEmpty() && menu1.isNotEmpty() && menu1price.isNotEmpty()) {
                     val file = uriToFile(imageUri!!, context)
                     reportViewModel.postReportWrite(
                         name = name,

@@ -8,7 +8,9 @@ import com.hackathon.alddeul_babsang.domain.entity.MapEntity
 import com.hackathon.alddeul_babsang.domain.repository.MapRepository
 import com.hackathon.alddeul_babsang.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,10 +23,10 @@ class MapViewModel @Inject constructor(
         MutableStateFlow<UiState<List<ResponseMapStoresDto>>>(UiState.Empty)
     val getMapStoresState: StateFlow<UiState<List<ResponseMapStoresDto>>> = _getMapStoresState
 
-    private val _getMapStoreDetailState =
-        MutableStateFlow<UiState<ResponseMapStoreDetailDto?>>(UiState.Empty)
-    val getMapStoreDetailState: StateFlow<UiState<ResponseMapStoreDetailDto?>> =
-        _getMapStoreDetailState
+    private val _postMapStoreDetailState =
+        MutableSharedFlow<UiState<ResponseMapStoreDetailDto?>>(replay = 1)
+    val postMapStoreDetailState: SharedFlow<UiState<ResponseMapStoreDetailDto?>> =
+        _postMapStoreDetailState
 
     fun getMapStores() = viewModelScope.launch {
         _getMapStoresState.emit(UiState.Loading)
@@ -38,14 +40,14 @@ class MapViewModel @Inject constructor(
         )
     }
 
-    fun getMapStoreDetail(id: Long) = viewModelScope.launch {
-        _getMapStoreDetailState.emit(UiState.Loading)
-        mapRepository.getMapStoreDetail(id).fold(
+    fun postMapStoreDetail(id: Long, userId: Long = 1) = viewModelScope.launch {
+        _postMapStoreDetailState.emit(UiState.Loading)
+        mapRepository.postMapStoreDetail(id, userId).fold(
             onSuccess = {
-                _getMapStoreDetailState.emit(UiState.Success(it))
+                _postMapStoreDetailState.emit(UiState.Success(it))
             },
             onFailure = {
-                _getMapStoreDetailState.emit(UiState.Failure(it.message.toString()))
+                _postMapStoreDetailState.emit(UiState.Failure(it.message.toString()))
             }
         )
     }

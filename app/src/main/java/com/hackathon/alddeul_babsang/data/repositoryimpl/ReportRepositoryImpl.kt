@@ -10,11 +10,11 @@ import javax.inject.Inject
 class ReportRepositoryImpl @Inject constructor(
     private val reportDataSource: ReportDataSource
 ) : ReportRepository {
-    override suspend fun getReports(
+    override suspend fun postReports(
         userId: Long
     ): Result<List<ResponseReportDto>> {
         return runCatching {
-            reportDataSource.getReports(
+            reportDataSource.postReports(
                 requestReportDto = RequestReportDto(
                     userId = userId
                 )

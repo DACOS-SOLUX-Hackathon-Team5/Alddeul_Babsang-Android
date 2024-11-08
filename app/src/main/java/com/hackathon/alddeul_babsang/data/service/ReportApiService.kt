@@ -7,12 +7,11 @@ import com.hackathon.alddeul_babsang.data.dto.response.ResponseReportDto
 import com.sopt.data.service.ApiKeyStorage.POST
 import com.sopt.data.service.ApiKeyStorage.REPORTS
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ReportApiService {
-    @GET("/$REPORTS")
-    suspend fun getReports(
+    @POST("/$REPORTS")
+    suspend fun postReports(
         @Body requestReportDto: RequestReportDto
     ): BaseResponse<List<ResponseReportDto>>
 

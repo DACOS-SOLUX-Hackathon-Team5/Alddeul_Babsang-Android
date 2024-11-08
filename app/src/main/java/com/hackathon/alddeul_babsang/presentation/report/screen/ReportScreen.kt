@@ -48,7 +48,7 @@ fun ReportRoute(
     val systemUiController = rememberSystemUiController()
 
     LaunchedEffect(Unit) {
-        reportViewModel.getReport()
+        reportViewModel.postReports()
     }
 
     SideEffect {

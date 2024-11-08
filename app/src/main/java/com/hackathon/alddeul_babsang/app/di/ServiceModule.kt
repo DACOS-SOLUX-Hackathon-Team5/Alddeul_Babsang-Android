@@ -53,9 +53,5 @@ object ServiceModule {
         @AlddeulRetrofit retrofit: Retrofit
     ): ReportApiService = retrofit.create(ReportApiService::class.java)
 
-    @Provides
-    @Singleton
-    fun provideReportWriteService(
-        @AlddeulRetrofit retrofit: Retrofit
-    ): ReportApiService = retrofit.create(ReportApiService::class.java)
+
 }

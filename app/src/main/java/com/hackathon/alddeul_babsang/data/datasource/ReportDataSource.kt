@@ -6,7 +6,7 @@ import com.hackathon.alddeul_babsang.data.dto.request.RequestReportWriteDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseReportDto
 
 interface ReportDataSource {
-    suspend fun getReports(
+    suspend fun postReports(
         requestReportDto: RequestReportDto
     ): BaseResponse<List<ResponseReportDto>>
 

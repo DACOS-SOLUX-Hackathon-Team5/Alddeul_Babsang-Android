@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseReportDto(
-    @SerialName("id") val id: Long,
+    @SerialName("storeId") val id: Long,
     @SerialName("name") val name: String,
     @SerialName("category") val category: String,
     @SerialName("address") val address: String,

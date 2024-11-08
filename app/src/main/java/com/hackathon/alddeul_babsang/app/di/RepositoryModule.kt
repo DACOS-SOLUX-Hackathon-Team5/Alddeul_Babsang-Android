@@ -1,7 +1,9 @@
 package com.hackathon.alddeul_babsang.app.di
 
+import com.hackathon.alddeul_babsang.data.repositoryimpl.BabsangRepositoryImpl
 import com.hackathon.alddeul_babsang.data.repositoryimpl.ExampleRepositoryImpl
 import com.hackathon.alddeul_babsang.data.repositoryimpl.UserPreferencesRepositoryImpl
+import com.hackathon.alddeul_babsang.domain.repository.BabsangRepository
 import com.hackathon.alddeul_babsang.domain.repository.ExampleRepository
 import com.hackathon.alddeul_babsang.domain.repository.UserPreferencesRepository
 import dagger.Binds
@@ -21,4 +23,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindUserPreferencesRepository(userPreferencesRepositoryImpl: UserPreferencesRepositoryImpl): UserPreferencesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindBabsangRepository(babsangRepositoryImpl: BabsangRepositoryImpl): BabsangRepository
 }

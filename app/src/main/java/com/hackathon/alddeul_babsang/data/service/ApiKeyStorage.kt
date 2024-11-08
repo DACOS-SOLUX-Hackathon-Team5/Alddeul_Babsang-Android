@@ -20,4 +20,5 @@ object ApiKeyStorage {
     const val LOGOUT = "logout"
     const val USER_ID = "userId"
     const val STORE_ID = "storeId"
+    const val ID = "id"
 }

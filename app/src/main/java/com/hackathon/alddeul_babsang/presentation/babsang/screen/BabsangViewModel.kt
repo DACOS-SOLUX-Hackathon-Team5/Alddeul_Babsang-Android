@@ -2,7 +2,7 @@ package com.hackathon.alddeul_babsang.presentation.babsang.screen
 
 import androidx.lifecycle.ViewModel
 import com.hackathon.alddeul_babsang.domain.entity.BabsangRecommendEntity
-import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
+import com.hackathon.alddeul_babsang.domain.entity.ReportEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -46,7 +46,7 @@ class BabsangViewModel @Inject constructor() : ViewModel() {
         )
     )
     val mockBabsang = listOf(
-        LikesEntity(
+        ReportEntity(
             id = 1,
             avatar = null,
             name = "송이네 밥상",
@@ -55,7 +55,7 @@ class BabsangViewModel @Inject constructor() : ViewModel() {
             phone = "02-210-0120",
             favorite = true
         ),
-        LikesEntity(
+        ReportEntity(
             id = 2,
             avatar = null,
             name = "송이네 일식",
@@ -64,7 +64,7 @@ class BabsangViewModel @Inject constructor() : ViewModel() {
             phone = "02-210-0220",
             favorite = true
         ),
-        LikesEntity(
+        ReportEntity(
             id = 3,
             avatar = null,
             name = "송이네 한식",
@@ -73,7 +73,7 @@ class BabsangViewModel @Inject constructor() : ViewModel() {
             phone = "02-223-0220",
             favorite = true
         ),
-        LikesEntity(
+        ReportEntity(
             id = 4,
             avatar = null,
             name = "송이네 중식",
@@ -82,7 +82,7 @@ class BabsangViewModel @Inject constructor() : ViewModel() {
             phone = "02-223-0220",
             favorite = true
         ),
-        LikesEntity(
+        ReportEntity(
             id = 4,
             avatar = "https://avatars.githubusercontent.com/u/166610834?s=400&u=568eacc2e4696d563a4fd732c148edba2196e4f6&v=4",
             name = "송이네 밥상",

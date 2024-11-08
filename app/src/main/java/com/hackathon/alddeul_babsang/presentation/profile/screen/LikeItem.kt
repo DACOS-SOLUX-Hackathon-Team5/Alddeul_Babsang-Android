@@ -37,12 +37,12 @@ import com.hackathon.alddeul_babsang.core_ui.theme.Orange900
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.body4Regular
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
-import com.hackathon.alddeul_babsang.domain.entity.LikesEntity
+import com.hackathon.alddeul_babsang.domain.entity.ReportEntity
 
 @Composable
 fun LikeItem(
     onClick: () -> Unit = {},
-    data: LikesEntity
+    data: ReportEntity
 ) {
     var isFavorite by remember { mutableStateOf(data.favorite) }
 
@@ -164,7 +164,7 @@ fun LoadImageWithPlaceholder(codeName: String, imageUrl: String?) {
 fun LikeItemPreview() {
     AlddeulBabsangTheme {
         LikeItem(
-            data = LikesEntity(
+            data = ReportEntity(
                 id = 1,
                 avatar = null,
                 name = "송이네 밥상",

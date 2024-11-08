@@ -1,6 +1,7 @@
 package com.hackathon.alddeul_babsang.app.di
 
 import com.hackathon.alddeul_babsang.data.service.BabsangApiService
+import com.hackathon.alddeul_babsang.data.service.DetailApiService
 import com.hackathon.alddeul_babsang.data.service.ProfileApiService
 import com.sopt.data.service.ExampleApiService
 import dagger.Module
@@ -31,4 +32,10 @@ object ServiceModule {
     fun provideProfileService(
         @AlddeulRetrofit retrofit: Retrofit
     ): ProfileApiService = retrofit.create(ProfileApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideDetailService(
+        @AlddeulRetrofit retrofit: Retrofit
+    ): DetailApiService = retrofit.create(DetailApiService::class.java)
 }

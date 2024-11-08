@@ -5,6 +5,7 @@ import com.hackathon.alddeul_babsang.data.dto.request.RequestLikesDto
 import com.hackathon.alddeul_babsang.data.dto.response.ResponseLikesDto
 import com.sopt.data.service.ApiKeyStorage.FAVORITES
 import com.sopt.data.service.ApiKeyStorage.USER_ID
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -17,6 +18,6 @@ interface ProfileApiService {
 
     @POST("/$FAVORITES")
     suspend fun postLike(
-        requestLikesDto: RequestLikesDto
+        @Body requestLikesDto: RequestLikesDto
     ): BaseResponse<String>
 }

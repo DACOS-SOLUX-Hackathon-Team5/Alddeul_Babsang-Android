@@ -160,21 +160,3 @@ fun ReplaceImage2(codeName: String, imageUrl: String?) {
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun BabsangListItemPreview() {
-    AlddeulBabsangTheme {
-        LikeItem(
-            data = LikesEntity(
-                id = 1,
-                avatar = null,
-                name = "송이네 밥상",
-                codeName = "경양식/일식",
-                address = "서울특별시 용산구 청파동 11",
-                phone = "02-210-0220",
-                favorite = true
-            )
-        )
-    }
-}

@@ -43,14 +43,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.hackathon.alddeul_babsang.R
 import com.hackathon.alddeul_babsang.core_ui.component.AlddeulButton
 import com.hackathon.alddeul_babsang.core_ui.component.AlddeulHeader
 import com.hackathon.alddeul_babsang.core_ui.component.ReportWriteArea
-import com.hackathon.alddeul_babsang.core_ui.theme.AlddeulBabsangTheme
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray100
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray600
 import com.hackathon.alddeul_babsang.core_ui.theme.Gray900
@@ -59,15 +59,31 @@ import com.hackathon.alddeul_babsang.core_ui.theme.White
 import com.hackathon.alddeul_babsang.core_ui.theme.body2Semi
 import com.hackathon.alddeul_babsang.core_ui.theme.head4Bold
 import com.hackathon.alddeul_babsang.presentation.report.navigation.ReportNavigator
+import com.hackathon.alddeul_babsang.util.UiState
 import com.hackathon.alddeul_babsang.util.toast
+import timber.log.Timber
 
 @Composable
 fun ReportWriteRoute(
     navigator: ReportNavigator
 ) {
+    val reportViewModel: ReportViewModel = hiltViewModel()
+    val postReportWriteState by reportViewModel.postReportWriteState.collectAsStateWithLifecycle(
+        UiState.Empty
+    )
+
+    when(postReportWriteState) {
+        is UiState.Success -> {
+            navigator.navigateBack()
+        }
+        is UiState.Failure -> {
+            Timber.e((postReportWriteState as UiState.Failure).msg)
+        }
+        else -> {}
+    }
     ReportWriteScreen(
         onBackClick = { navigator.navigateBack() },
-        onButtonClick = { navigator.navigateBack() }
+        reportViewModel = reportViewModel
     )
 }
 
@@ -75,7 +91,7 @@ fun ReportWriteRoute(
 @Composable
 fun ReportWriteScreen(
     onBackClick: () -> Unit = {},
-    onButtonClick: () -> Unit = {}
+    reportViewModel: ReportViewModel
 ) {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     val galleryLauncher = rememberLauncherForActivityResult(
@@ -226,19 +242,26 @@ fun ReportWriteScreen(
             Spacer(modifier = Modifier.height(110.dp))
             AlddeulButton(text = R.string.btn_report_complete) {
                 if (name.isNotEmpty() && address.isNotEmpty() && phone.isNotEmpty() && menu1.isNotEmpty() && menu1price.isNotEmpty()) {
-                    onButtonClick()
+                    reportViewModel.postReportWrite(
+                        name = name,
+                        category = when(selectedCategory){
+                            0 -> "KOREAN"
+                            1 -> "CHINESE"
+                            2 -> "WESTERN_JAPANESE"
+                            else -> "OTHER"
+                        },
+                        address = address,
+                        contact = phone,
+                        menuName1 = menu1,
+                        menuPrice1 = menu1price.toInt(),
+                        menuName2 = menu2,
+                        menuPrice2 = menu2price.toInt(),
+                        imageUrl = ""
+                    )
                 } else {
                     context.toast(context.getString(R.string.toast_report_failure))
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ReportWriteScreenPreview() {
-    AlddeulBabsangTheme {
-        ReportWriteScreen()
     }
 }

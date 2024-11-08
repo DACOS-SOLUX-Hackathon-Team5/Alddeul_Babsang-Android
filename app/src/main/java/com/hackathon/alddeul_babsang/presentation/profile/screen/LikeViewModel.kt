@@ -21,6 +21,10 @@ class LikeViewModel @Inject constructor(
         MutableStateFlow<UiState<List<FavoriteRestaurantDto>>>(UiState.Empty)
     val getLikesState: StateFlow<UiState<List<FavoriteRestaurantDto>>> = _getLikesState
 
+    private val _postLikeState =
+        MutableStateFlow<UiState<String>>(UiState.Empty)
+    val postLikeState: StateFlow<UiState<String>> = _postLikeState
+
     fun getLikes() = viewModelScope.launch {
         _getLikesState.emit(UiState.Loading)
         profileRepository.getLikes(userId = 1).fold(
@@ -32,6 +36,25 @@ class LikeViewModel @Inject constructor(
             }
         )
     }
+
+    fun postLike(
+        userId: Long = 1,
+        storeId: Long
+    ) = viewModelScope.launch  {
+        _postLikeState.emit(UiState.Loading)
+        profileRepository.postLike(
+            userId, storeId
+        ).fold(
+            onSuccess = {
+                _postLikeState.emit(UiState.Success(it))
+            },
+            onFailure = {
+                _postLikeState.emit(UiState.Failure(it.message.toString()))
+            }
+        )
+    }
+
+
 
     val mockLikes = listOf(
         LikesEntity(

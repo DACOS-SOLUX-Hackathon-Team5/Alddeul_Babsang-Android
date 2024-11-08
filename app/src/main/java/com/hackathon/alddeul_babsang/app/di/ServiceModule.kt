@@ -1,6 +1,7 @@
 package com.hackathon.alddeul_babsang.app.di
 
 import com.hackathon.alddeul_babsang.data.service.BabsangApiService
+import com.hackathon.alddeul_babsang.data.service.ReportApiService
 import com.hackathon.alddeul_babsang.data.service.DetailApiService
 import com.hackathon.alddeul_babsang.data.service.MapApiService
 import com.hackathon.alddeul_babsang.data.service.ProfileApiService
@@ -45,4 +46,12 @@ object ServiceModule {
     fun provideMapService(
         @AlddeulRetrofit retrofit: Retrofit
     ): MapApiService = retrofit.create(MapApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideReportService(
+        @AlddeulRetrofit retrofit: Retrofit
+    ): ReportApiService = retrofit.create(ReportApiService::class.java)
+
+
 }

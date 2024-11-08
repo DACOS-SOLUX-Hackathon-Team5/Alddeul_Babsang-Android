@@ -26,9 +26,11 @@ class ReportViewModel @Inject constructor(
     val postReportWriteState: StateFlow<UiState<String>> = _postReportWriteState
 
 
-    fun getReport() = viewModelScope.launch  {
+    fun getReport(
+        userId : Long = 1
+    ) = viewModelScope.launch  {
         _getReportState.emit(UiState.Loading)
-        reportRepository.getReports().fold(
+        reportRepository.getReports(userId).fold(
             onSuccess = {
                 _getReportState.emit(UiState.Success(it))
             },

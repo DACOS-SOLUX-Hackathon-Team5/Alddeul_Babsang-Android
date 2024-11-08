@@ -2,7 +2,6 @@ package com.hackathon.alddeul_babsang.app.di
 
 import com.hackathon.alddeul_babsang.data.service.BabsangApiService
 import com.hackathon.alddeul_babsang.data.service.ReportApiService
-import com.hackathon.alddeul_babsang.data.service.ReportWriteApiService
 import com.hackathon.alddeul_babsang.data.service.DetailApiService
 import com.hackathon.alddeul_babsang.data.service.ProfileApiService
 import com.sopt.data.service.ExampleApiService
@@ -51,5 +50,5 @@ object ServiceModule {
     @Singleton
     fun provideReportWriteService(
         @AlddeulRetrofit retrofit: Retrofit
-    ): ReportWriteApiService = retrofit.create(ReportWriteApiService::class.java)
+    ): ReportApiService = retrofit.create(ReportApiService::class.java)
 }

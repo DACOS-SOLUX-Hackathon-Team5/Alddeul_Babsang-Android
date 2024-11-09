@@ -24,12 +24,12 @@
 | Asynchronous Processing | Coroutine(+ Flow)  |
 | Third Party Library | Coil, Timber, kotlinSerialization, CircleIndicator  |
 | CI | Github Action(KtLint, Compile Check)  |
-| Other Tools | Discord, Slack, Notion, Figma, Swagger  |\
+| Other Tools | Discord, Notion, Figma, Swagger  |\
 </br>
 
 ## 📁 Foldering
 ```
-📦com.univoice
+📦com.hackathon.alddeul_babsang
 ├─📂app
 │  ├─📂di
 │  ├─📂interceptor

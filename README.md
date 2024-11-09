@@ -2,7 +2,7 @@
 ### 알뜰밥상 in Seoul
 > DACOS X SOLUX HACKATHON</br>
 > 프로젝트 기간 : 2024.11.08 ~ 2024.11.09</br>
-
+<img src="https://github.com/user-attachments/assets/342964d2-1cbb-484b-a337-ac3f9d3653eb" width="800" height="500" /></br>
 서울시의 인증을 받은 착한 업소들을 소개하며, 부담 없이 외식을 즐길 수 있도록 도와주는 앱 **알뜰밥상** 입니다.🍱 </br>
 </br>
 
@@ -13,23 +13,18 @@
 
 </br>
 
-## 📷 Screenshot
-
-</br>
-</br>
-
 ## 👩🏻‍💻 Tech Stack
 | Title | Content |
 | ------------ | -------------------------- |
 | Architecture | Clean Architecture, MVVM  |
 | Design Pattern | Repository Pattern, Adapter Pattern, Observer Pattern |
-| Jetpack Components | AAC Bottom Navigation, ViewPager2, Preference Datastore, Lifecycle, ViewModel, DataBindng  |
+| Jetpack Components | Jetpack Compose, Preferences Datastore, Lifecycle, ViewModel  |
 | Dependency Injection | Hilt  |
 | Network | Retrofit, OkHttp, Multipart  |
 | Asynchronous Processing | Coroutine(+ Flow)  |
-| Third Party Library | Coil, Timber, kotlinSerialization, CircleIndicator, CircleImageView, Lottie  |
+| Third Party Library | Coil, Timber, kotlinSerialization, CircleIndicator  |
 | CI | Github Action(KtLint, Compile Check)  |
-| Other Tools | Slack, Notion, Figma, Postman  |\
+| Other Tools | Discord, Slack, Notion, Figma, Swagger  |\
 </br>
 
 ## 📁 Foldering

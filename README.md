@@ -6,7 +6,7 @@
 </br>
 
 ## 💙Contributors
-|<img src="https://avatars.githubusercontent.com/u/91470334?v=4" width="500" />|<img src="https://avatars.githubusercontent.com/u/166610834?v=4" width="500" />|
+|<img src="https://avatars.githubusercontent.com/u/91470334?v=4" width="250" />|<img src="https://avatars.githubusercontent.com/u/166610834?v=4" width="250" />|
 |:---------:|:---------:|
 |[이가을](https://github.com/gaeulzzang)|[백서연](https://github.com/seoyeonsw)|
 
